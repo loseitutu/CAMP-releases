@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#0E2A25">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Camp — Nov 1</title>
+<style>
+:root{--ink:#0E2A25;--panel:#153933;--panel2:#1C4640;--line:#255650;--bone:#EFE7D3;--muted:#9DB3AB;--saffron:#F0A63A;--mint:#7FD1B9;--ember:#E4694A;--lav:#8FA6D9;--r:14px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--ink);color:var(--bone);font-family:system-ui,-apple-system,Roboto,"Segoe UI",sans-serif;font-size:16px;line-height:1.4;-webkit-font-smoothing:antialiased}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+a{color:var(--mint)}
+input,select{font:inherit;color:var(--bone);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;outline:none}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--saffron);outline-offset:2px}
+input[type=number]{-moz-appearance:textfield}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+.wrap{max-width:520px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 18px 24px}
+.meta{color:var(--muted);font-size:14px}
+h1{font-size:44px;line-height:1;letter-spacing:-0.03em;font-weight:800;margin:6px 0 2px}
+h2{font-size:21px;letter-spacing:-0.02em;font-weight:700;margin:26px 0 10px}
+h3{font-size:17px;font-weight:700;margin:0}
+h4{font-size:13px;font-weight:700;color:var(--muted);margin:18px 0 4px;letter-spacing:0}
+.sub{color:var(--muted);font-size:15px;margin-bottom:16px}
+.today-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.today-nav button{color:var(--muted);font-size:15px;padding:6px 10px;border-radius:8px;background:var(--panel)}
+.today-nav .jump{color:var(--saffron)}
+.card{background:var(--panel);border-radius:var(--r);padding:14px 16px;margin-top:12px}
+.card h3+.meta{margin-top:2px}
+.ex{padding:12px 0;border-bottom:1px solid var(--line)}
+.ex:last-child{border-bottom:0}
+.ex-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;width:100%}
+.ex-name{font-weight:650;font-size:16px}
+.ex-name .alt{color:var(--muted);font-weight:400}
+.ex-rx{color:var(--muted);font-size:14px;margin-top:2px}
+.ex-note{color:var(--saffron);font-size:13px;margin-top:4px}
+.ex-hip{color:var(--lav);font-size:13px;margin-top:4px}
+.ex-last{color:var(--mint);font-size:13px;margin-top:4px}
+.info{flex:none;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.info.on{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.how{margin-top:10px;padding:12px 14px;background:var(--panel2);border-radius:10px;font-size:14.5px}
+.how ul{margin:6px 0 0;padding-left:18px}.how li{margin:5px 0}
+.how .why{color:var(--muted);margin-top:8px}
+.how a{display:inline-block;margin-top:10px;font-weight:700;text-decoration:none;color:var(--ink);background:var(--mint);padding:8px 12px;border-radius:9px}
+.std{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.std-h{font-size:12.5px;color:var(--muted)}
+.std-g{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;margin-top:8px}
+.std-g div{background:var(--ink);border-radius:8px;padding:8px 4px;text-align:center}
+.std-g small{display:block;color:var(--muted);font-size:11px}
+.std-g b{font-size:13px;line-height:1.2;display:block;margin-top:2px}
+.std-you{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13.5px;gap:8px;flex-wrap:wrap}
+.lv{padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;background:var(--panel)}
+.lv0{color:var(--muted)}.lv1{color:var(--muted)}.lv2{color:var(--saffron)}.lv3{color:var(--mint)}.lv4{color:var(--ink);background:var(--mint)}
+.ss{border:1px solid var(--line);border-radius:12px;padding:0 12px;margin:10px 0}
+.ss-lab{display:flex;justify-content:space-between;color:var(--saffron);font-size:13px;font-weight:700;padding:10px 0 2px}
+.ss-lab span:last-child{color:var(--muted);font-weight:400}
+.ss .ex:last-child{border-bottom:0}
+.sets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.set{min-width:56px;padding:8px 10px;border-radius:9px;background:var(--panel2);border:1px solid var(--line);font-size:14px;text-align:center;color:var(--muted)}
+.set.done{background:var(--mint);color:var(--ink);border-color:var(--mint);font-weight:700}
+.set.skip{background:transparent;border-style:dashed;color:var(--muted);font-size:12px}
+.set.editing{border-color:var(--saffron);color:var(--bone)}
+.setform{display:flex;gap:8px;margin-top:10px;align-items:center}
+.setform input{width:84px;text-align:center;padding:9px 6px}
+.setform .x{color:var(--muted)}
+.setform button{background:var(--saffron);color:var(--ink);font-weight:700;padding:10px 14px;border-radius:10px}
+.setform button.ghost{background:var(--panel2);color:var(--muted)}
+.mt{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.mt .time{font-size:28px;font-weight:800;letter-spacing:-0.02em}
+.seg{display:flex;gap:6px}
+.seg button{padding:8px 12px;border-radius:9px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);font-size:14px}
+.seg button.on{background:var(--bone);color:var(--ink);border-color:var(--bone);font-weight:700}
+.altbox{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:15px}
+.altbox b{color:var(--saffron)}
+.primary{display:block;width:100%;margin-top:16px;padding:16px;border-radius:12px;background:var(--saffron);color:var(--ink);font-weight:800;font-size:17px;text-align:center}
+.primary.done{background:var(--mint)}
+.secondary{display:block;width:100%;margin-top:10px;padding:12px;border-radius:12px;background:var(--panel2);color:var(--bone);font-weight:700;text-align:center}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700}
+.pill.build{background:#2B5E55;color:var(--mint)}.pill.deload{background:#4A4020;color:var(--saffron)}.pill.peak{background:#5A2E24;color:#FFB9A6}
+.wk{display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px}
+.wk button{color:var(--saffron);padding:6px 12px;background:var(--panel);border-radius:8px;font-size:18px}
+.dayrow{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);width:100%}
+.dayrow .d{font-weight:700}.dayrow .d small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.dayrow .t{font-weight:600}.dayrow .t small{display:block;color:var(--muted);font-weight:400;font-size:13px}
+.dayrow .s{color:var(--muted);font-size:13px;text-align:right}
+.dayrow.isToday .d{color:var(--saffron)}.dayrow .s.ok{color:var(--mint);font-weight:700}
+.cal{margin-top:10px}
+.cal-h{display:grid;grid-template-columns:repeat(7,1fr);color:var(--muted);font-size:12px;text-align:center;margin-bottom:6px}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cell{aspect-ratio:1/1.15;border-radius:9px;background:var(--panel);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:14px;color:var(--bone);position:relative}
+.cell.out{visibility:hidden}.cell .bar{width:60%;height:4px;border-radius:2px}
+.cell.isToday{outline:2px solid var(--saffron);outline-offset:-2px}
+.cell.done::after{content:"";position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--mint)}
+.cell.pre{opacity:.35}
+.legend{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:12px;font-size:13px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.rows .row{padding:12px 0;border-bottom:1px solid var(--line)}.rows .row:last-child{border-bottom:0}
+.big{font-size:40px;font-weight:800;letter-spacing:-0.03em;line-height:1}
+.big small{font-size:15px;color:var(--muted);font-weight:400;letter-spacing:0;margin-left:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:var(--panel);border-radius:var(--r);padding:14px 16px}
+.stat .l{color:var(--muted);font-size:13px}.stat .v{font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-top:2px}
+.inline{display:flex;gap:8px;margin-top:10px}.inline input{flex:1}
+.inline button{background:var(--saffron);color:var(--ink);font-weight:700;padding:10px 16px;border-radius:10px;white-space:nowrap}
+svg.chart{width:100%;height:190px;display:block;margin-top:8px}
+.pr{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line)}.pr:last-child{border-bottom:0}.pr b{color:var(--mint)}
+.macro{margin-top:14px}.macro .lab{display:flex;justify-content:space-between;font-size:14px}
+.bar-bg{height:10px;border-radius:5px;background:var(--panel2);margin-top:6px;overflow:hidden}
+.bar-fg{height:100%;border-radius:5px;background:var(--mint);transition:width .25s}.bar-fg.over{background:var(--ember)}.bar-fg.p{background:var(--saffron)}
+.quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.quick button{padding:8px 12px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);font-size:14px}
+.quick button.mine{border-color:var(--mint)}
+.quick button small{color:var(--muted)}
+.quick button.del{background:#4A2A22;border-color:var(--ember);color:#FFB9A6}
+.entry{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}.entry:last-child{border-bottom:0}
+.entry .m{color:var(--muted);font-size:13px}.entry button{color:var(--ember);padding:4px 8px}
+.form4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:10px}
+.form4 input{text-align:center;padding:10px 4px}
+.form4 label,.form2 label{font-size:12px;color:var(--muted);display:block;text-align:center;margin-bottom:4px}
+.form2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.note{font-size:14px;color:var(--muted);margin-top:12px}.note b{color:var(--bone)}
+.scale{display:flex;gap:5px;margin-top:10px}
+.scale button{flex:1;padding:9px 0;border-radius:8px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;font-size:14px}
+.scale button.on{background:var(--lav);color:var(--ink);font-weight:700;border-color:var(--lav)}
+nav{position:fixed;left:0;right:0;bottom:0;background:#0B211D;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
+nav button{flex:1;color:var(--muted);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;border-radius:10px}
+nav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--saffron)}
+.hidden{display:none}
+.toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--bone);color:var(--ink);padding:10px 16px;border-radius:10px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
+.toast.show{opacity:1}
+#rest{position:fixed;right:18px;bottom:calc(88px + env(safe-area-inset-bottom));background:var(--saffron);color:var(--ink);padding:10px 14px;border-radius:999px;font-weight:800;font-size:16px;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:4}
+#rest.hidden{display:none}
+#rest small{font-weight:600;font-size:12px;margin-right:6px;opacity:.8}
+.rest-hero p{font-size:17px;margin:8px 0 0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app" class="wrap"></div>
+<button id="rest" class="hidden"></button>
+<nav id="nav"></nav>
+<div id="toast" class="toast"></div>
+
+<script>
+/* ---------------- storage ---------------- */
+const mem={};
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return k in mem?mem[k]:d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;}}};
+const DB={
+  logs:store.get('logs',{}), weight:store.get('weight',{}), waist:store.get('waist',{}), hip:store.get('hip',{}),
+  macros:store.get('macros',{}), quick:store.get('quick',[]),
+  settings:store.get('settings',{startWeight:205,goalWeight:180,kcal:2300,p:165,c:230,f:75})
+};
+const save=()=>{for(const k in DB)store.set(k,DB[k]);};
+
+/* ---------------- program ---------------- */
+const START=new Date(2026,7,31); const WEEKS=9;
+const pad=n=>String(n).padStart(2,'0');
+const key=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+const sameDay=(a,b)=>key(a)===key(b);
+const DOW=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmt=d=>`${DOW[d.getDay()]}, ${MON[d.getMonth()]} ${d.getDate()}`;
+const weekOf=d=>Math.floor(Math.round((d-START)/864e5)/7)+1;
+const phaseOf=w=>w<1||w>WEEKS?null:w<=4?'Build':w===5?'Deload':'Peak';
+
+/* Exercise library: how = form cues, why = purpose, hip = FAI / labrum / APT guidance, yt = search */
+const LIB={
+ 'Banded lateral walk':{how:['Band above knees, quarter-squat, chest up','Step sideways leading with the heel, never let knees cave','Constant tension — feet never touch'],why:'Wakes up glute med so it fires during the lifts instead of your hip flexors and low back.',yt:'banded lateral walk glute activation'},
+ 'Glute bridge':{how:['Heels close to glutes, ribs down, tuck the pelvis first','Drive through heels, squeeze glutes at the top for 3 s','Stop when hips are level — do not arch the low back'],why:'Teaches posterior pelvic tilt and glute drive before you load the hips.',hip:'This is the anti-pelvic-tilt movement. Own it.',yt:'glute bridge posterior pelvic tilt form'},
+ 'Hip CARs':{how:['Stand tall, hold something. One knee up to hip height','Sweep the knee out to the side, rotate the thigh, bring it back behind','Slow — 10 s per circle. Zero pain, shrink the circle if it pinches'],why:'Controlled articular rotations keep the labrum and capsule moving through every range you own.',hip:'Only the pain-free range. Smaller and cleaner beats bigger.',yt:'hip CARs controlled articular rotations'},
+ 'Couch stretch':{how:['Rear knee on a pad, rear foot up on a bench','Tuck the pelvis under (posterior tilt) BEFORE you lean','Squeeze the rear glute, breathe. 60 s each side'],why:'Long hip flexors and rectus femoris pull you into anterior tilt. This is the direct fix.',hip:'Tuck first. If you feel it in the low back you skipped the tuck.',yt:'couch stretch hip flexor posterior pelvic tilt'},
+ '90/90 hip switch':{how:['Sit with front shin and back shin each at 90°','Stay tall, rotate the hips to switch sides without hands','Pause 2 s at each end. Pain-free range only'],why:'Trains hip internal and external rotation — the ranges a cam hip loses first.',hip:'If internal rotation pinches, keep the range short and lean back slightly.',yt:'90 90 hip switch mobility'},
+ 'Clamshell':{how:['Side-lying, hips stacked, band above knees, heels together','Open the top knee like a clam, no hip roll backward','2 s up, 2 s down. 15 each side'],why:'Isolates glute med and deep rotators — the muscles that hold the femoral head centered in the socket.',yt:'clamshell exercise glute medius form'},
+ 'Dead bug':{how:['On your back, arms up, knees over hips at 90°','Press low back into the floor and keep it there the whole set','Extend opposite arm and leg slowly. Exhale on the reach'],why:'Anterior core stability with a neutral pelvis. Fights tilt without loading the hip flexors.',yt:'dead bug exercise core form'},
+ 'Bird dog':{how:['Hands under shoulders, knees under hips','Reach opposite arm and leg to parallel, hips stay square','Hold 2 s, return slow. Do not let the low back sag'],why:'Glute max + spinal stability in one move. Reinforces hip extension without rib flare.',yt:'bird dog exercise proper form'},
+ 'Side plank with leg raise':{how:['Elbow under shoulder, body straight, hips stacked','Lift top leg 12 in and lower, keeping the toes forward','10 reps then hold the plank 15 s'],why:'Obliques and glute med together — lateral pelvic control for kicks and clinch.',yt:'side plank hip abduction leg raise'},
+ 'Reverse crunch':{how:['On your back, knees bent, hands by hips','Curl the pelvis up toward the ribs — tailbone leaves the floor','Lower slow. Small range, no leg swing'],why:'Lower abs pull the pelvis into posterior tilt. Replaces hanging knee raises, which overwork the hip flexors.',hip:'Chosen over hanging knee raises to spare your hip flexors and labrum.',yt:'reverse crunch proper form lower abs'},
+ 'RKC plank':{how:['Forearm plank, then squeeze glutes hard and tuck the pelvis','Pull elbows toward toes and toes toward elbows','20–30 s of maximal tension beats 2 min of hanging out'],why:'Plank with a posterior tilt built in — the exact position your pelvis needs to learn.',yt:'RKC plank technique'},
+ 'Pallof press':{std:{u:'lb on the stack',s:15,n:25,i:35,a:50},how:['Cable at chest height, stand sideways to the stack, feet hip width','Press the handle straight out and back, hips do not rotate','Breathe out on the press. 12 each side'],why:'Anti-rotation core. Directly transfers to not leaking power on kicks.',yt:'pallof press form'},
+ 'Trap bar deadlift':{std:{u:'lb',s:135,n:185,i:275,a:365},how:['Feet hip width, shins to the handles, grip the high handles','Hips back, chest up, brace, then push the floor away','Stand tall, glutes finish the rep. Lower under control — no bouncing'],why:'The heaviest, safest hip-hinge for a cam hip: upright torso, moderate hip flexion, huge glute and hamstring load.',hip:'Use the high handles. Depth is set by the bar, so no pinch.',yt:'trap bar deadlift high handles form'},
+ 'Bulgarian split squat':{std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Rear foot on a low bench, front foot far enough forward that the knee stays over the ankle','Torso tall, sit straight down — stop when the thigh is parallel','Drive through the front heel. Dumbbells in both hands'],why:'Single-leg strength and stability. Best carryover to kicking off one leg.',hip:'Parallel is deep enough. Deeper flexion is where the cam meets the socket.',yt:'bulgarian split squat form dumbbells'},
+ 'Romanian deadlift':{std:{u:'lb',s:95,n:135,i:185,a:245},how:['Bar at hips, soft knees, shoulders back','Push hips straight back, bar slides down the thighs','Stop at mid-shin or when the hamstrings bite — then drive hips forward'],why:'Hamstring and glute length under load. Builds the posterior chain that pulls the pelvis back to neutral.',hip:'Hinge, do not squat it. Neutral spine start to finish.',yt:'romanian deadlift barbell form'},
+ 'Sliding leg curl':{std:{u:'level',s:'Two-leg 3×8',n:'Two-leg 3×12',i:'Single-leg 3×8',a:'Hips never touch'},how:['On your back, heels on a towel or sliders, hips bridged up','Slide heels away slowly, then curl them back toward the glutes','Hips stay high the whole time. Progress two-leg → single-leg'],why:'Eccentric hamstring strength on the way to a Nordic curl.',yt:'sliding leg curl hamstring exercise'},
+ 'Standing calf raise':{std:{u:'lb on the stack',s:90,n:150,i:220,a:300},how:['Full stretch at the bottom, 2 s pause','Drive up onto the big toe, 1 s squeeze at the top','Controlled — no bouncing'],why:'Ankle stiffness for teeps and switching stance.',yt:'standing calf raise machine form'},
+ 'Barbell bench press':{std:{u:'lb',s:95,n:135,i:185,a:245},how:['Shoulder blades pinned down and back, feet planted, slight arch','Bar to lower chest, elbows about 45°','Press up and slightly back. Full lockout every rep'],why:'Your heaviest push. Chest, front delt, tricep — and the strength benchmark for the upper body.',yt:'barbell bench press form Jeff Nippard'},
+ 'Weighted pull-up':{std:{u:'level',s:'Assisted / pulldown',n:'Bodyweight × 5',i:'Bodyweight × 10',a:'+45 lb × 5'},how:['Dead hang, shoulders down away from ears','Pull chest to the bar, elbows drive down and back','Control the descent. Add weight with a belt or dumbbell between the feet'],why:'Back width and grip strength. If under 5 clean reps, use the lat pulldown heavy instead.',yt:'weighted pull up form'},
+ 'Incline dumbbell press':{std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Bench 30°, dumbbells at shoulder level, elbows slightly tucked','Press up and in, touch at the top without clanking','Lower for 2 s'],why:'Upper chest is what makes a T-shirt fit differently.',yt:'incline dumbbell press form'},
+ 'Dumbbell lateral raise':{std:{u:'lb per hand',s:8,n:12,i:20,a:30},how:['Slight forward lean, elbows soft','Raise to shoulder height leading with the elbows, pinkies slightly up','Lower for 2 s. Light weight, perfect reps'],why:'Side delt width — the single fastest aesthetic change in the upper body.',yt:'dumbbell lateral raise proper form'},
+ 'Seated cable row':{std:{u:'lb on the stack',s:70,n:100,i:140,a:180},how:['Neutral grip, chest tall, slight forward reach at the start','Pull to the belly button, elbows drive back','Squeeze 1 s, reach forward under control'],why:'Horizontal pull for mid-back thickness and posture.',yt:'seated cable row neutral grip form'},
+ 'Cable face pull':{std:{u:'lb on the stack',s:20,n:35,i:50,a:70},how:['Rope at face height, step back, palms facing you','Pull to the face, elbows high, then rotate hands so knuckles face the ceiling','Squeeze the rear delts 1 s'],why:'Rear delts and rotator cuff. Protects the shoulder from years of punching.',yt:'face pull form rope'},
+ 'Cable bar curl':{std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Straight bar on the low pulley, elbows pinned to your sides','Curl to the chin, squeeze, lower for 2 s','No swinging'],why:'Direct bicep work on the same stack as the pushdown — one station, zero walking.',yt:'cable bar curl form'},
+ 'Rope tricep pushdown':{std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Elbows pinned, lean slightly forward','Push down and split the rope at the bottom','Let it come back only to 90° at the elbow'],why:'Tricep size. Two-thirds of your arm.',yt:'rope tricep pushdown form'},
+ 'Box jump':{std:{u:'box height',s:'Step-up',n:'12 in',i:'18 in',a:'24 in'},how:['Low box — 12 to 18 in. Land soft, hips above knees','Swing arms, jump, land tall like a quarter squat','Step down every rep, never jump down'],why:'Explosive hip extension without heavy loading.',hip:'Land tall. A crashing deep landing is the position we avoid.',yt:'box jump proper landing technique'},
+ 'Barbell hip thrust':{std:{u:'lb',s:95,n:155,i:225,a:315},how:['Upper back on a bench, bar in the hip crease with a pad','Tuck the chin, ribs down, drive through heels','Full hip extension, squeeze 1 s, do not arch the low back'],why:'The single best glute builder. Glutes are what pull your pelvis out of anterior tilt.',hip:'Your priority lift on Friday. Load it.',yt:'barbell hip thrust form Bret Contreras'},
+ 'Leg press':{std:{u:'lb of plates, not counting the sled',s:90,n:180,i:320,a:450},how:['Feet high and wide on the plate','Lower only to 90° at the hip — stop before any pinch','Drive through heels, do not lock knees hard'],why:'Quad and glute volume with the spine unloaded.',hip:'Depth stops at 90°. Deeper is where the cam impinges.',yt:'leg press form feet high wide'},
+ 'Reverse lunge':{std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Dumbbells at the sides, step back long','Drop straight down until the front thigh is parallel, torso tall','Drive through the front heel to stand'],why:'More glute, less hip flexion than a forward lunge. Kinder to the labrum.',hip:'Chosen over walking lunges for a shorter, controlled hip range.',yt:'reverse lunge dumbbells form'},
+ 'Single-leg RDL':{std:{u:'lb, one dumbbell',s:15,n:30,i:45,a:65},how:['Dumbbell in the opposite hand of the working leg','Hinge, reach the free leg back, hips stay square','Stop at mid-shin or when balance breaks. Drive up through the heel'],why:'Glute max and med together, with balance. Fixes the side-to-side pelvic wobble.',yt:'single leg romanian deadlift dumbbell form'},
+ 'Lateral step-down':{std:{u:'box height',s:'4 in',n:'6 in',i:'9 in',a:'12 in'},how:['Stand on a 6–12 in box sideways, free leg off the edge','Lower the free heel toward the floor by bending the standing knee, hips level','Tap and drive back up. Knee tracks over the second toe'],why:'Glute med and quad control in a shallow, safe range. Replaces pistol squats.',hip:'Pistols demand deep hip flexion plus rotation — the worst combination for a labrum. This gives you the single-leg strength without it.',yt:'lateral step down exercise glute medius'},
+ 'Single-leg calf raise':{std:{u:'level',s:'BW × 8',n:'BW × 12',i:'BW × 20',a:'+25 lb × 15'},how:['Ball of foot on a step, hold the rail lightly','Full stretch, then up to the big toe','15–20 slow reps each side'],why:'Unilateral ankle strength for footwork.',yt:'single leg calf raise form'},
+ 'Seated dumbbell overhead press':{std:{u:'lb per hand',s:25,n:40,i:55,a:75},how:['Bench at 85°, dumbbells at shoulder height, forearms vertical','Press up and slightly in, ribs down — do not arch','Lower to ear height'],why:'Shoulder strength and the cap on the delts.',yt:'seated dumbbell shoulder press form'},
+ 'Chest-supported dumbbell row':{std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Chest on a 30–45° incline bench, dumbbells hanging','Row to the hips, elbows back, squeeze the shoulder blades','Lower for 2 s'],why:'Back thickness with zero low-back involvement.',yt:'chest supported dumbbell row incline bench'},
+ 'Prone rear delt fly':{std:{u:'lb per hand',s:8,n:12,i:18,a:25},how:['Same bench, lighter dumbbells, slight elbow bend','Raise out to the sides to shoulder height, thumbs down','Lower slow. Pure rear delt — no rowing'],why:'Rear delts round out the shoulder from behind. Pairs with the row on the same bench.',yt:'incline prone rear delt fly dumbbell'},
+ 'Dips':{std:{u:'level',s:'Assisted machine',n:'Bodyweight × 8',i:'Bodyweight × 12',a:'+45 lb × 8'},how:['Slight forward lean, shoulders down','Lower until the upper arm is parallel — no deeper','Press to lockout. Add a belt at 12 clean reps'],why:'Lower chest and triceps. Heavy bodyweight pressing.',yt:'weighted dips form chest triceps'},
+ 'Straight-arm pulldown':{std:{u:'lb on the stack',s:30,n:50,i:70,a:100},how:['Straight bar or rope on the high pulley, slight hinge','Arms nearly straight, pull the bar to the thighs in an arc','Feel the lats, not the triceps. 2 s back up'],why:'Lat isolation for width. Same stack as the tricep extension.',yt:'straight arm cable pulldown lats form'},
+ 'Overhead rope tricep extension':{std:{u:'lb on the stack',s:30,n:45,i:60,a:85},how:['Face away from the stack, rope behind the head','Elbows stay by the ears, extend fully','Stretch at the bottom, squeeze at the top'],why:'Long head of the tricep — the part that adds arm size from the back.',yt:'overhead rope tricep extension form'},
+ 'Incline dumbbell curl':{std:{u:'lb per hand',s:10,n:17.5,i:25,a:35},how:['Bench at 45°, arms hanging straight down','Curl without moving the shoulder, squeeze at the top','Lower for 3 s — the stretch is the point'],why:'Bicep long head under stretch. Arms look bigger from the front.',yt:'incline dumbbell curl form'},
+ 'HIIT bike or rower':{how:['30 s hard: standing out of the saddle or pulling max watts','30 s easy spin','Rounds 15–20 should be ugly. If they are not, the hard was not hard'],why:'Interval work preferentially strips visceral fat and builds the top end of your gas tank.',yt:'assault bike interval workout 30 30'},
+ 'Incline walk':{how:['Treadmill 12% at 3.0 mph, or hills outside','Hands off the rails, natural stride','Heart rate 120–135. You can talk'],why:'Calorie burn with almost no recovery cost and no appetite spike.',yt:'12 3 30 incline walk'},
+ 'Full-body stretch':{how:['Couch stretch 60 s per side first','Then hamstrings, adductors, pecs, lats — 45 s each','Breathe slow. Nothing sharp'],why:'Ten quiet minutes that make Monday feel better.',yt:'full body stretch routine 10 minutes'}
+};
+
+/* Day templates. ss = superset group letter (same-station pairs). warm = activation. t: S strength, H hypertrophy, A accessory, C cardio/core/mobility */
+const DAYS={
+ 1:{title:'Lower A',kind:'lift',tag:'Strength',when:'Morning · 50 min',mt:'Muay Thai',mtTime:'7:00 pm',
+   intro:'Heavy and short. Straight sets with full rest — no supersets, no jumping. Legs recover all day before class.',
+   ex:[
+    {n:'Banded lateral walk',t:'A',warm:1,sets:2,reps:'12 / side',rest:'0'},
+    {n:'Glute bridge',t:'A',warm:1,sets:2,reps:'12 · 3 s hold',rest:'0'},
+    {n:'Trap bar deadlift',alt:'high handles',t:'S',sets:4,reps:'5',rest:'2–3 min',note:'Add 10 lb when all sets are clean'},
+    {n:'Bulgarian split squat',alt:'dumbbells, to parallel',t:'H',sets:3,reps:'8 / leg',rest:'90 s'},
+    {n:'Romanian deadlift',alt:'barbell',t:'H',sets:3,reps:'8',rest:'90 s'},
+    {n:'Sliding leg curl',alt:'towel or sliders',t:'A',sets:3,reps:'10–12',rest:'60 s',note:'Wk 1–2 two-leg · Wk 3–4 single-leg · Wk 6+ hips never touch'},
+    {n:'Standing calf raise',t:'A',sets:3,reps:'12–15',rest:'45 s'}
+   ]},
+ 2:{title:'Upper A',kind:'lift',tag:'Strength + aesthetics',when:'Morning · 50 min',mt:'Muay Thai',mtTime:'7:00 pm',
+   intro:'Two heavy lifts with full rest, then three supersets — each pair lives on one station so you never cross the gym.',
+   ex:[
+    {n:'Barbell bench press',t:'S',sets:4,reps:'5',rest:'2–3 min',note:'Straight sets. Add 5 lb when all 4×5 are clean'},
+    {n:'Weighted pull-up',alt:'or heavy lat pulldown',t:'S',sets:4,reps:'5–6',rest:'2–3 min',note:'Straight sets'},
+    {n:'Incline dumbbell press',t:'H',ss:'A',where:'One incline bench, two pairs of dumbbells',sets:3,reps:'10–12',rest:'0'},
+    {n:'Dumbbell lateral raise',t:'H',ss:'A',sets:3,reps:'12–15',rest:'75 s'},
+    {n:'Seated cable row',alt:'neutral grip',t:'H',ss:'B',where:'One cable station — swap handle for rope',sets:3,reps:'10–12',rest:'0'},
+    {n:'Cable face pull',t:'H',ss:'B',sets:3,reps:'15',rest:'75 s',note:'Shoulder health — never skip'},
+    {n:'Cable bar curl',t:'A',ss:'C',where:'Same stack — low pulley, then high pulley with rope',sets:3,reps:'12',rest:'0'},
+    {n:'Rope tricep pushdown',t:'A',ss:'C',sets:3,reps:'12',rest:'60 s'}
+   ]},
+ 3:{title:'Core + Walk',kind:'core',tag:'Pelvis and abs',when:'Morning · 35 min',mt:'Muay Thai',mtTime:'7:00 pm',
+   intro:'Every movement here pulls the pelvis toward neutral. No hip-flexor-driven ab work. Then a conversational walk.',
+   ex:[
+    {n:'Reverse crunch',t:'A',sets:3,reps:'12–15',rest:'45 s'},
+    {n:'Dead bug',t:'A',sets:3,reps:'10 / side',rest:'45 s'},
+    {n:'Pallof press',t:'A',sets:3,reps:'12 / side',rest:'45 s'},
+    {n:'Side plank with leg raise',t:'A',sets:2,reps:'10 + 15 s hold / side',rest:'45 s'},
+    {n:'RKC plank',t:'A',sets:3,reps:'20–30 s',rest:'45 s'},
+    {n:'Incline walk',alt:'12% · 3.0 mph',t:'C',sets:1,reps:'20 min',rest:''}
+   ]},
+ 4:{title:'Hip Reset',kind:'mobility',tag:'Labrum, cam, pelvis',when:'Morning · 25 min',mt:'Sparring',mtTime:'7:00 pm',
+   intro:'Nothing here should fatigue you. You should walk into sparring with hips that feel oiled, not tired. Every rep is pain-free or it is too far.',
+   ex:[
+    {n:'Hip CARs',t:'A',sets:2,reps:'5 / side · slow',rest:'0'},
+    {n:'Couch stretch',t:'A',sets:2,reps:'60 s / side',rest:'0'},
+    {n:'90/90 hip switch',t:'A',sets:2,reps:'8 switches',rest:'0'},
+    {n:'Glute bridge',t:'A',sets:2,reps:'12 · 3 s hold',rest:'0'},
+    {n:'Clamshell',t:'A',sets:2,reps:'15 / side',rest:'0'},
+    {n:'Bird dog',t:'A',sets:2,reps:'8 / side',rest:'0'},
+    {n:'Dead bug',t:'A',sets:2,reps:'8 / side',rest:'0'}
+   ]},
+ 5:{title:'Lower B',kind:'lift',tag:'Glutes, hypertrophy, power',when:'Any time · 60 min',mt:null,
+   intro:'No class tonight — this is the day to push legs. Hip thrust is the priority lift. Every depth cue here protects the labrum.',
+   ex:[
+    {n:'Banded lateral walk',t:'A',warm:1,sets:2,reps:'12 / side',rest:'0'},
+    {n:'Glute bridge',t:'A',warm:1,sets:2,reps:'12 · 3 s hold',rest:'0'},
+    {n:'Box jump',alt:'12–18 in box',t:'H',sets:3,reps:'6',rest:'90 s'},
+    {n:'Barbell hip thrust',t:'S',sets:4,reps:'10',rest:'2 min',note:'Priority lift. Add 10–20 lb weekly'},
+    {n:'Leg press',alt:'feet high and wide, stop at 90°',t:'H',sets:3,reps:'12',rest:'90 s'},
+    {n:'Reverse lunge',alt:'dumbbells',t:'H',sets:3,reps:'10 / leg',rest:'90 s'},
+    {n:'Single-leg RDL',alt:'dumbbell',t:'H',ss:'A',where:'Same dumbbell, same spot — alternate with step-downs',sets:3,reps:'8 / leg',rest:'0'},
+    {n:'Lateral step-down',alt:'6–12 in box',t:'A',ss:'A',sets:3,reps:'8 / leg',rest:'75 s'},
+    {n:'Single-leg calf raise',t:'A',sets:3,reps:'15–20',rest:'45 s'},
+    {n:'Incline walk',alt:'or easy bike',t:'C',sets:1,reps:'20 min',rest:''}
+   ]},
+ 6:{title:'Upper B',kind:'lift',tag:'Hypertrophy + HIIT',when:'Any time · 60 min',mt:null,
+   intro:'Volume for shoulders, back and arms. Two same-station supersets, then 20 minutes of intervals.',
+   ex:[
+    {n:'Seated dumbbell overhead press',t:'S',sets:4,reps:'8',rest:'2 min',note:'Straight sets. Add weight weekly'},
+    {n:'Chest-supported dumbbell row',t:'H',ss:'A',where:'One incline bench, two pairs of dumbbells',sets:4,reps:'10',rest:'0'},
+    {n:'Prone rear delt fly',t:'H',ss:'A',sets:4,reps:'15',rest:'75 s'},
+    {n:'Dips',alt:'add weight at 12 clean reps',t:'H',sets:3,reps:'8–12',rest:'90 s',note:'Straight sets'},
+    {n:'Straight-arm pulldown',t:'H',ss:'B',where:'One cable station — bar, then rope, high pulley',sets:3,reps:'12',rest:'0'},
+    {n:'Overhead rope tricep extension',t:'A',ss:'B',sets:3,reps:'12',rest:'75 s'},
+    {n:'Incline dumbbell curl',t:'A',sets:3,reps:'12',rest:'60 s'},
+    {n:'HIIT bike or rower',t:'C',sets:1,reps:'20 rounds · 30 s hard / 30 s easy',rest:''}
+   ]},
+ 0:{title:'Recovery',kind:'recovery',tag:'Check-in day',when:'Any time · 60 min',mt:null,
+   intro:'Long easy walk, the stretch routine, and your weekly measurements.',
+   ex:[
+    {n:'Incline walk',alt:'or outdoors',t:'C',sets:1,reps:'45 min',rest:''},
+    {n:'Couch stretch',t:'A',sets:1,reps:'60 s / side',rest:'0'},
+    {n:'Full-body stretch',t:'C',sets:1,reps:'10 min',rest:''}
+   ]}
+};
+const ALT={1:'Missed class? 20 min heavy bag (3 min on / 1 min off × 5) or a 30 min incline walk tonight.',2:'Missed class? 20 min bike HIIT (30 s hard / 30 s easy) or a 30 min incline walk tonight.',3:'Missed class? 15 min of jump rope tonight, or a 30 min incline walk.',4:'Missed sparring? Light 30 min circuit — push-ups, rows, goblet squats to parallel, RKC plank × 3 rounds — then 15 min easy bike.'};
+
+function rx(ex,phase){
+  let sets=ex.sets,reps=ex.reps,note=ex.note||'';
+  if(ex.warm) return {sets,reps,note};
+  if(ex.t==='S'){
+    if(phase==='Deload'){sets=3;note='Deload — about 70% of last week. Leave 3 reps in the tank.';}
+    if(phase==='Peak'&&(reps==='5'||reps==='5–6')){sets=5;reps='3';note='Peak — heavy triples. Add weight, keep bar speed.';}
+  }
+  if(ex.t==='H'){ if(phase==='Deload')sets=Math.max(2,sets-1); if(phase==='Peak')sets=sets+1; }
+  if(ex.n.startsWith('HIIT')){
+    if(phase==='Deload')return{sets:1,reps:'20 min easy bike — no intervals this week',note:''};
+    if(phase==='Peak')return{sets:1,reps:'25 rounds · 30 s hard / 30 s easy',note:'Peak — 5 extra rounds'};
+  }
+  if(ex.t==='C'&&ex.reps==='45 min'&&phase==='Peak')return{sets:1,reps:'60 min',note:'Peak — longer walk'};
+  return{sets,reps,note};
+}
+const restSec=s=>{ if(!s||s==='0')return 0; const m=s.match(/(\d+)(?:–(\d+))?\s*(min|s)/); if(!m)return 0; const v=+(m[2]||m[1]); return m[3]==='min'?v*60:v; };
+
+/* ---------------- state ---------------- */
+let view='today'; let cur=new Date(); cur.setHours(0,0,0,0);
+let weekView=new Date(cur), monthView=new Date(cur.getFullYear(),cur.getMonth(),1);
+let editing=null; const openEx=new Set(); let editQuick=false;
+const $=s=>document.querySelector(s); const app=$('#app');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1600);}
+
+/* rest timer */
+let restT=null, restEnd=0;
+function startRest(sec){ if(!sec)return; restEnd=Date.now()+sec*1000; clearInterval(restT); tickRest(); restT=setInterval(tickRest,250); }
+function tickRest(){ const el=$('#rest'); const left=Math.ceil((restEnd-Date.now())/1000); if(left<=0){ clearInterval(restT); el.textContent='Go'; setTimeout(()=>el.classList.add('hidden'),2500); if(navigator.vibrate)navigator.vibrate([120,80,120]); return; } el.classList.remove('hidden'); el.innerHTML=`<small>Rest</small>${Math.floor(left/60)}:${pad(left%60)}`; }
+$('#rest').addEventListener('click',()=>{clearInterval(restT);$('#rest').classList.add('hidden');});
+
+/* ---------------- helpers ---------------- */
+function logFor(d){const k=key(d);if(!DB.logs[k])DB.logs[k]={done:false,sets:{},mt:null};return DB.logs[k];}
+function lastSets(exName,before){
+  const keys=Object.keys(DB.logs).filter(k=>k<key(before)).sort().reverse();
+  for(const k of keys){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];const i=day.ex.findIndex(e=>e.n===exName);
+    if(i>=0&&DB.logs[k].sets[i]&&DB.logs[k].sets[i].length){const s=DB.logs[k].sets[i].filter(x=>x&&!x.skip);if(!s.length)continue;const best=s.reduce((a,b)=>(b.w||0)>(a.w||0)?b:a,s[0]);return`${best.w?best.w+' lb × ':''}${best.r}`;}}
+  return null;
+}
+function bestFor(exName){let best=null;for(const k in DB.logs){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];const i=day.ex.findIndex(e=>e.n===exName);if(i<0)continue;for(const s of(DB.logs[k].sets[i]||[])){if(s&&!s.skip&&s.w>0&&s.r>0&&(!best||s.w>best.w||(s.w===best.w&&s.r>best.r)))best={...s,date:k};}}return best;}
+function plannedDone(d){const day=DAYS[d.getDay()];const l=DB.logs[key(d)];return !!(l&&l.done);}
+function streak(){let n=0;let d=new Date(cur);if(!plannedDone(d))d=addDays(d,-1);while(d>=START&&plannedDone(d)){n++;d=addDays(d,-1);}return n;}
+function latestWeight(){const ks=Object.keys(DB.weight).sort();return ks.length?{k:ks[ks.length-1],v:DB.weight[ks[ks.length-1]]}:null;}
+function weeklyAvg(off){const end=addDays(cur,-7*off);const vals=[];for(let i=0;i<7;i++){const v=DB.weight[key(addDays(end,-i))];if(v)vals.push(v);}return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;}
+function levelOf(w,std){ if(!std||typeof std.s!=='number'||!w)return null;
+  if(w<std.s)return['Getting started',0]; if(w<std.n)return['Starting out → novice',1];
+  if(w<std.i)return['Novice → intermediate',2]; if(w<std.a)return['Intermediate → advanced',3]; return['Advanced',4]; }
+function stdHtml(e){const lib=LIB[e.n]||{};const st=lib.std;if(!st)return'';const best=bestFor(e.n);const num=typeof st.s==='number';const lv=best?levelOf(best.w,st):null;
+  return `<div class="std"><div class="std-h">Working-set loads at these reps for a 205 lb male${num?`, ${esc(st.u)}`:''}. Not 1RMs.</div>
+   <div class="std-g"><div><small>Starting</small><b>${esc(st.s)}</b></div><div><small>Novice</small><b>${esc(st.n)}</b></div><div><small>Intermediate</small><b>${esc(st.i)}</b></div><div><small>Advanced</small><b>${esc(st.a)}</b></div></div>
+   ${best&&num&&lv?`<div class="std-you"><span>Your best: <b>${best.w} × ${best.r}</b></span><span class="lv lv${lv[1]}">${lv[0]}</span></div>`:num?`<div class="meta" style="margin-top:6px">Log a set and your level appears here.</div>`:''}</div>`;}
+const yt=q=>`https://www.youtube.com/results?search_query=${encodeURIComponent(q+' ')}`;
+
+/* ---------------- views ---------------- */
+function render(top){const y=window.scrollY;app.innerHTML=view==='today'?vToday():view==='week'?vWeek():view==='month'?vMonth():view==='track'?vTrack():view==='export'?vExport():view==='data'?vData():vFuel();renderNav();window.scrollTo(0,top?0:y);}
+function renderNav(){const items=[['today','Today','<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'],['week','Week','<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>'],['month','Month','<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'],['track','Track','<svg viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 7-9"/></svg>'],['fuel','Fuel','<svg viewBox="0 0 24 24"><path d="M6 3h9v18H6zM15 8h2l2 2v8a2 2 0 0 1-2 2M6 10h9"/></svg>']];
+  $('#nav').innerHTML=items.map(([id,l,ic])=>`<button class="${view===id||(['export','data'].includes(view)&&id==='track')?'on':''}" data-v="${id}">${ic}<span>${l}</span></button>`).join('');}
+
+function exBlock(e,i,ph,l){
+  const r=rx(e,ph);const sets=l.sets[i]||[];const last=lastSets(e.n,cur);const lib=LIB[e.n]||{};const open=openEx.has(i);
+  let h=`<div class="ex"><button class="ex-head" data-info="${i}"><div>
+    <div class="ex-name">${esc(e.n)}${e.alt?` <span class="alt">— ${esc(e.alt)}</span>`:''}</div>
+    <div class="ex-rx">${r.sets?`${r.sets} × ${esc(r.reps)}`:esc(r.reps)}${e.rest&&e.rest!=='0'?` · rest ${esc(e.rest)}`:''}</div>
+    ${r.note?`<div class="ex-note">${esc(r.note)}</div>`:''}
+    ${lib.hip&&!open?`<div class="ex-hip">Hip: ${esc(lib.hip)}</div>`:''}
+    ${last&&e.t!=='C'&&!e.warm?`<div class="ex-last">Last time: ${esc(last)}</div>`:''}
+    </div><span class="info ${open?'on':''}">${open?'×':'?'}</span></button>`;
+  if(open){h+=`<div class="how"><b>Form</b><ul>${(lib.how||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+    ${lib.why?`<div class="why">${esc(lib.why)}</div>`:''}
+    ${lib.hip?`<div class="ex-hip" style="margin-top:8px">Hip: ${esc(lib.hip)}</div>`:''}
+    ${stdHtml(e)}
+    <a href="${yt(lib.yt||e.n+' proper form')}" target="_blank" rel="noopener">Watch a demo</a></div>`;}
+  if(r.sets>0){h+=`<div class="sets">`;
+    for(let s=0;s<r.sets;s++){const v=sets[s];const ed=editing&&editing.ex===i&&editing.set===s;const skipped=v&&(v.skip||(!v.w&&!v.r));h+=`<button class="set ${v?(skipped?'skip':'done'):''} ${ed?'editing':''}" data-set="${i}:${s}">${v?(skipped?'skipped':(e.t==='C'||e.warm?'✓':`${v.w?v.w+'×':''}${v.r}`)):`Set ${s+1}`}</button>`;}
+    h+=`</div>`;
+    if(editing&&editing.ex===i){const v=sets[editing.set]||{};const isC=e.t==='C'||e.warm;
+      h+=`<div class="setform">${isC?'':`<input type="number" inputmode="decimal" id="sf-w" placeholder="lb" value="${v.w??''}"><span class="x">×</span>`}<input type="number" inputmode="numeric" id="sf-r" placeholder="${isC?'done':'reps'}" value="${v.r??(isC?1:'')}"><button data-savesets="1">Log</button><button class="ghost" data-skipset="1">Skip</button><button class="ghost" data-cancel="1">✕</button></div>`;}
+  }
+  return h+`</div>`;
+}
+
+function vToday(){
+  const w=weekOf(cur),ph=phaseOf(w);const day=DAYS[cur.getDay()];const l=logFor(cur);const isToday=sameDay(cur,new Date());const inProg=w>=1&&w<=WEEKS;
+  let h=`<div class="today-nav"><button data-nav="-1">‹ Prev</button>${isToday?`<span class="meta">Today</span>`:`<button class="jump" data-jump="1">Back to today</button>`}<button data-nav="1">Next ›</button></div>`;
+  h+=`<div class="meta">${fmt(cur)}${inProg?`, week ${w} of ${WEEKS} <span class="pill ${ph.toLowerCase()}" style="margin-left:6px">${ph}</span>`:''}</div>`;
+  h+=`<h1>${day.title}</h1><div class="sub">${day.tag} — ${day.when}</div>`;
+  if(!inProg){return h+`<div class="card"><h3>${cur<START?'Program starts Monday, Aug 31':'Program complete'}</h3><p class="note">${cur<START?'Week 1 begins with Lower A.':'Nine weeks done. Re-test the heavy lifts, take photos, and start the next block.'}</p></div>`;}
+  h+=`<p class="note" style="margin-top:0">${day.intro}</p>`;
+  // group: warm-ups, then main with superset groups
+  const warm=day.ex.map((e,i)=>[e,i]).filter(([e])=>e.warm);
+  const main=day.ex.map((e,i)=>[e,i]).filter(([e])=>!e.warm);
+  if(warm.length){h+=`<h4>Activation — 5 minutes, light</h4><div class="card" style="margin-top:6px">${warm.map(([e,i])=>exBlock(e,i,ph,l)).join('')}</div>`;}
+  h+=`<h4>${day.kind==='lift'?'Session':day.kind==='mobility'?'Sequence — flow straight through':'Sequence'}</h4><div class="card" style="margin-top:6px">`;
+  let k=0;
+  while(k<main.length){
+    const [e,i]=main[k];
+    if(e.ss){ const grp=[];while(k<main.length&&main[k][0].ss===e.ss){grp.push(main[k]);k++;}
+      h+=`<div class="ss"><div class="ss-lab"><span>Superset ${e.ss}</span><span>${esc(grp[0][0].where||'')}</span></div>${grp.map(([g,gi])=>exBlock(g,gi,ph,l)).join('')}<div class="meta" style="padding:0 0 10px">Do one set of each back to back, then rest ${esc(grp[grp.length-1][0].rest)}.</div></div>`;
+    } else { h+=exBlock(e,i,ph,l); k++; }
+  }
+  h+=`</div>`;
+  h+=`<button class="primary ${l.done?'done':''}" data-done="1">${l.done?'Session logged ✓ (tap to undo)':'Mark session complete'}</button>`;
+  if(day.kind==='mobility'||cur.getDay()===0){const hv=DB.hip[key(cur)];h+=`<div class="card"><h3>Hip today</h3><div class="meta">0 = silent, 10 = can't kick. Log it before you move.</div><div class="scale">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="${hv===n?'on':''}" data-hip="${n}">${n}</button>`).join('')}</div>${hv>=5?`<p class="note"><b>5 or above:</b> skip box jumps and leg press this week, keep everything else shallow, and get eyes on it — a hip PT who knows FAI, not a general one.</p>`:''}</div>`;}
+  if(day.mt){h+=`<div class="card"><div class="mt"><div><h3>${day.mt}</h3><div class="time">${day.mtTime}</div></div><div class="seg"><button class="${l.mt==='went'?'on':''}" data-mt="went">Went</button><button class="${l.mt==='missed'?'on':''}" data-mt="missed">Missed</button></div></div>${l.mt==='missed'?`<div class="altbox"><b>Replacement:</b> ${ALT[cur.getDay()]}</div>`:''}${day.kind==='mobility'&&l.mt!=='missed'?`<div class="altbox">Legs should feel fresh walking in. If they don't, Monday was too heavy — pull 10% off next Lower A.</div>`:''}</div>`;}
+  if(cur.getDay()===0){const lw=DB.weight[key(cur)];const ws=DB.waist[key(cur)];h+=`<div class="card"><h3>Weekly check-in</h3><div class="inline"><input type="number" inputmode="decimal" id="ci-w" placeholder="Weight (lb)" value="${lw??''}"><input type="number" inputmode="decimal" id="ci-waist" placeholder="Waist (in)" value="${ws??''}"><button data-checkin="1">Save</button></div><p class="note">Same scale, same time, before food. Photos: front and side, same spot, same light.</p></div>`;}
+  return h;
+}
+
+function vWeek(){
+  const mon=addDays(weekView,-((weekView.getDay()+6)%7));const w=weekOf(mon),ph=phaseOf(w);
+  let h=`<div class="wk"><button data-wk="-1">‹</button><div style="text-align:center"><h3>${w>=1&&w<=WEEKS?`Week ${w} of ${WEEKS}`:'Off program'}</h3><div class="meta">${MON[mon.getMonth()]} ${mon.getDate()} – ${MON[addDays(mon,6).getMonth()]} ${addDays(mon,6).getDate()}${ph?` <span class="pill ${ph.toLowerCase()}">${ph}</span>`:''}</div></div><button data-wk="1">›</button></div>`;
+  for(let i=0;i<7;i++){const d=addDays(mon,i);const day=DAYS[d.getDay()];const l=DB.logs[key(d)];const done=l&&l.done;const mtTxt=day.mt?`${day.mt} 7 pm`:'No class';
+    const status=done?'Done':(d<cur?'Missed':'');
+    h+=`<button class="dayrow ${sameDay(d,new Date())?'isToday':''}" data-open="${key(d)}"><div class="d">${DOW[d.getDay()].slice(0,3)}<small>${MON[d.getMonth()]} ${d.getDate()}</small></div><div class="t">${day.title}<small>${day.tag} · ${mtTxt}</small></div><div class="s ${status==='Done'?'ok':''}">${status}</div></button>`;}
+  h+=`<h2>The weekly shape</h2><div class="rows"><div class="row"><b>Mon – Wed</b><div class="meta">Lift or core in the morning, class at 7 pm</div></div><div class="row"><b>Thursday</b><div class="meta">Hip reset only — mobility, glute activation, zero fatigue. Then sparring.</div></div><div class="row"><b>Fri – Sat</b><div class="meta">No class — the two hardest sessions of the week plus HIIT</div></div><div class="row"><b>Sunday</b><div class="meta">Long walk, stretch, weigh-in, waist, photos, hip score</div></div></div>`;
+  h+=`<h2>Supersets</h2><p class="note" style="margin-top:0">Only exercises boxed together are supersets, and every pair shares one station — a bench with two pairs of dumbbells, or one cable stack with an attachment swap. Everything else is straight sets with the rest shown. Heavy lifts are never superset.</p>`;
+  h+=`<h2>If you only make two classes</h2><p class="note" style="margin-top:0">Keep every lift. Add 15 min jump rope after Wednesday core, and run the replacement on any missed evening (shown when you tap Missed).</p>`;
+  return h;
+}
+
+const KIND_COLOR={lift:'#F0A63A',core:'#7FD1B9',mobility:'#8FA6D9',recovery:'#4A6C65'};
+function vMonth(){
+  const m=monthView;const first=new Date(m.getFullYear(),m.getMonth(),1);const days=new Date(m.getFullYear(),m.getMonth()+1,0).getDate();const lead=(first.getDay()+6)%7;
+  let h=`<div class="wk"><button data-mo="-1">‹</button><h3>${first.toLocaleString('en-US',{month:'long'})} ${first.getFullYear()}</h3><button data-mo="1">›</button></div>`;
+  h+=`<div class="cal"><div class="cal-h"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div><div class="cal-g">`;
+  for(let i=0;i<lead;i++)h+=`<div class="cell out"></div>`;
+  for(let d=1;d<=days;d++){const dt=new Date(m.getFullYear(),m.getMonth(),d);const w=weekOf(dt);const inP=w>=1&&w<=WEEKS;const day=DAYS[dt.getDay()];const l=DB.logs[key(dt)];const done=l&&l.done;
+    h+=`<button class="cell ${sameDay(dt,new Date())?'isToday':''} ${done?'done':''} ${inP?'':'pre'}" data-open="${key(dt)}"><span>${d}</span>${inP?`<span class="bar" style="background:${KIND_COLOR[day.kind]}"></span>`:''}</button>`;}
+  h+=`</div></div><div class="legend"><span style="--c:#F0A63A">Lift</span><span style="--c:#7FD1B9">Core + walk</span><span style="--c:#8FA6D9">Hip reset</span><span style="--c:#4A6C65">Recovery</span></div>`;
+  h+=`<h2>The nine weeks</h2><div class="rows"><div class="row"><span class="pill build">Build</span> <b>Weeks 1–4</b>, Aug 31 – Sep 27<div class="meta">Heavy 5s, learn the movements, add weight every week. Protein locked in.</div></div><div class="row"><span class="pill deload">Deload</span> <b>Week 5</b>, Sep 28 – Oct 4<div class="meta">Fewer sets, 70% loads, no HIIT. Joints recover, strength rebounds.</div></div><div class="row"><span class="pill peak">Peak</span> <b>Weeks 6–9</b>, Oct 5 – Nov 1<div class="meta">Heavy triples, an extra hypertrophy set, longer HIIT and walks. This is where the look arrives.</div></div></div>`;
+  h+=`<h2>Checkpoints</h2><div class="rows"><div class="row"><b>Oct 1, day 30</b><div class="meta">Roughly 6–9 lb down, waist 1.5–2 in smaller, 10–15% more on the heavy lifts. Face and shoulders visibly leaner.</div></div><div class="row"><b>Nov 1, day 60</b><div class="meta">12–18 lb down, shoulder and arm definition, upper abs showing, noticeably better gas in rounds.</div></div></div>`;
+  return h;
+}
+
+function exportText(){
+  const S=DB.settings;const out=[];
+  out.push('CAMP — PROGRESS EXPORT  '+key(new Date()));
+  out.push('Start '+S.startWeight+' lb, goal '+S.goalWeight+' lb, targets '+S.kcal+' kcal / '+S.p+'P '+S.c+'C '+S.f+'F');
+  const wk=Object.keys(DB.weight).sort();
+  out.push('');out.push('WEIGHT');out.push(wk.length?wk.map(k=>k+'  '+DB.weight[k]).join('\n'):'none logged');
+  const ws=Object.keys(DB.waist).sort();
+  out.push('');out.push('WAIST');out.push(ws.length?ws.map(k=>k+'  '+DB.waist[k]+'in').join('\n'):'none logged');
+  const hp=Object.keys(DB.hip).sort();
+  out.push('');out.push('HIP SCORE (0-10)');out.push(hp.length?hp.map(k=>k+'  '+DB.hip[k]).join('\n'):'none logged');
+  out.push('');out.push('SESSIONS');
+  Object.keys(DB.logs).sort().forEach(k=>{
+    const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];const l=DB.logs[k];
+    const w=weekOf(d);const lines=[];
+    day.ex.forEach((e,i)=>{const sets=(l.sets[i]||[]);if(!sets.length)return;
+      const txt=sets.map(v=>!v?'-':v.skip||(!v.w&&!v.r)?'skip':(v.w?v.w+'x':'')+v.r).join(', ');
+      lines.push('  '+e.n+': '+txt);});
+    if(!lines.length&&!l.done&&!l.mt)return;
+    out.push('');out.push(k+'  wk'+w+' '+day.title+(l.done?' [complete]':' [partial]')+(l.mt?'  MT: '+l.mt:''));
+    out.push(lines.length?lines.join('\n'):'  nothing logged');});
+  out.push('');out.push('NUTRITION');
+  const mk=Object.keys(DB.macros).sort();
+  if(!mk.length)out.push('none logged');
+  mk.forEach(k=>{const t=DB.macros[k].reduce((a,e)=>({p:a.p+e.p,c:a.c+e.c,f:a.f+e.f}),{p:0,c:0,f:0});
+    out.push(k+'  '+(t.p*4+t.c*4+t.f*9)+' kcal  '+t.p+'P '+t.c+'C '+t.f+'F  ('+DB.macros[k].length+' entries)');});
+  return out.join('\n');
+}
+function backupJSON(){return JSON.stringify({app:'camp',v:1,exported:new Date().toISOString(),data:{logs:DB.logs,weight:DB.weight,waist:DB.waist,hip:DB.hip,macros:DB.macros,quick:DB.quick,settings:DB.settings}},null,1);}
+function applyBackup(txt,mode){
+  let o; try{o=JSON.parse(txt);}catch(e){return{ok:0,msg:'That is not valid backup text'};}
+  const d=o&&o.data?o.data:o; if(!d||typeof d!=='object')return{ok:0,msg:'No data found in that backup'};
+  const fields=['logs','weight','waist','hip','macros'];
+  let n=0;
+  if(mode==='replace'){ fields.forEach(f=>{ if(d[f]&&typeof d[f]==='object'){DB[f]=d[f];n+=Object.keys(d[f]).length;} });
+    if(Array.isArray(d.quick))DB.quick=d.quick; if(d.settings)DB.settings=Object.assign(DB.settings,d.settings); }
+  else { fields.forEach(f=>{ if(d[f]&&typeof d[f]==='object'){ for(const k in d[f]){ if(!(k in DB[f])){DB[f][k]=d[f][k];n++;} } } });
+    if(Array.isArray(d.quick)){ d.quick.forEach(q=>{ if(!DB.quick.some(x=>x.n===q.n))DB.quick.push(q); }); }
+    if(d.settings)DB.settings=Object.assign({},d.settings,DB.settings); }
+  save(); return{ok:1,msg:(mode==='replace'?'Restored ':'Merged ')+n+' records'};
+}
+window.__campRestore=function(txt){ const r=applyBackup(txt,'merge'); toast(r.msg); if(r.ok)render(true); };
+const AND = (typeof Camp!=='undefined' && Camp && Camp.saveBackup) ? Camp : null;
+function downloadBackup(){
+  const json=backupJSON(); const name='camp-backup-'+key(new Date())+'.json';
+  if(AND){ try{ const r=Camp.saveBackup(json,name); toast(r||'Saved to Downloads'); return; }catch(e){} }
+  try{ const b=new Blob([json],{type:'application/json'}); const u=URL.createObjectURL(b); const a=document.createElement('a'); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),1000); toast('Backup downloaded'); }
+  catch(e){ toast('Use Copy backup instead'); }
+}
+function vData(){
+  const nSets=Object.values(DB.logs).reduce((a,l)=>a+Object.keys(l.sets||{}).length,0);
+  return `<div class="today-nav"><button data-v="track">‹ Track</button><span class="meta">Data</span><span style="width:60px"></span></div>
+  <h1>Data</h1><div class="sub">${Object.keys(DB.logs).length} sessions, ${nSets} logged exercises, ${Object.keys(DB.weight).length} weigh-ins.</div>
+  <div class="card"><h3>Backup</h3><div class="meta">A full copy of everything, as a file you keep. Do this before any app update.</div>
+    <button class="primary" style="margin-top:12px" data-savebackup="1">Save backup file</button>
+    <button class="secondary" data-copybackup="1">Copy backup to clipboard</button>${AND?`<button class="secondary" data-sharebackup="1">Share backup…</button>`:''}</div>
+  <div class="card"><h3>Restore</h3><div class="meta">Merge keeps what's already here and fills in gaps. Replace overwrites with the backup.</div>
+    ${AND?`<button class="primary" style="margin-top:12px" data-pickbackup="1">Load from a file</button>`:''}
+    <label class="meta" style="display:block;margin-top:12px">Or paste backup text</label>
+    <textarea id="imp" rows="5" placeholder='{"app":"camp"...' style="width:100%;margin-top:6px;font-family:ui-monospace,monospace;font-size:12px;background:var(--panel2);color:var(--bone);border:1px solid var(--line);border-radius:10px;padding:10px"></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px"><button class="primary" style="margin:0;flex:1;padding:12px" data-import="merge">Merge</button><button class="secondary" style="margin:0;flex:1;padding:12px" data-import="replace">Replace</button></div></div>
+  <div class="card"><h3>For review</h3><div class="meta">Plain-text summary to paste into a chat.</div>
+    <button class="primary" style="margin-top:12px" data-v="export">Open review export</button></div>
+  <div class="card"><h3>Updating the app</h3><div class="meta">Install a new APK straight over the old one and your data carries across — it is an update, not a fresh install. Only uninstalling wipes it. Save a backup file first anyway.</div></div>`;
+}
+function vExport(){
+  const t=exportText();
+  return `<div class="today-nav"><button data-v="track">‹ Track</button><span class="meta">Export</span><span style="width:60px"></span></div>
+  <h1>Export</h1><div class="sub">Copy this and paste it into a chat for a review.</div>
+  <button class="primary" data-copyexp="1">Copy everything</button>
+  <div class="card"><pre id="expbox" style="white-space:pre-wrap;word-break:break-word;font-size:12.5px;font-family:ui-monospace,Menlo,monospace;color:var(--bone);margin:0;max-height:60vh;overflow:auto">${esc(t)}</pre></div>
+  <p class="note">If Copy doesn't work, long-press the text above and select all. For a full machine-readable backup, use Data → Save backup file.</p>`;
+}
+function vTrack(){
+  const s=DB.settings;const lw=latestWeight();const w0=weeklyAvg(0),w1=weeklyAvg(1);const delta=lw?(lw.v-s.startWeight):null;const rate=(w0&&w1)?(w0-w1):null;
+  let h=`<div class="meta">Progress</div><h1>Track</h1><div class="sub">Weight, waist, hip, strength. The scale is one signal of four.</div>`;
+  h+=`<div class="card"><div class="big">${lw?lw.v.toFixed(1):'—'}<small>lb${lw?`, ${lw.k===key(new Date())?'today':lw.k.slice(5).replace('-','/')}`:''}</small></div><div class="inline"><input type="number" inputmode="decimal" id="tw" placeholder="Today's weight" step="0.1"><button data-addw="1">Save</button></div>${svgChart()}</div>`;
+  h+=`<div class="grid2" style="margin-top:12px"><div class="stat"><div class="l">Since start (${s.startWeight})</div><div class="v" style="color:${delta!=null&&delta<0?'var(--mint)':'var(--bone)'}">${delta!=null?(delta>0?'+':'')+delta.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">This week vs last</div><div class="v" style="color:${rate!=null&&rate<-2.5?'var(--ember)':'var(--bone)'}">${rate!=null?(rate>0?'+':'')+rate.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">Session streak</div><div class="v">${streak()}</div></div><div class="stat"><div class="l">To goal (${s.goalWeight})</div><div class="v">${lw?Math.max(0,lw.v-s.goalWeight).toFixed(1)+' lb':'—'}</div></div></div>`;
+  if(rate!=null&&rate<-2.5)h+=`<p class="note"><b>Losing faster than 2.5 lb a week.</b> That's past the muscle-safe zone. Add ~200 kcal a day (carbs around training) and hold protein.</p>`;
+  const wk=Object.keys(DB.waist).sort();
+  h+=`<div class="card"><h3>Waist</h3><div class="inline"><input type="number" inputmode="decimal" id="tws" placeholder="Inches at navel" step="0.25"><button data-addwaist="1">Save</button></div>${wk.length?`<div class="note">${wk.slice(-4).map(k=>`${k.slice(5).replace('-','/')}: <b>${DB.waist[k]}"</b>`).join(' &nbsp; ')}</div>`:'<div class="note">Measure Sundays at the navel, relaxed.</div>'}</div>`;
+  const hk=Object.keys(DB.hip).sort();
+  h+=`<div class="card"><h3>Hip score</h3>${hk.length?`<div class="note" style="margin-top:6px">${hk.slice(-6).map(k=>`${k.slice(5).replace('-','/')}: <b>${DB.hip[k]}</b>`).join(' &nbsp; ')}</div><div class="meta" style="margin-top:8px">Logged Thursdays and Sundays. Trend down = the program is working on the hip too. Trend up = pull depth and load on leg days, not the mobility work.</div>`:`<div class="note">Logged from the Thursday and Sunday pages. Trend matters, not the number.</div>`}</div>`;
+  h+=`<div class="card"><h3>Strength board</h3>`;
+  ['Trap bar deadlift','Barbell bench press','Weighted pull-up','Barbell hip thrust','Seated dumbbell overhead press','Romanian deadlift'].forEach(n=>{const b=bestFor(n);const lv=b?levelOf(b.w,(LIB[n]||{}).std):null;h+=`<div class="pr"><span>${n}${lv?`<div class="meta" style="font-size:12px">${lv[0]}</div>`:''}</span>${b?`<b>${b.w} × ${b.r}</b>`:`<span class="meta">not logged</span>`}</div>`;});
+  h+=`</div><div class="card"><h3>Settings</h3><div class="form2"><div><label>Start weight</label><input type="number" id="s-start" value="${s.startWeight}"></div><div><label>Goal weight</label><input type="number" id="s-goal" value="${s.goalWeight}"></div></div><button class="primary" style="margin-top:12px;padding:12px" data-savesettings="1">Save settings</button></div>
+  <button class="secondary" data-v="data">Backup, restore &amp; export</button>`;
+  return h;
+}
+function svgChart(){
+  const ks=Object.keys(DB.weight).sort();if(ks.length<2)return`<p class="note">Log a few days and the trend line appears here. Goal line is ${DB.settings.goalWeight} lb.</p>`;
+  const pts=ks.map(k=>({x:Math.round((new Date(k+'T00:00:00')-START)/864e5),y:DB.weight[k]}));const W=320,H=170,P=28;const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y).concat([DB.settings.goalWeight]);
+  const minX=Math.min(0,...xs),maxX=Math.max(WEEKS*7,...xs);let minY=Math.floor(Math.min(...ys)-2),maxY=Math.ceil(Math.max(...ys)+2);
+  const sx=x=>P+(x-minX)/(maxX-minX)*(W-2*P),sy=y=>H-P+(y-minY)/(maxY-minY)*-(H-2*P);
+  const path=pts.map((p,i)=>`${i?'L':'M'}${sx(p.x).toFixed(1)},${sy(p.y).toFixed(1)}`).join(' ');const g=DB.settings.goalWeight;
+  let h=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend">`;
+  h+=`<rect x="${sx(0)}" y="${P/2}" width="${sx(28)-sx(0)}" height="${H-P-P/2}" fill="#7FD1B9" opacity=".06"/><rect x="${sx(28)}" y="${P/2}" width="${sx(35)-sx(28)}" height="${H-P-P/2}" fill="#F0A63A" opacity=".08"/><rect x="${sx(35)}" y="${P/2}" width="${sx(63)-sx(35)}" height="${H-P-P/2}" fill="#E4694A" opacity=".07"/>`;
+  h+=`<line x1="${P}" y1="${sy(g)}" x2="${W-P}" y2="${sy(g)}" stroke="#7FD1B9" stroke-dasharray="4 4" stroke-width="1"/><text x="${W-P}" y="${sy(g)-4}" fill="#7FD1B9" font-size="10" text-anchor="end">goal ${g}</text>`;
+  h+=`<path d="${path}" fill="none" stroke="#EFE7D3" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>`;pts.forEach(p=>{h+=`<circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="3" fill="#F0A63A"/>`;});
+  h+=`<text x="${P}" y="${H-6}" fill="#9DB3AB" font-size="10">Aug 31</text><text x="${sx(31)}" y="${H-6}" fill="#9DB3AB" font-size="10" text-anchor="middle">Oct 1</text><text x="${W-P}" y="${H-6}" fill="#9DB3AB" font-size="10" text-anchor="end">Nov 1</text><text x="4" y="${sy(maxY)+4}" fill="#9DB3AB" font-size="10">${maxY}</text><text x="4" y="${sy(minY)}" fill="#9DB3AB" font-size="10">${minY}</text>`;
+  return h+`</svg>`;
+}
+
+const QUICK=[{n:'Whey shake',p:30,c:3,f:2},{n:'Greek yogurt, 1 cup',p:20,c:9,f:0},{n:'Cottage cheese, 1 cup',p:25,c:8,f:5},{n:'4 whole eggs',p:24,c:2,f:20},{n:'Chicken breast, 6 oz',p:52,c:0,f:6},{n:'Chicken thigh, 6 oz',p:40,c:0,f:14},{n:'Ground beef 90%, 6 oz',p:44,c:0,f:17},{n:'Salmon, 6 oz',p:38,c:0,f:20},{n:'Tuna can',p:26,c:0,f:1},{n:'White rice, 1 cup',p:4,c:45,f:0},{n:'Oats, 1/2 cup dry',p:5,c:27,f:3},{n:'Banana',p:1,c:27,f:0},{n:'Protein bar',p:20,c:22,f:8},{n:'Avocado, half',p:1,c:6,f:11},{n:'Olive oil, 1 tbsp',p:0,c:0,f:14}];
+function vFuel(){
+  const s=DB.settings;const k=key(cur);const list=DB.macros[k]||[];const tot=list.reduce((a,e)=>({p:a.p+e.p,c:a.c+e.c,f:a.f+e.f}),{p:0,c:0,f:0});const kcal=tot.p*4+tot.c*4+tot.f*9;const isToday=sameDay(cur,new Date());
+  let h=`<div class="today-nav"><button data-nav="-1">‹ Prev</button>${isToday?`<span class="meta">Today</span>`:`<button class="jump" data-jump="1">Back to today</button>`}<button data-nav="1">Next ›</button></div>`;
+  h+=`<div class="meta">${fmt(cur)}</div><h1>Fuel</h1><div class="sub">Protein first. Calories are a floor, not a ceiling, on tirzepatide.</div>`;
+  const bar=(l,v,t,cls='')=>`<div class="macro"><div class="lab"><span>${l}</span><span><b>${Math.round(v)}</b> / ${t}${l==='Calories'?'':' g'}</span></div><div class="bar-bg"><div class="bar-fg ${cls} ${v>t*1.15?'over':''}" style="width:${Math.min(100,v/t*100)}%"></div></div></div>`;
+  h+=`<div class="card">${bar('Protein',tot.p,s.p,'p')}${bar('Calories',kcal,s.kcal)}${bar('Carbs',tot.c,s.c)}${bar('Fat',tot.f,s.f)}${tot.p<s.p*0.6&&new Date().getHours()>=18&&isToday?`<p class="note"><b>Protein is behind.</b> A shake and a cup of Greek yogurt tonight closes 50 g of the gap.</p>`:''}</div>`;
+  h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3>My meals</h3><button class="meta" data-editquick="1" style="padding:4px 8px">${editQuick?'Done':DB.quick.length?'Edit':''}</button></div>`;
+  h+=DB.quick.length?`<div class="quick">${DB.quick.map((q,i)=>`<button class="mine ${editQuick?'del':''}" data-${editQuick?'delq':'mq'}="${i}">${editQuick?'× ':''}${esc(q.n)} <small>${q.p}p</small></button>`).join('')}</div>`:`<div class="meta" style="margin-top:6px">Save the meals you actually eat below and they show up here as one-tap buttons.</div>`;
+  h+=`<h4>Starter foods</h4><div class="quick" style="margin-top:4px">${QUICK.map((q,i)=>`<button data-q="${i}">${q.n} <small>${q.p}p</small></button>`).join('')}</div></div>`;
+  h+=`<div class="card"><h3>New meal</h3><div class="form4"><div style="grid-column:span 4"><label>Name</label><input id="m-n" placeholder="e.g. Post-lift shake + banana"></div><div><label>Protein g</label><input type="number" inputmode="numeric" id="m-p"></div><div><label>Carbs g</label><input type="number" inputmode="numeric" id="m-c"></div><div><label>Fat g</label><input type="number" inputmode="numeric" id="m-f"></div><div><label>kcal</label><input id="m-k" disabled placeholder="auto"></div></div>
+    <button class="primary" style="margin-top:12px;padding:12px" data-addm="1">Add to ${isToday?'today':MON[cur.getMonth()]+' '+cur.getDate()}</button><button class="secondary" data-saveq="1">Save as a My meal</button></div>`;
+  if(list.length){h+=`<div class="card"><h3>Logged</h3>${list.map((e,i)=>`<div class="entry"><div>${esc(e.n)}<div class="m">${e.p}p · ${e.c}c · ${e.f}f · ${e.p*4+e.c*4+e.f*9} kcal</div></div><button data-delm="${i}">Remove</button></div>`).join('')}</div>`;}
+  h+=`<h2>Your targets and why</h2><div class="card rows"><div class="row"><b>Protein ${s.p} g</b><div class="meta">About 2 g per kg of your 180 lb goal weight — the top of the range recommended on a GLP-1. Four hits of ~40 g. The single most important number in the app.</div></div><div class="row"><b>Calories ${s.kcal}</b><div class="meta">A moderate deficit for a 205 lb man training 8–10 times a week. Never below 2,000 on a lifting day. If the weekly average drops more than 2.5 lb a week two weeks running, add 200.</div></div><div class="row"><b>Carbs ${s.c} g, fat ${s.f} g</b><div class="meta">Carbs around training — before the morning lift, before class. Fat fills the rest. Protein and total calories are the two that need to be exact.</div></div><div class="row"><b>Also daily</b><div class="meta">Creatine monohydrate 5 g (clear it with your prescriber). Water ~1 gallon. Fiber 30 g+. Electrolytes after class.</div></div><div class="row"><b>Eating with no appetite</b><div class="meta">Liquid and dense: shakes, Greek yogurt, cottage cheese, eggs, deli meat. Eat by the clock — 8 am, 12 pm, 4 pm, 9 pm.</div></div></div>`;
+  h+=`<button class="secondary" data-edittargets="1">Edit targets</button><div id="targets" class="hidden card"><div class="form4"><div><label>kcal</label><input type="number" id="t-k" value="${s.kcal}"></div><div><label>P</label><input type="number" id="t-p" value="${s.p}"></div><div><label>C</label><input type="number" id="t-c" value="${s.c}"></div><div><label>F</label><input type="number" id="t-f" value="${s.f}"></div></div><button class="primary" style="margin-top:12px;padding:12px" data-savetargets="1">Save targets</button></div>`;
+  return h;
+}
+
+/* ---------------- events ---------------- */
+function fallbackCopy(t,cb){const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');cb();}catch(e){toast('Long-press the text to copy');}document.body.removeChild(ta);}
+function readMeal(){const n=$('#m-n').value.trim(),p=+$('#m-p').value||0,c=+$('#m-c').value||0,f=+$('#m-f').value||0;return{n,p,c,f};}
+document.addEventListener('input',e=>{if(['m-p','m-c','m-f'].includes(e.target.id)){const m=readMeal();$('#m-k').value=m.p*4+m.c*4+m.f*9||'';}});
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a'); if(a) return; // let links through
+  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.v){view=d.v;editing=null;if(view==='week')weekView=new Date(cur);if(view==='month')monthView=new Date(cur.getFullYear(),cur.getMonth(),1);render(true);return;}
+  if(d.nav){cur=addDays(cur,+d.nav);editing=null;openEx.clear();render(true);return;}
+  if(d.jump){cur=new Date();cur.setHours(0,0,0,0);editing=null;openEx.clear();render(true);return;}
+  if(d.wk){weekView=addDays(weekView,7*+d.wk);render(true);return;}
+  if(d.mo){monthView=new Date(monthView.getFullYear(),monthView.getMonth()+ +d.mo,1);render(true);return;}
+  if(d.open){cur=new Date(d.open+'T00:00:00');view='today';editing=null;openEx.clear();render(true);return;}
+  if(d.info){const i=+d.info;openEx.has(i)?openEx.delete(i):openEx.add(i);render();return;}
+  if(d.set){const [i,s]=d.set.split(':').map(Number);editing=(editing&&editing.ex===i&&editing.set===s)?null:{ex:i,set:s};render();setTimeout(()=>{const f=$('#sf-w')||$('#sf-r');f&&f.focus();},0);return;}
+  if(d.cancel){editing=null;render();return;}
+  if(d.skipset){const l=logFor(cur);l.sets[editing.ex]=l.sets[editing.ex]||[];l.sets[editing.ex][editing.set]={skip:1};
+    const day=DAYS[cur.getDay()];const total=rx(day.ex[editing.ex],phaseOf(weekOf(cur))).sets;
+    editing=editing.set+1<total?{ex:editing.ex,set:editing.set+1}:null;save();render();toast('Skipped');return;}
+  if(d.savesets){const l=logFor(cur);const w=$('#sf-w')?parseFloat($('#sf-w').value):null;const r=parseFloat($('#sf-r').value);if(isNaN(r)||r<=0){toast('Enter reps, or tap Skip');return;}
+    l.sets[editing.ex]=l.sets[editing.ex]||[];l.sets[editing.ex][editing.set]={w:isNaN(w)?null:w,r};
+    const day=DAYS[cur.getDay()];const ex=day.ex[editing.ex];const total=rx(ex,phaseOf(weekOf(cur))).sets;
+    // rest: if in a superset and this is the first of the pair, no rest; else exercise rest
+    let rest=restSec(ex.rest);
+    editing=editing.set+1<total?{ex:editing.ex,set:editing.set+1}:null;
+    save();render();if(rest&&!ex.warm&&ex.t!=='C')startRest(rest);
+    if(editing){setTimeout(()=>{const f=$('#sf-w')||$('#sf-r');f&&f.focus();},0);}return;}
+  if(d.done){const l=logFor(cur);l.done=!l.done;save();render();toast(l.done?'Session logged':'Unmarked');return;}
+  if(d.mt){const l=logFor(cur);l.mt=l.mt===d.mt?null:d.mt;save();render();return;}
+  if(d.hip){DB.hip[key(cur)]=+d.hip;save();render();return;}
+  if(d.checkin){const w=parseFloat($('#ci-w').value),ws=parseFloat($('#ci-waist').value);if(!isNaN(w))DB.weight[key(cur)]=w;if(!isNaN(ws))DB.waist[key(cur)]=ws;save();render();toast('Check-in saved');return;}
+  if(d.addw){const w=parseFloat($('#tw').value);if(isNaN(w)){toast('Enter a weight');return;}DB.weight[key(new Date())]=w;save();render();toast('Weight saved');return;}
+  if(d.addwaist){const w=parseFloat($('#tws').value);if(isNaN(w)){toast('Enter inches');return;}DB.waist[key(new Date())]=w;save();render();toast('Waist saved');return;}
+  if(d.savesettings){DB.settings.startWeight=parseFloat($('#s-start').value)||205;DB.settings.goalWeight=parseFloat($('#s-goal').value)||180;save();render();toast('Saved');return;}
+  if(d.q){const q=QUICK[+d.q];(DB.macros[key(cur)]=DB.macros[key(cur)]||[]).push({...q});save();render();toast(`+${q.p} g protein`);return;}
+  if(d.mq){const q=DB.quick[+d.mq];(DB.macros[key(cur)]=DB.macros[key(cur)]||[]).push({...q});save();render();toast(`+${q.p} g protein`);return;}
+  if(d.editquick){editQuick=!editQuick;render();return;}
+  if(d.delq){DB.quick.splice(+d.delq,1);if(!DB.quick.length)editQuick=false;save();render();return;}
+  if(d.addm){const m=readMeal();if(!m.p&&!m.c&&!m.f){toast('Enter macros');return;}m.n=m.n||'Meal';(DB.macros[key(cur)]=DB.macros[key(cur)]||[]).push(m);save();render();toast('Added');return;}
+  if(d.saveq){const m=readMeal();if(!m.n){toast('Give it a name');return;}if(!m.p&&!m.c&&!m.f){toast('Enter macros');return;}DB.quick.push(m);save();render();toast('Saved to My meals');return;}
+  if(d.delm){DB.macros[key(cur)].splice(+d.delm,1);save();render();return;}
+  if(d.edittargets){$('#targets').classList.toggle('hidden');return;}
+  if(d.savebackup){downloadBackup();return;}
+  if(d.copybackup){const t=backupJSON();const done=()=>toast('Backup copied');if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));}else fallbackCopy(t,done);return;}
+  if(d.sharebackup){try{Camp.shareBackup(backupJSON(),'camp-backup-'+key(new Date())+'.json');}catch(e){toast('Share unavailable');}return;}
+  if(d.pickbackup){try{Camp.pickBackup();}catch(e){toast('Use paste instead');}return;}
+  if(d.import){const t=($('#imp').value||'').trim();if(!t){toast('Paste a backup first');return;}
+    if(d.import==='replace'&&!confirm('Replace everything currently in the app with this backup?'))return;
+    const r=applyBackup(t,d.import);toast(r.msg);if(r.ok)render(true);return;}
+  if(d.copyexp){const t=exportText();
+    const done=()=>toast('Copied — paste it into a chat');
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));}else fallbackCopy(t,done);
+    return;}
+  if(d.savetargets){const s=DB.settings;s.kcal=+$('#t-k').value||s.kcal;s.p=+$('#t-p').value||s.p;s.c=+$('#t-c').value||s.c;s.f=+$('#t-f').value||s.f;save();render();toast('Targets saved');return;}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&editing&&(e.target.id==='sf-w'||e.target.id==='sf-r')){e.preventDefault();$('[data-savesets]').click();}});
+render(true);
+</script>
+</body>
+</html>
