@@ -129,6 +129,9 @@ nav button{flex:1;color:var(--muted);font-size:12px;display:flex;flex-direction:
 nav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 nav button.on{color:var(--saffron)}
 .hidden{display:none}
+.warnbar{background:var(--ember);color:#22100B;padding:12px 18px;font-size:14px;line-height:1.35}
+.warnbar b{display:block;font-size:15px;margin-bottom:2px}
+.warnbar button{background:#22100B;color:var(--bone);font-weight:700;font-size:14px;padding:8px 12px;border-radius:8px;margin-top:8px}
 .toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--bone);color:var(--ink);padding:10px 16px;border-radius:10px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
 .toast.show{opacity:1}
 #rest{position:fixed;right:18px;bottom:calc(88px + env(safe-area-inset-bottom));background:var(--saffron);color:var(--ink);padding:10px 14px;border-radius:999px;font-weight:800;font-size:16px;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:4}
@@ -146,8 +149,256 @@ nav button.on{color:var(--saffron)}
 
 <script>
 /* ---------------- storage ---------------- */
+/* Versioned storage for CAMP.
+ *
+ * Every value we keep in localStorage is written inside an envelope:
+ *
+ *   { "schemaVersion": 2, "data": <the value the app actually uses> }
+ *
+ * Saves written before this layer existed are bare values with no envelope.
+ * Those are version 1 by definition — a missing version means 1, never 0 and
+ * never "unknown".
+ *
+ * On load, run() reads the stored version, applies every migration in order up
+ * to CURRENT_VERSION, and writes the result back. Migrations live in
+ * MIGRATIONS, ordered, each a pure function from the previous whole-store shape
+ * to the next one. The runner does the stamping, so a migration that changes
+ * nothing is genuinely a no-op.
+ *
+ * The two rules that matter, because this is somebody's only copy of their
+ * training log:
+ *
+ *   - The untouched original is copied to ROLLBACK_KEY before the first
+ *     migration runs. One copy, overwritten each time.
+ *   - If anything throws, no data key is written at all. Half-migrated is worse
+ *     than un-migrated, so the store is left exactly as it was found and the
+ *     caller is told to send the user to the Data tab for a backup.
+ *
+ * Loaded as a plain script (spliced into the app) it defines CampCore; under
+ * node it also exports it, which is what build/check-migrations.js drives.
+ */
+var CampCore = (function () {
+  'use strict';
+
+  var CURRENT_VERSION = 2;
+
+  /* Every localStorage key the app owns. Order is the write order. */
+  var KEYS = ['logs', 'weight', 'waist', 'hip', 'macros', 'quick', 'settings'];
+
+  var ROLLBACK_KEY = 'camp.rollback';
+
+  var FAIL_MESSAGE =
+    'Your saved data could not be updated to the new format, so nothing was ' +
+    'changed — everything is still there exactly as it was. Open the Data tab ' +
+    'and save a backup file before you carry on.';
+
+  /* Ordered. Each entry migrates the whole-store snapshot
+   * { logs, weight, waist, hip, macros, quick, settings } from .from to .to.
+   * up() must be pure: build a new object, never mutate the argument. */
+  var MIGRATIONS = [
+    {
+      from: 1,
+      to: 2,
+      name: 'stamp-schema-version',
+      /* No shape change. Version 2 is version 1 with the envelope around it,
+       * which the runner writes. This exists so the mechanism ships exercised
+       * instead of sitting untested until the first real change. */
+      up: function (snapshot) { return Object.assign({}, snapshot); }
+    }
+  ];
+
+  function storeError(message) {
+    var e = new Error(message);
+    e.campStore = true;
+    return e;
+  }
+
+  function isEnvelope(v) {
+    return v !== null && typeof v === 'object' && !Array.isArray(v) &&
+      typeof v.schemaVersion === 'number' && 'data' in v;
+  }
+
+  /* The value as stored. */
+  function wrap(value, version) {
+    return { schemaVersion: version == null ? CURRENT_VERSION : version, data: value };
+  }
+
+  /* The value as the app wants it, whether or not it was ever stamped. */
+  function unwrap(parsed) {
+    return isEnvelope(parsed) ? parsed.data : parsed;
+  }
+
+  function versionOf(parsed) {
+    return isEnvelope(parsed) ? parsed.schemaVersion : 1;
+  }
+
+  /* Reads every key out of the backend. Throws if anything stored is not
+   * readable JSON — unreadable is not the same as absent, and guessing which
+   * one it is would lose data. The lowest version found wins, so a store that
+   * was half-written by some earlier failure still gets every migration it
+   * needs. An empty store is already current: there is nothing to migrate. */
+  function readStore(backend) {
+    var raw = {}, data = {}, version = null, present = 0;
+    for (var i = 0; i < KEYS.length; i++) {
+      var k = KEYS[i];
+      var s = backend.getItem(k);
+      raw[k] = s;
+      if (s == null) continue;
+      present++;
+      var parsed;
+      try {
+        parsed = JSON.parse(s);
+      } catch (e) {
+        throw storeError('"' + k + '" is not readable JSON');
+      }
+      data[k] = unwrap(parsed);
+      var v = versionOf(parsed);
+      if (version === null || v < version) version = v;
+    }
+    return { raw: raw, data: data, present: present, version: present ? version : CURRENT_VERSION };
+  }
+
+  function applyMigrations(data, from, migrations) {
+    var cur = data, v = from, applied = [];
+    for (var i = 0; i < migrations.length; i++) {
+      var m = migrations[i];
+      if (m.from < v) continue;
+      if (m.from !== v) {
+        throw storeError('no migration from version ' + v + ' (next one starts at ' + m.from + ')');
+      }
+      cur = m.up(cur);
+      if (cur === null || typeof cur !== 'object') {
+        throw storeError('migration "' + m.name + '" returned ' + cur + ' instead of a store');
+      }
+      v = m.to;
+      applied.push(m.name);
+    }
+    return { data: cur, version: v, applied: applied };
+  }
+
+  function fail(err, context) {
+    var msg = (err && err.message) ? err.message : String(err);
+    return {
+      ok: false,
+      migrated: false,
+      version: null,
+      applied: [],
+      error: context ? context + ': ' + msg : msg,
+      message: FAIL_MESSAGE
+    };
+  }
+
+  /* Pure: migrate a snapshot in memory, touching no storage. Used for restoring
+   * a backup file written by an older version of the app. */
+  function migrate(data, from, options) {
+    var migrations = (options && options.migrations) || MIGRATIONS;
+    try {
+      var r = applyMigrations(data, from == null ? 1 : from, migrations);
+      return { ok: true, migrated: r.applied.length > 0, version: r.version, applied: r.applied, data: r.data };
+    } catch (e) {
+      return fail(e);
+    }
+  }
+
+  /* Migrate the backend in place. Returns a result, never throws. */
+  function run(backend, options) {
+    var migrations = (options && options.migrations) || MIGRATIONS;
+    var target = (options && options.target) || CURRENT_VERSION;
+
+    var s;
+    try {
+      s = readStore(backend);
+    } catch (e) {
+      return fail(e);
+    }
+
+    /* Already current, or newer than this build understands. Either way there
+     * is nothing to apply, so write nothing — not even a rollback copy. */
+    if (s.version >= target) {
+      return { ok: true, migrated: false, version: s.version, applied: [], error: null, message: null };
+    }
+
+    try {
+      backend.setItem(ROLLBACK_KEY, JSON.stringify({
+        savedAt: new Date().toISOString(),
+        version: s.version,
+        keys: s.raw
+      }));
+    } catch (e) {
+      return fail(e, 'could not save the rollback copy');
+    }
+
+    var r;
+    try {
+      r = applyMigrations(s.data, s.version, migrations);
+    } catch (e) {
+      return fail(e);
+    }
+
+    /* Serialise everything before writing anything, so a value that will not
+     * stringify fails while the store is still untouched. */
+    var payload = [];
+    try {
+      for (var i = 0; i < KEYS.length; i++) {
+        var k = KEYS[i];
+        if (!(k in r.data)) continue;
+        payload.push([k, JSON.stringify(wrap(r.data[k], r.version))]);
+      }
+    } catch (e) {
+      return fail(e, 'migrated data could not be serialised');
+    }
+
+    var written = [];
+    try {
+      for (var j = 0; j < payload.length; j++) {
+        backend.setItem(payload[j][0], payload[j][1]);
+        written.push(payload[j][0]);
+      }
+    } catch (e) {
+      /* Out of quota part-way through. Put back exactly what was there. */
+      for (var w = 0; w < written.length; w++) {
+        var key = written[w];
+        if (s.raw[key] == null) backend.removeItem(key);
+        else backend.setItem(key, s.raw[key]);
+      }
+      return fail(e, 'migrated data could not be written');
+    }
+
+    return { ok: true, migrated: true, version: r.version, applied: r.applied, error: null, message: null };
+  }
+
+  return {
+    CURRENT_VERSION: CURRENT_VERSION,
+    KEYS: KEYS,
+    ROLLBACK_KEY: ROLLBACK_KEY,
+    FAIL_MESSAGE: FAIL_MESSAGE,
+    MIGRATIONS: MIGRATIONS,
+    isEnvelope: isEnvelope,
+    wrap: wrap,
+    unwrap: unwrap,
+    versionOf: versionOf,
+    migrate: migrate,
+    run: run
+  };
+})();
+
+if (typeof module === 'object' && module.exports) module.exports = CampCore;
 const mem={};
-const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return k in mem?mem[k]:d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;}}};
+/* set() falls back to memory when the device refuses the write, and also when
+ * the migration failed — writing over data we could not read is how you turn a
+ * recoverable problem into a lost training log. */
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:CampCore.unwrap(JSON.parse(v));}catch(e){return k in mem?mem[k]:d;}},set(k,v){if(!MIGRATION.ok){mem[k]=v;return;}try{localStorage.setItem(k,JSON.stringify(CampCore.wrap(v)));}catch(e){mem[k]=v;}}};
+/* Migrate before anything reads. If this comes back not ok the store was left
+ * untouched, saving is held in memory, and the banner at the bottom of this
+ * file tells the user to get a backup out of the Data tab.
+ * No localStorage at all (private browsing on the hosted page) is not a failed
+ * migration — there is nothing stored to migrate, and the app degrades to
+ * memory the way it always has, quietly. */
+const MIGRATION=(function(){
+  try{localStorage.setItem('camp.probe','1');localStorage.removeItem('camp.probe');}
+  catch(e){return{ok:true,migrated:false,version:CampCore.CURRENT_VERSION,applied:[]};}
+  try{return CampCore.run(localStorage);}catch(e){return{ok:false,error:String(e),message:CampCore.FAIL_MESSAGE};}
+})();
 const DB={
   logs:store.get('logs',{}), weight:store.get('weight',{}), waist:store.get('waist',{}), hip:store.get('hip',{}),
   macros:store.get('macros',{}), quick:store.get('quick',[]),
@@ -456,10 +707,15 @@ function exportText(){
     out.push(k+'  '+(t.p*4+t.c*4+t.f*9)+' kcal  '+t.p+'P '+t.c+'C '+t.f+'F  ('+DB.macros[k].length+' entries)');});
   return out.join('\n');
 }
-function backupJSON(){return JSON.stringify({app:'camp',v:1,exported:new Date().toISOString(),data:{logs:DB.logs,weight:DB.weight,waist:DB.waist,hip:DB.hip,macros:DB.macros,quick:DB.quick,settings:DB.settings}},null,1);}
+function backupJSON(){return JSON.stringify({app:'camp',v:1,schemaVersion:CampCore.CURRENT_VERSION,exported:new Date().toISOString(),data:{logs:DB.logs,weight:DB.weight,waist:DB.waist,hip:DB.hip,macros:DB.macros,quick:DB.quick,settings:DB.settings}},null,1);}
 function applyBackup(txt,mode){
   let o; try{o=JSON.parse(txt);}catch(e){return{ok:0,msg:'That is not valid backup text'};}
-  const d=o&&o.data?o.data:o; if(!d||typeof d!=='object')return{ok:0,msg:'No data found in that backup'};
+  let d=o&&o.data?o.data:o; if(!d||typeof d!=='object')return{ok:0,msg:'No data found in that backup'};
+  /* Backups written before the storage layer existed have no schemaVersion, so
+   * they are version 1. Bring them up to the current shape before merging. */
+  const m=CampCore.migrate(d,(o&&typeof o.schemaVersion==='number')?o.schemaVersion:1);
+  if(!m.ok)return{ok:0,msg:'That backup could not be read into this version of the app'};
+  d=m.data;
   const fields=['logs','weight','waist','hip','macros'];
   let n=0;
   if(mode==='replace'){ fields.forEach(f=>{ if(d[f]&&typeof d[f]==='object'){DB[f]=d[f];n+=Object.keys(d[f]).length;} });
@@ -606,6 +862,12 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&editing&&(e.target.id==='sf-w'||e.target.id==='sf-r')){e.preventDefault();$('[data-savesets]').click();}});
 render(true);
+if(!MIGRATION.ok){
+  const bar=document.createElement('div');
+  bar.className='warnbar';
+  bar.innerHTML='<b>Your saved data was not updated.</b>'+esc(CampCore.FAIL_MESSAGE)+' Until then anything you log stays in memory only and is lost when you close the app.<br><button data-v="data">Open the Data tab</button>';
+  document.body.insertBefore(bar,app);
+}
 </script>
 </body>
 </html>
