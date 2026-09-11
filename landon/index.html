@@ -62,11 +62,23 @@ h4{font-size:13px;font-weight:700;color:var(--muted);margin:18px 0 4px;letter-sp
 .set.done{background:var(--mint);color:var(--ink);border-color:var(--mint);font-weight:700}
 .set.skip{background:transparent;border-style:dashed;color:var(--muted);font-size:12px}
 .set.editing{border-color:var(--saffron);color:var(--bone)}
-.setform{display:flex;gap:8px;margin-top:10px;align-items:center}
+.setform{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
 .setform input{width:84px;text-align:center;padding:9px 6px}
 .setform .x{color:var(--muted)}
 .setform button{background:var(--saffron);color:var(--ink);font-weight:700;padding:10px 14px;border-radius:10px}
-.setform button.ghost{background:var(--panel2);color:var(--muted)}
+.setform button.ghost{background:var(--panel2);color:var(--muted);min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.sf-hint{color:var(--muted);font-size:13px;margin-top:8px}
+.rungs{display:flex;gap:6px;margin-top:10px}
+.rungs button{flex:1;padding:9px 0;border-radius:9px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;font-size:14px}
+.rungs button.on{background:var(--bone);color:var(--ink);border-color:var(--bone);font-weight:700}
+.gate{margin-top:10px;padding:10px 12px;border:1px solid var(--saffron);border-radius:11px;background:rgba(240,166,58,.08)}
+.gate b{display:block;color:var(--saffron);font-size:14px}
+.gate .g-b{display:flex;gap:8px;margin-top:9px}
+.gate .g-b button{flex:1;padding:9px 0;border-radius:9px;background:var(--saffron);color:var(--ink);text-align:center;font-size:14px;font-weight:700}
+.gate .g-b button.ghost{background:var(--panel2);color:var(--muted)}
+.notes{margin:10px 0 0;padding-left:18px;font-size:13px;color:var(--muted)}
+.notes li{margin-bottom:6px}
+.notes b{color:var(--bone)}
 .mt{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .mt .time{font-size:28px;font-weight:800;letter-spacing:-0.02em}
 .seg{display:flex;gap:6px}
@@ -86,6 +98,9 @@ h4{font-size:13px;font-weight:700;color:var(--muted);margin:18px 0 4px;letter-sp
 .dayrow .t{font-weight:600}.dayrow .t small{display:block;color:var(--muted);font-weight:400;font-size:13px}
 .dayrow .s{color:var(--muted);font-size:13px;text-align:right}
 .dayrow.isToday .d{color:var(--saffron)}.dayrow .s.ok{color:var(--mint);font-weight:700}
+.dayrow .s.skip{color:var(--lav);font-weight:700}
+.dayrow .s small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.dayrow.isSkipped .t,.dayrow.isSkipped .d{opacity:.55}
 .cal{margin-top:10px}
 .cal-h{display:grid;grid-template-columns:repeat(7,1fr);color:var(--muted);font-size:12px;text-align:center;margin-bottom:6px}
 .cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
@@ -94,6 +109,9 @@ h4{font-size:13px;font-weight:700;color:var(--muted);margin:18px 0 4px;letter-sp
 .cell.isToday{outline:2px solid var(--saffron);outline-offset:-2px}
 .cell.done::after{content:"";position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--mint)}
 .cell.pre{opacity:.35}
+.cell.skipped{background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 4px,#213F4C 4px,#213F4C 8px);box-shadow:inset 0 0 0 1px var(--lav)}
+.cell.skipped::after{content:"";position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--lav)}
+.legend .skip::before{background:transparent;box-shadow:inset 0 0 0 1px var(--lav)}
 .legend{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:12px;font-size:13px;color:var(--muted)}
 .legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c)}
 .rows .row{padding:12px 0;border-bottom:1px solid var(--line)}.rows .row:last-child{border-bottom:0}
@@ -121,6 +139,13 @@ svg.chart{width:100%;height:190px;display:block;margin-top:8px}
 .form4 label,.form2 label{font-size:12px;color:var(--muted);display:block;text-align:center;margin-bottom:4px}
 .form2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .note{font-size:14px;color:var(--muted);margin-top:12px}.note b{color:var(--bone)}
+.skipped-card{border:1px dashed var(--lav)}
+.skipped-card h3{color:var(--lav)}
+.tog{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.tog .tl{font-weight:650;font-size:15px}
+.tog .tl small{display:block;color:var(--muted);font-size:13px;font-weight:400;margin-top:2px}
+.tog button{flex:none;width:66px;padding:9px 0;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;font-size:13px;font-weight:700}
+.tog button.on{background:var(--mint);border-color:var(--mint);color:var(--ink)}
 .scale{display:flex;gap:5px;margin-top:10px}
 .scale button{flex:1;padding:9px 0;border-radius:8px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;font-size:14px}
 .scale button.on{background:var(--lav);color:var(--ink);font-weight:700;border-color:var(--lav)}
@@ -134,16 +159,29 @@ nav button.on{color:var(--saffron)}
 .warnbar button{background:#22100B;color:var(--bone);font-weight:700;font-size:14px;padding:8px 12px;border-radius:8px;margin-top:8px}
 .toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--bone);color:var(--ink);padding:10px 16px;border-radius:10px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
 .toast.show{opacity:1}
-#rest{position:fixed;right:18px;bottom:calc(88px + env(safe-area-inset-bottom));background:var(--saffron);color:var(--ink);padding:10px 14px;border-radius:999px;font-weight:800;font-size:16px;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:4}
+#rest{position:fixed;left:0;right:0;bottom:calc(76px + env(safe-area-inset-bottom));z-index:4;background:var(--saffron);color:#14100A;border-top:2px solid #FFD79A;box-shadow:0 -10px 26px rgba(0,0,0,.45);padding:10px 16px 12px}
 #rest.hidden{display:none}
-#rest small{font-weight:600;font-size:12px;margin-right:6px;opacity:.8}
+#rest .rt-top{display:flex;align-items:center;gap:10px}
+#rest .rt-grow{flex:1;min-width:0}
+#rest .rt-lab{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.72}
+#rest .rt-num{font-size:56px;line-height:.95;font-weight:800;letter-spacing:-0.04em;font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+#rest .rt-sub{font-size:13px;font-weight:700;opacity:.72;margin-top:3px}
+#rest button{flex:none;background:rgba(20,16,10,.14);color:#14100A;border:1px solid rgba(20,16,10,.28);font-weight:800;font-size:15px;padding:13px 14px;border-radius:11px;text-align:center}
+#rest .rt-bar{height:6px;border-radius:3px;background:rgba(20,16,10,.18);margin-top:10px;overflow:hidden}
+#rest .rt-bar i{display:block;height:100%;border-radius:3px;background:#14100A}
+#rest.over{background:var(--ember);color:#2A0D05;border-top-color:#FFC6B6}
+#rest.over button{background:rgba(42,13,5,.16);color:#2A0D05;border-color:rgba(42,13,5,.32)}
+#rest.over .rt-bar{background:rgba(42,13,5,.2)}
+#rest.over .rt-bar i{background:#2A0D05}
+body.resting{padding-bottom:calc(212px + env(safe-area-inset-bottom))}
+body.resting .toast{bottom:calc(224px + env(safe-area-inset-bottom))}
 .rest-hero p{font-size:17px;margin:8px 0 0}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div id="app" class="wrap"></div>
-<button id="rest" class="hidden"></button>
+<div id="rest" class="hidden" role="timer" aria-label="Rest timer"></div>
 <nav id="nav"></nav>
 <div id="toast" class="toast"></div>
 
@@ -153,7 +191,7 @@ nav button.on{color:var(--saffron)}
  *
  * Every value we keep in localStorage is written inside an envelope:
  *
- *   { "schemaVersion": 2, "data": <the value the app actually uses> }
+ *   { "schemaVersion": 4, "data": <the value the app actually uses> }
  *
  * Saves written before this layer existed are bare values with no envelope.
  * Those are version 1 by definition — a missing version means 1, never 0 and
@@ -174,18 +212,35 @@ nav button.on{color:var(--saffron)}
  *     than un-migrated, so the store is left exactly as it was found and the
  *     caller is told to send the user to the Data tab for a backup.
  *
+ * A migration that cannot work from the snapshot alone gets a context object as
+ * its second argument: options.exerciseAt lets it ask the app which exercise a
+ * log slot holds, and ctx.note() is where it reports anything it could not
+ * classify. Notes come back on the result. up() stays a pure function of its
+ * two arguments — ctx.note is a reporting sink, never data.
+ *
  * Loaded as a plain script (spliced into the app) it defines CampCore; under
  * node it also exports it, which is what build/check-migrations.js drives.
  */
 var CampCore = (function () {
   'use strict';
 
-  var CURRENT_VERSION = 2;
+  var CURRENT_VERSION = 4;
 
   /* Every localStorage key the app owns. Order is the write order. */
   var KEYS = ['logs', 'weight', 'waist', 'hip', 'macros', 'quick', 'settings'];
 
   var ROLLBACK_KEY = 'camp.rollback';
+
+  /* Settings that are the same for everybody — the rest timer and its alerts —
+   * rather than part of a person's profile. The app merges these under whatever
+   * is stored, and the v3 migration writes them into stores that predate them,
+   * so there is exactly one place a default lives. */
+  var SETTINGS_DEFAULTS = {
+    restAuto: true,
+    restDefault: 90,
+    restSound: true,
+    restVibrate: true
+  };
 
   var FAIL_MESSAGE =
     'Your saved data could not be updated to the new format, so nothing was ' +
@@ -204,8 +259,159 @@ var CampCore = (function () {
        * which the runner writes. This exists so the mechanism ships exercised
        * instead of sitting untested until the first real change. */
       up: function (snapshot) { return Object.assign({}, snapshot); }
+    },
+    {
+      from: 2,
+      to: 3,
+      name: 'settings-defaults-and-session-skip',
+      /* Two shapes change together. settings gains the rest-timer and alert
+       * keys — anything already stored wins, so a person who has set something
+       * keeps it. Every log entry gains an explicit skipped:null, so "not
+       * skipped" is a value in the store rather than a missing key. */
+      up: function (snapshot) {
+        var out = Object.assign({}, snapshot);
+        out.settings = Object.assign({}, SETTINGS_DEFAULTS, snapshot.settings || {});
+        var logs = snapshot.logs;
+        if (logs !== null && typeof logs === 'object' && !Array.isArray(logs)) {
+          var next = {};
+          for (var k in logs) {
+            if (!Object.prototype.hasOwnProperty.call(logs, k)) continue;
+            var entry = logs[k];
+            next[k] = (entry !== null && typeof entry === 'object' && !Array.isArray(entry))
+              ? Object.assign({ skipped: null }, entry)
+              : entry;
+          }
+          out.logs = next;
+        }
+        return out;
+      }
+    },
+    {
+      from: 3,
+      to: 4,
+      name: 'stamp-set-metrics',
+      /* Every logged set gains m, the metric it was measured in, so a stored set
+       * can be read without knowing which day template it came from.
+       *
+       * Sets are stored under the day's slot index, not an exercise name, so the
+       * only way to know what a slot holds is to ask the app: ctx.exerciseAt.
+       * Without it — restoring a backup outside the app, say — nothing is
+       * stamped and every set is reported. Nothing is ever guessed.
+       *
+       * What each case does, and why:
+       *   - a skip measures nothing, so it is left exactly as it is
+       *   - a bodyweight movement with a weight stored against it is ambiguous:
+       *     the old logger had one "lb" box, so that number is either machine
+       *     assistance or weight on a belt. That is two different rungs and
+       *     nothing in the store says which, so the set is left unstamped and
+       *     reported for the user to look at
+       *   - a bodyweight movement with no weight stored is bodyweight reps:
+       *     no external load was recorded, so there is none to lose
+       *   - a hold, a hold per side or a duration gets its metric stamped, but
+       *     the old logger only ever wrote reps, so the number itself may not be
+       *     seconds or minutes. The metric is stamped, the number is left alone,
+       *     and the set is reported
+       */
+      up: function (snapshot, ctx) {
+        var out = Object.assign({}, snapshot);
+        var logs = snapshot.logs;
+        if (!isPlainObject(logs)) return out;
+
+        var exerciseAt = (ctx && ctx.exerciseAt) || null;
+        var note = (ctx && ctx.note) || function () {};
+        var nextLogs = {};
+
+        for (var dateKey in logs) {
+          if (!Object.prototype.hasOwnProperty.call(logs, dateKey)) continue;
+          var day = logs[dateKey];
+          if (!isPlainObject(day) || !isPlainObject(day.sets)) { nextLogs[dateKey] = day; continue; }
+
+          var nextSets = {};
+          for (var slot in day.sets) {
+            if (!Object.prototype.hasOwnProperty.call(day.sets, slot)) continue;
+            var arr = day.sets[slot];
+            if (!Array.isArray(arr)) {
+              nextSets[slot] = arr;
+              note({ date: dateKey, slot: slot, reason: 'the sets for this slot are not a list, so it was left untouched' });
+              continue;
+            }
+
+            var nextArr = [];
+            for (var i = 0; i < arr.length; i++) {
+              var set = arr[i];
+              nextArr.push(set);
+              if (set === null || set === undefined) continue;      /* an unlogged set */
+              if (!isPlainObject(set)) {
+                note({ date: dateKey, slot: slot, set: i, reason: 'this is not a set object, so it was left untouched' });
+                continue;
+              }
+              if ('m' in set) continue;                             /* already stamped */
+              if (set.skip) continue;                               /* a skip measures nothing */
+
+              var ex = exerciseAt ? exerciseAt(dateKey, slot) : null;
+              if (!ex || !ex.metric) {
+                note({ date: dateKey, slot: slot, set: i, name: (ex && ex.name) || null,
+                  reason: exerciseAt
+                    ? 'no exercise with a metric is known for this day and slot, so the set was left untouched'
+                    : 'the app was not there to say which exercise this slot holds, so the set was left untouched' });
+                continue;
+              }
+
+              var read = readLegacySet(ex.metric, set);
+              if (!read.metric) {
+                note({ date: dateKey, slot: slot, set: i, name: ex.name, reason: read.reason });
+                continue;
+              }
+              if (read.reason) note({ date: dateKey, slot: slot, set: i, name: ex.name, reason: read.reason });
+              nextArr[i] = Object.assign({}, set, { m: read.metric });
+            }
+            nextSets[slot] = nextArr;
+          }
+          nextLogs[dateKey] = Object.assign({}, day, { sets: nextSets });
+        }
+
+        out.logs = nextLogs;
+        return out;
+      }
     }
   ];
+
+  function isPlainObject(v) {
+    return v !== null && typeof v === 'object' && !Array.isArray(v);
+  }
+
+  /* A set written by the logger that only ever had a "lb" box and a "reps" box,
+   * read against the metric its exercise actually uses. Returns the metric to
+   * stamp, or no metric and the reason it could not be told. A reason alongside
+   * a metric means "stamped, but look at this one". */
+  function readLegacySet(metric, set) {
+    var hasLoad = typeof set.w === 'number' && isFinite(set.w) && set.w !== 0;
+
+    if (metric === 'bodyweight_reps' || metric === 'loaded_bodyweight' || metric === 'assisted_bodyweight') {
+      if (hasLoad) {
+        return { metric: null, reason: 'a bodyweight movement with ' + set.w + ' lb stored against it — the old ' +
+          'logger had one weight box, so that is either machine assistance or weight on a belt, and nothing ' +
+          'stored says which. Left untouched: re-log it to say which rung it was' };
+      }
+      return { metric: 'bodyweight_reps', reason: null };
+    }
+    if (metric === 'hold' || metric === 'hold_each_side') {
+      return { metric: metric, reason: 'stamped as a hold, but the old logger wrote reps — check whether ' +
+        (set.r == null ? 'the stored value' : set.r) + ' is seconds' };
+    }
+    if (metric === 'duration') {
+      return { metric: 'duration', reason: 'stamped as a duration, but the old logger wrote reps — check whether ' +
+        (set.r == null ? 'the stored value' : set.r) + ' is minutes' };
+    }
+    if (metric === 'reps_only') {
+      if (hasLoad) {
+        return { metric: 'reps_only', reason: 'stamped as reps, but ' + set.w + ' lb is stored against a movement ' +
+          'that carries no external load — the weight was kept, nothing reads it' };
+      }
+      return { metric: 'reps_only', reason: null };
+    }
+    return { metric: 'weight_reps', reason: null };
+  }
 
   function storeError(message) {
     var e = new Error(message);
@@ -258,7 +464,7 @@ var CampCore = (function () {
     return { raw: raw, data: data, present: present, version: present ? version : CURRENT_VERSION };
   }
 
-  function applyMigrations(data, from, migrations) {
+  function applyMigrations(data, from, migrations, ctx) {
     var cur = data, v = from, applied = [];
     for (var i = 0; i < migrations.length; i++) {
       var m = migrations[i];
@@ -266,7 +472,7 @@ var CampCore = (function () {
       if (m.from !== v) {
         throw storeError('no migration from version ' + v + ' (next one starts at ' + m.from + ')');
       }
-      cur = m.up(cur);
+      cur = m.up(cur, ctx);
       if (cur === null || typeof cur !== 'object') {
         throw storeError('migration "' + m.name + '" returned ' + cur + ' instead of a store');
       }
@@ -274,6 +480,21 @@ var CampCore = (function () {
       applied.push(m.name);
     }
     return { data: cur, version: v, applied: applied };
+  }
+
+  /* What a migration gets as its second argument. exerciseAt comes from the
+   * caller — only the app knows what a log slot holds — and note() collects
+   * everything a migration could not classify, which run() and migrate() hand
+   * back so the app can put it in front of the user. */
+  function context(options) {
+    var notes = [];
+    return {
+      notes: notes,
+      ctx: {
+        exerciseAt: (options && options.exerciseAt) || null,
+        note: function (n) { notes.push(n); }
+      }
+    };
   }
 
   function fail(err, context) {
@@ -284,7 +505,8 @@ var CampCore = (function () {
       version: null,
       applied: [],
       error: context ? context + ': ' + msg : msg,
-      message: FAIL_MESSAGE
+      message: FAIL_MESSAGE,
+      notes: []
     };
   }
 
@@ -292,9 +514,10 @@ var CampCore = (function () {
    * a backup file written by an older version of the app. */
   function migrate(data, from, options) {
     var migrations = (options && options.migrations) || MIGRATIONS;
+    var c = context(options);
     try {
-      var r = applyMigrations(data, from == null ? 1 : from, migrations);
-      return { ok: true, migrated: r.applied.length > 0, version: r.version, applied: r.applied, data: r.data };
+      var r = applyMigrations(data, from == null ? 1 : from, migrations, c.ctx);
+      return { ok: true, migrated: r.applied.length > 0, version: r.version, applied: r.applied, data: r.data, notes: c.notes };
     } catch (e) {
       return fail(e);
     }
@@ -304,6 +527,7 @@ var CampCore = (function () {
   function run(backend, options) {
     var migrations = (options && options.migrations) || MIGRATIONS;
     var target = (options && options.target) || CURRENT_VERSION;
+    var c = context(options);
 
     var s;
     try {
@@ -315,7 +539,7 @@ var CampCore = (function () {
     /* Already current, or newer than this build understands. Either way there
      * is nothing to apply, so write nothing — not even a rollback copy. */
     if (s.version >= target) {
-      return { ok: true, migrated: false, version: s.version, applied: [], error: null, message: null };
+      return { ok: true, migrated: false, version: s.version, applied: [], error: null, message: null, notes: [] };
     }
 
     try {
@@ -330,7 +554,7 @@ var CampCore = (function () {
 
     var r;
     try {
-      r = applyMigrations(s.data, s.version, migrations);
+      r = applyMigrations(s.data, s.version, migrations, c.ctx);
     } catch (e) {
       return fail(e);
     }
@@ -364,12 +588,13 @@ var CampCore = (function () {
       return fail(e, 'migrated data could not be written');
     }
 
-    return { ok: true, migrated: true, version: r.version, applied: r.applied, error: null, message: null };
+    return { ok: true, migrated: true, version: r.version, applied: r.applied, error: null, message: null, notes: c.notes };
   }
 
   return {
     CURRENT_VERSION: CURRENT_VERSION,
     KEYS: KEYS,
+    SETTINGS_DEFAULTS: SETTINGS_DEFAULTS,
     ROLLBACK_KEY: ROLLBACK_KEY,
     FAIL_MESSAGE: FAIL_MESSAGE,
     MIGRATIONS: MIGRATIONS,
@@ -388,23 +613,6 @@ const mem={};
  * the migration failed — writing over data we could not read is how you turn a
  * recoverable problem into a lost training log. */
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:CampCore.unwrap(JSON.parse(v));}catch(e){return k in mem?mem[k]:d;}},set(k,v){if(!MIGRATION.ok){mem[k]=v;return;}try{localStorage.setItem(k,JSON.stringify(CampCore.wrap(v)));}catch(e){mem[k]=v;}}};
-/* Migrate before anything reads. If this comes back not ok the store was left
- * untouched, saving is held in memory, and the banner at the bottom of this
- * file tells the user to get a backup out of the Data tab.
- * No localStorage at all (private browsing on the hosted page) is not a failed
- * migration — there is nothing stored to migrate, and the app degrades to
- * memory the way it always has, quietly. */
-const MIGRATION=(function(){
-  try{localStorage.setItem('camp.probe','1');localStorage.removeItem('camp.probe');}
-  catch(e){return{ok:true,migrated:false,version:CampCore.CURRENT_VERSION,applied:[]};}
-  try{return CampCore.run(localStorage);}catch(e){return{ok:false,error:String(e),message:CampCore.FAIL_MESSAGE};}
-})();
-const DB={
-  logs:store.get('logs',{}), weight:store.get('weight',{}), waist:store.get('waist',{}), hip:store.get('hip',{}),
-  macros:store.get('macros',{}), quick:store.get('quick',[]),
-  settings:store.get('settings',{startWeight:205,goalWeight:180,kcal:2300,p:165,c:230,f:75})
-};
-const save=()=>{for(const k in DB)store.set(k,DB[k]);};
 
 /* ---------------- program ---------------- */
 const START=new Date(2026,7,31); const WEEKS=9;
@@ -418,70 +626,97 @@ const fmt=d=>`${DOW[d.getDay()]}, ${MON[d.getMonth()]} ${d.getDate()}`;
 const weekOf=d=>Math.floor(Math.round((d-START)/864e5)/7)+1;
 const phaseOf=w=>w<1||w>WEEKS?null:w<=4?'Build':w===5?'Deload':'Peak';
 
-/* Exercise library: how = form cues, why = purpose, hip = FAI / labrum / APT guidance, yt = search */
+/* Exercise library: how = form cues, why = purpose, hip = FAI / labrum / APT guidance, yt = search
+ *
+ * metric — how a set of this movement is measured. Exactly one of:
+ *   weight_reps          external load x reps          e.g. barbell bench press
+ *   bodyweight_reps      reps, no external load        e.g. glute bridge
+ *   loaded_bodyweight    added load x reps             a bodyweight lift with a belt
+ *   assisted_bodyweight  assistance load x reps        a bodyweight lift off a machine or band
+ *   hold                 seconds                       e.g. RKC plank
+ *   hold_each_side       seconds, left and right       e.g. couch stretch
+ *   reps_only            reps, nothing else            band and mobility work
+ *   duration             minutes                       walks, intervals, stretching
+ *
+ * The three bodyweight metrics are the rungs of one ladder, and a movement's
+ * metric here is its ENTRY rung — where a new lifter starts. The rung the user
+ * is actually on is remembered per exercise in settings.exMode and is the only
+ * thing that decides what the log form asks for. The user's bodyweight is never
+ * stored, displayed or folded into a load; assisted logs the assistance, added
+ * logs what is hanging off the belt, and bodyweight logs reps alone.
+ *
+ * ladder — the gates for a bodyweight movement, so each one sets its own:
+ *   modes         the rungs this movement offers, in order
+ *   toBodyweight  {sets, reps, maxAssist} to clear the assisted rung
+ *   toAdded       {sets, reps} to clear the bodyweight rung
+ *   step, topReps add `step` lb once a top set reaches `topReps`
+ * A met gate only ever prompts. Nothing advances a rung without the user saying so.
+ */
 const LIB={
- 'Banded lateral walk':{how:['Band above knees, quarter-squat, chest up','Step sideways leading with the heel, never let knees cave','Constant tension — feet never touch'],why:'Wakes up glute med so it fires during the lifts instead of your hip flexors and low back.',yt:'banded lateral walk glute activation'},
- 'Glute bridge':{how:['Heels close to glutes, ribs down, tuck the pelvis first','Drive through heels, squeeze glutes at the top for 3 s','Stop when hips are level — do not arch the low back'],why:'Teaches posterior pelvic tilt and glute drive before you load the hips.',hip:'This is the anti-pelvic-tilt movement. Own it.',yt:'glute bridge posterior pelvic tilt form'},
- 'Hip CARs':{how:['Stand tall, hold something. One knee up to hip height','Sweep the knee out to the side, rotate the thigh, bring it back behind','Slow — 10 s per circle. Zero pain, shrink the circle if it pinches'],why:'Controlled articular rotations keep the labrum and capsule moving through every range you own.',hip:'Only the pain-free range. Smaller and cleaner beats bigger.',yt:'hip CARs controlled articular rotations'},
- 'Couch stretch':{how:['Rear knee on a pad, rear foot up on a bench','Tuck the pelvis under (posterior tilt) BEFORE you lean','Squeeze the rear glute, breathe. 60 s each side'],why:'Long hip flexors and rectus femoris pull you into anterior tilt. This is the direct fix.',hip:'Tuck first. If you feel it in the low back you skipped the tuck.',yt:'couch stretch hip flexor posterior pelvic tilt'},
- '90/90 hip switch':{how:['Sit with front shin and back shin each at 90°','Stay tall, rotate the hips to switch sides without hands','Pause 2 s at each end. Pain-free range only'],why:'Trains hip internal and external rotation — the ranges a cam hip loses first.',hip:'If internal rotation pinches, keep the range short and lean back slightly.',yt:'90 90 hip switch mobility'},
- 'Clamshell':{how:['Side-lying, hips stacked, band above knees, heels together','Open the top knee like a clam, no hip roll backward','2 s up, 2 s down. 15 each side'],why:'Isolates glute med and deep rotators — the muscles that hold the femoral head centered in the socket.',yt:'clamshell exercise glute medius form'},
- 'Dead bug':{how:['On your back, arms up, knees over hips at 90°','Press low back into the floor and keep it there the whole set','Extend opposite arm and leg slowly. Exhale on the reach'],why:'Anterior core stability with a neutral pelvis. Fights tilt without loading the hip flexors.',yt:'dead bug exercise core form'},
- 'Bird dog':{how:['Hands under shoulders, knees under hips','Reach opposite arm and leg to parallel, hips stay square','Hold 2 s, return slow. Do not let the low back sag'],why:'Glute max + spinal stability in one move. Reinforces hip extension without rib flare.',yt:'bird dog exercise proper form'},
- 'Side plank with leg raise':{how:['Elbow under shoulder, body straight, hips stacked','Lift top leg 12 in and lower, keeping the toes forward','10 reps then hold the plank 15 s'],why:'Obliques and glute med together — lateral pelvic control for kicks and clinch.',yt:'side plank hip abduction leg raise'},
- 'Reverse crunch':{how:['On your back, knees bent, hands by hips','Curl the pelvis up toward the ribs — tailbone leaves the floor','Lower slow. Small range, no leg swing'],why:'Lower abs pull the pelvis into posterior tilt. Replaces hanging knee raises, which overwork the hip flexors.',hip:'Chosen over hanging knee raises to spare your hip flexors and labrum.',yt:'reverse crunch proper form lower abs'},
- 'RKC plank':{how:['Forearm plank, then squeeze glutes hard and tuck the pelvis','Pull elbows toward toes and toes toward elbows','20–30 s of maximal tension beats 2 min of hanging out'],why:'Plank with a posterior tilt built in — the exact position your pelvis needs to learn.',yt:'RKC plank technique'},
- 'Pallof press':{std:{u:'lb on the stack',s:15,n:25,i:35,a:50},how:['Cable at chest height, stand sideways to the stack, feet hip width','Press the handle straight out and back, hips do not rotate','Breathe out on the press. 12 each side'],why:'Anti-rotation core. Directly transfers to not leaking power on kicks.',yt:'pallof press form'},
- 'Trap bar deadlift':{std:{u:'lb',s:135,n:185,i:275,a:365},how:['Feet hip width, shins to the handles, grip the high handles','Hips back, chest up, brace, then push the floor away','Stand tall, glutes finish the rep. Lower under control — no bouncing'],why:'The heaviest, safest hip-hinge for a cam hip: upright torso, moderate hip flexion, huge glute and hamstring load.',hip:'Use the high handles. Depth is set by the bar, so no pinch.',yt:'trap bar deadlift high handles form'},
- 'Bulgarian split squat':{std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Rear foot on a low bench, front foot far enough forward that the knee stays over the ankle','Torso tall, sit straight down — stop when the thigh is parallel','Drive through the front heel. Dumbbells in both hands'],why:'Single-leg strength and stability. Best carryover to kicking off one leg.',hip:'Parallel is deep enough. Deeper flexion is where the cam meets the socket.',yt:'bulgarian split squat form dumbbells'},
- 'Romanian deadlift':{std:{u:'lb',s:95,n:135,i:185,a:245},how:['Bar at hips, soft knees, shoulders back','Push hips straight back, bar slides down the thighs','Stop at mid-shin or when the hamstrings bite — then drive hips forward'],why:'Hamstring and glute length under load. Builds the posterior chain that pulls the pelvis back to neutral.',hip:'Hinge, do not squat it. Neutral spine start to finish.',yt:'romanian deadlift barbell form'},
- 'Sliding leg curl':{std:{u:'level',s:'Two-leg 3×8',n:'Two-leg 3×12',i:'Single-leg 3×8',a:'Hips never touch'},how:['On your back, heels on a towel or sliders, hips bridged up','Slide heels away slowly, then curl them back toward the glutes','Hips stay high the whole time. Progress two-leg → single-leg'],why:'Eccentric hamstring strength on the way to a Nordic curl.',yt:'sliding leg curl hamstring exercise'},
- 'Standing calf raise':{std:{u:'lb on the stack',s:90,n:150,i:220,a:300},how:['Full stretch at the bottom, 2 s pause','Drive up onto the big toe, 1 s squeeze at the top','Controlled — no bouncing'],why:'Ankle stiffness for teeps and switching stance.',yt:'standing calf raise machine form'},
- 'Barbell bench press':{std:{u:'lb',s:95,n:135,i:185,a:245},how:['Shoulder blades pinned down and back, feet planted, slight arch','Bar to lower chest, elbows about 45°','Press up and slightly back. Full lockout every rep'],why:'Your heaviest push. Chest, front delt, tricep — and the strength benchmark for the upper body.',yt:'barbell bench press form Jeff Nippard'},
- 'Weighted pull-up':{std:{u:'level',s:'Assisted / pulldown',n:'Bodyweight × 5',i:'Bodyweight × 10',a:'+45 lb × 5'},how:['Dead hang, shoulders down away from ears','Pull chest to the bar, elbows drive down and back','Control the descent. Add weight with a belt or dumbbell between the feet'],why:'Back width and grip strength. If under 5 clean reps, use the lat pulldown heavy instead.',yt:'weighted pull up form'},
- 'Incline dumbbell press':{std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Bench 30°, dumbbells at shoulder level, elbows slightly tucked','Press up and in, touch at the top without clanking','Lower for 2 s'],why:'Upper chest is what makes a T-shirt fit differently.',yt:'incline dumbbell press form'},
- 'Dumbbell lateral raise':{std:{u:'lb per hand',s:8,n:12,i:20,a:30},how:['Slight forward lean, elbows soft','Raise to shoulder height leading with the elbows, pinkies slightly up','Lower for 2 s. Light weight, perfect reps'],why:'Side delt width — the single fastest aesthetic change in the upper body.',yt:'dumbbell lateral raise proper form'},
- 'Seated cable row':{std:{u:'lb on the stack',s:70,n:100,i:140,a:180},how:['Neutral grip, chest tall, slight forward reach at the start','Pull to the belly button, elbows drive back','Squeeze 1 s, reach forward under control'],why:'Horizontal pull for mid-back thickness and posture.',yt:'seated cable row neutral grip form'},
- 'Cable face pull':{std:{u:'lb on the stack',s:20,n:35,i:50,a:70},how:['Rope at face height, step back, palms facing you','Pull to the face, elbows high, then rotate hands so knuckles face the ceiling','Squeeze the rear delts 1 s'],why:'Rear delts and rotator cuff. Protects the shoulder from years of punching.',yt:'face pull form rope'},
- 'Cable bar curl':{std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Straight bar on the low pulley, elbows pinned to your sides','Curl to the chin, squeeze, lower for 2 s','No swinging'],why:'Direct bicep work on the same stack as the pushdown — one station, zero walking.',yt:'cable bar curl form'},
- 'Rope tricep pushdown':{std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Elbows pinned, lean slightly forward','Push down and split the rope at the bottom','Let it come back only to 90° at the elbow'],why:'Tricep size. Two-thirds of your arm.',yt:'rope tricep pushdown form'},
- 'Box jump':{std:{u:'box height',s:'Step-up',n:'12 in',i:'18 in',a:'24 in'},how:['Low box — 12 to 18 in. Land soft, hips above knees','Swing arms, jump, land tall like a quarter squat','Step down every rep, never jump down'],why:'Explosive hip extension without heavy loading.',hip:'Land tall. A crashing deep landing is the position we avoid.',yt:'box jump proper landing technique'},
- 'Barbell hip thrust':{std:{u:'lb',s:95,n:155,i:225,a:315},how:['Upper back on a bench, bar in the hip crease with a pad','Tuck the chin, ribs down, drive through heels','Full hip extension, squeeze 1 s, do not arch the low back'],why:'The single best glute builder. Glutes are what pull your pelvis out of anterior tilt.',hip:'Your priority lift on Friday. Load it.',yt:'barbell hip thrust form Bret Contreras'},
- 'Leg press':{std:{u:'lb of plates, not counting the sled',s:90,n:180,i:320,a:450},how:['Feet high and wide on the plate','Lower only to 90° at the hip — stop before any pinch','Drive through heels, do not lock knees hard'],why:'Quad and glute volume with the spine unloaded.',hip:'Depth stops at 90°. Deeper is where the cam impinges.',yt:'leg press form feet high wide'},
- 'Reverse lunge':{std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Dumbbells at the sides, step back long','Drop straight down until the front thigh is parallel, torso tall','Drive through the front heel to stand'],why:'More glute, less hip flexion than a forward lunge. Kinder to the labrum.',hip:'Chosen over walking lunges for a shorter, controlled hip range.',yt:'reverse lunge dumbbells form'},
- 'Single-leg RDL':{std:{u:'lb, one dumbbell',s:15,n:30,i:45,a:65},how:['Dumbbell in the opposite hand of the working leg','Hinge, reach the free leg back, hips stay square','Stop at mid-shin or when balance breaks. Drive up through the heel'],why:'Glute max and med together, with balance. Fixes the side-to-side pelvic wobble.',yt:'single leg romanian deadlift dumbbell form'},
- 'Lateral step-down':{std:{u:'box height',s:'4 in',n:'6 in',i:'9 in',a:'12 in'},how:['Stand on a 6–12 in box sideways, free leg off the edge','Lower the free heel toward the floor by bending the standing knee, hips level','Tap and drive back up. Knee tracks over the second toe'],why:'Glute med and quad control in a shallow, safe range. Replaces pistol squats.',hip:'Pistols demand deep hip flexion plus rotation — the worst combination for a labrum. This gives you the single-leg strength without it.',yt:'lateral step down exercise glute medius'},
- 'Single-leg calf raise':{std:{u:'level',s:'BW × 8',n:'BW × 12',i:'BW × 20',a:'+25 lb × 15'},how:['Ball of foot on a step, hold the rail lightly','Full stretch, then up to the big toe','15–20 slow reps each side'],why:'Unilateral ankle strength for footwork.',yt:'single leg calf raise form'},
- 'Seated dumbbell overhead press':{std:{u:'lb per hand',s:25,n:40,i:55,a:75},how:['Bench at 85°, dumbbells at shoulder height, forearms vertical','Press up and slightly in, ribs down — do not arch','Lower to ear height'],why:'Shoulder strength and the cap on the delts.',yt:'seated dumbbell shoulder press form'},
- 'Chest-supported dumbbell row':{std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Chest on a 30–45° incline bench, dumbbells hanging','Row to the hips, elbows back, squeeze the shoulder blades','Lower for 2 s'],why:'Back thickness with zero low-back involvement.',yt:'chest supported dumbbell row incline bench'},
- 'Prone rear delt fly':{std:{u:'lb per hand',s:8,n:12,i:18,a:25},how:['Same bench, lighter dumbbells, slight elbow bend','Raise out to the sides to shoulder height, thumbs down','Lower slow. Pure rear delt — no rowing'],why:'Rear delts round out the shoulder from behind. Pairs with the row on the same bench.',yt:'incline prone rear delt fly dumbbell'},
- 'Dips':{std:{u:'level',s:'Assisted machine',n:'Bodyweight × 8',i:'Bodyweight × 12',a:'+45 lb × 8'},how:['Slight forward lean, shoulders down','Lower until the upper arm is parallel — no deeper','Press to lockout. Add a belt at 12 clean reps'],why:'Lower chest and triceps. Heavy bodyweight pressing.',yt:'weighted dips form chest triceps'},
- 'Straight-arm pulldown':{std:{u:'lb on the stack',s:30,n:50,i:70,a:100},how:['Straight bar or rope on the high pulley, slight hinge','Arms nearly straight, pull the bar to the thighs in an arc','Feel the lats, not the triceps. 2 s back up'],why:'Lat isolation for width. Same stack as the tricep extension.',yt:'straight arm cable pulldown lats form'},
- 'Overhead rope tricep extension':{std:{u:'lb on the stack',s:30,n:45,i:60,a:85},how:['Face away from the stack, rope behind the head','Elbows stay by the ears, extend fully','Stretch at the bottom, squeeze at the top'],why:'Long head of the tricep — the part that adds arm size from the back.',yt:'overhead rope tricep extension form'},
- 'Incline dumbbell curl':{std:{u:'lb per hand',s:10,n:17.5,i:25,a:35},how:['Bench at 45°, arms hanging straight down','Curl without moving the shoulder, squeeze at the top','Lower for 3 s — the stretch is the point'],why:'Bicep long head under stretch. Arms look bigger from the front.',yt:'incline dumbbell curl form'},
- 'HIIT bike or rower':{how:['30 s hard: standing out of the saddle or pulling max watts','30 s easy spin','Rounds 15–20 should be ugly. If they are not, the hard was not hard'],why:'Interval work preferentially strips visceral fat and builds the top end of your gas tank.',yt:'assault bike interval workout 30 30'},
- 'Incline walk':{how:['Treadmill 12% at 3.0 mph, or hills outside','Hands off the rails, natural stride','Heart rate 120–135. You can talk'],why:'Calorie burn with almost no recovery cost and no appetite spike.',yt:'12 3 30 incline walk'},
- 'Full-body stretch':{how:['Couch stretch 60 s per side first','Then hamstrings, adductors, pecs, lats — 45 s each','Breathe slow. Nothing sharp'],why:'Ten quiet minutes that make Monday feel better.',yt:'full body stretch routine 10 minutes'}
+ 'Banded lateral walk':{metric:'reps_only',how:['Band above knees, quarter-squat, chest up','Step sideways leading with the heel, never let knees cave','Constant tension — feet never touch'],why:'Wakes up glute med so it fires during the lifts instead of your hip flexors and low back.',yt:'banded lateral walk glute activation'},
+ 'Glute bridge':{metric:'bodyweight_reps',how:['Heels close to glutes, ribs down, tuck the pelvis first','Drive through heels, squeeze glutes at the top for 3 s','Stop when hips are level — do not arch the low back'],why:'Teaches posterior pelvic tilt and glute drive before you load the hips.',hip:'This is the anti-pelvic-tilt movement. Own it.',yt:'glute bridge posterior pelvic tilt form'},
+ 'Hip CARs':{metric:'reps_only',how:['Stand tall, hold something. One knee up to hip height','Sweep the knee out to the side, rotate the thigh, bring it back behind','Slow — 10 s per circle. Zero pain, shrink the circle if it pinches'],why:'Controlled articular rotations keep the labrum and capsule moving through every range you own.',hip:'Only the pain-free range. Smaller and cleaner beats bigger.',yt:'hip CARs controlled articular rotations'},
+ 'Couch stretch':{metric:'hold_each_side',how:['Rear knee on a pad, rear foot up on a bench','Tuck the pelvis under (posterior tilt) BEFORE you lean','Squeeze the rear glute, breathe. 60 s each side'],why:'Long hip flexors and rectus femoris pull you into anterior tilt. This is the direct fix.',hip:'Tuck first. If you feel it in the low back you skipped the tuck.',yt:'couch stretch hip flexor posterior pelvic tilt'},
+ '90/90 hip switch':{metric:'reps_only',how:['Sit with front shin and back shin each at 90°','Stay tall, rotate the hips to switch sides without hands','Pause 2 s at each end. Pain-free range only'],why:'Trains hip internal and external rotation — the ranges a cam hip loses first.',hip:'If internal rotation pinches, keep the range short and lean back slightly.',yt:'90 90 hip switch mobility'},
+ 'Clamshell':{metric:'reps_only',how:['Side-lying, hips stacked, band above knees, heels together','Open the top knee like a clam, no hip roll backward','2 s up, 2 s down. 15 each side'],why:'Isolates glute med and deep rotators — the muscles that hold the femoral head centered in the socket.',yt:'clamshell exercise glute medius form'},
+ 'Dead bug':{metric:'reps_only',how:['On your back, arms up, knees over hips at 90°','Press low back into the floor and keep it there the whole set','Extend opposite arm and leg slowly. Exhale on the reach'],why:'Anterior core stability with a neutral pelvis. Fights tilt without loading the hip flexors.',yt:'dead bug exercise core form'},
+ 'Bird dog':{metric:'reps_only',how:['Hands under shoulders, knees under hips','Reach opposite arm and leg to parallel, hips stay square','Hold 2 s, return slow. Do not let the low back sag'],why:'Glute max + spinal stability in one move. Reinforces hip extension without rib flare.',yt:'bird dog exercise proper form'},
+ 'Side plank with leg raise':{metric:'reps_only',how:['Elbow under shoulder, body straight, hips stacked','Lift top leg 12 in and lower, keeping the toes forward','10 reps then hold the plank 15 s'],why:'Obliques and glute med together — lateral pelvic control for kicks and clinch.',yt:'side plank hip abduction leg raise'},
+ 'Reverse crunch':{metric:'reps_only',how:['On your back, knees bent, hands by hips','Curl the pelvis up toward the ribs — tailbone leaves the floor','Lower slow. Small range, no leg swing'],why:'Lower abs pull the pelvis into posterior tilt. Replaces hanging knee raises, which overwork the hip flexors.',hip:'Chosen over hanging knee raises to spare your hip flexors and labrum.',yt:'reverse crunch proper form lower abs'},
+ 'RKC plank':{metric:'hold',how:['Forearm plank, then squeeze glutes hard and tuck the pelvis','Pull elbows toward toes and toes toward elbows','20–30 s of maximal tension beats 2 min of hanging out'],why:'Plank with a posterior tilt built in — the exact position your pelvis needs to learn.',yt:'RKC plank technique'},
+ 'Pallof press':{metric:'weight_reps',std:{u:'lb on the stack',s:15,n:25,i:35,a:50},how:['Cable at chest height, stand sideways to the stack, feet hip width','Press the handle straight out and back, hips do not rotate','Breathe out on the press. 12 each side'],why:'Anti-rotation core. Directly transfers to not leaking power on kicks.',yt:'pallof press form'},
+ 'Trap bar deadlift':{metric:'weight_reps',std:{u:'lb',s:135,n:185,i:275,a:365},how:['Feet hip width, shins to the handles, grip the high handles','Hips back, chest up, brace, then push the floor away','Stand tall, glutes finish the rep. Lower under control — no bouncing'],why:'The heaviest, safest hip-hinge for a cam hip: upright torso, moderate hip flexion, huge glute and hamstring load.',hip:'Use the high handles. Depth is set by the bar, so no pinch.',yt:'trap bar deadlift high handles form'},
+ 'Bulgarian split squat':{metric:'weight_reps',std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Rear foot on a low bench, front foot far enough forward that the knee stays over the ankle','Torso tall, sit straight down — stop when the thigh is parallel','Drive through the front heel. Dumbbells in both hands'],why:'Single-leg strength and stability. Best carryover to kicking off one leg.',hip:'Parallel is deep enough. Deeper flexion is where the cam meets the socket.',yt:'bulgarian split squat form dumbbells'},
+ 'Romanian deadlift':{metric:'weight_reps',std:{u:'lb',s:95,n:135,i:185,a:245},how:['Bar at hips, soft knees, shoulders back','Push hips straight back, bar slides down the thighs','Stop at mid-shin or when the hamstrings bite — then drive hips forward'],why:'Hamstring and glute length under load. Builds the posterior chain that pulls the pelvis back to neutral.',hip:'Hinge, do not squat it. Neutral spine start to finish.',yt:'romanian deadlift barbell form'},
+ 'Sliding leg curl':{metric:'bodyweight_reps',std:{u:'level',s:'Two-leg 3×8',n:'Two-leg 3×12',i:'Single-leg 3×8',a:'Hips never touch'},how:['On your back, heels on a towel or sliders, hips bridged up','Slide heels away slowly, then curl them back toward the glutes','Hips stay high the whole time. Progress two-leg → single-leg'],why:'Eccentric hamstring strength on the way to a Nordic curl.',yt:'sliding leg curl hamstring exercise'},
+ 'Standing calf raise':{metric:'weight_reps',std:{u:'lb on the stack',s:90,n:150,i:220,a:300},how:['Full stretch at the bottom, 2 s pause','Drive up onto the big toe, 1 s squeeze at the top','Controlled — no bouncing'],why:'Ankle stiffness for teeps and switching stance.',yt:'standing calf raise machine form'},
+ 'Barbell bench press':{metric:'weight_reps',std:{u:'lb',s:95,n:135,i:185,a:245},how:['Shoulder blades pinned down and back, feet planted, slight arch','Bar to lower chest, elbows about 45°','Press up and slightly back. Full lockout every rep'],why:'Your heaviest push. Chest, front delt, tricep — and the strength benchmark for the upper body.',yt:'barbell bench press form Jeff Nippard'},
+ 'Pull-up':{metric:'assisted_bodyweight',ladder:{modes:['assisted','bodyweight','added'],toBodyweight:{sets:3,reps:8,maxAssist:20},toAdded:{sets:3,reps:8},step:5,topReps:8},std:{u:'level',s:'Assisted / pulldown',n:'Bodyweight × 5',i:'Bodyweight × 10',a:'+45 lb × 5'},how:['Dead hang, shoulders down away from ears','Pull chest to the bar, elbows drive down and back','Control the descent. Add weight with a belt or dumbbell between the feet'],why:'Back width and grip strength. If under 5 clean reps, use the lat pulldown heavy instead.',yt:'weighted pull up form'},
+ 'Lat pulldown':{metric:'weight_reps',std:{u:'lb on the stack',s:100,n:140,i:180,a:230},how:['Wide or neutral grip, thighs pinned under the pads','Chest tall, pull the bar to the collarbone, elbows down and back','Control the bar back up to a full stretch — no leaning away'],why:'The pull-up pattern with a load you can dial in. Under 5 clean pull-ups this is the better driver of back width.',yt:'lat pulldown proper form'},
+ 'Incline dumbbell press':{metric:'weight_reps',std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Bench 30°, dumbbells at shoulder level, elbows slightly tucked','Press up and in, touch at the top without clanking','Lower for 2 s'],why:'Upper chest is what makes a T-shirt fit differently.',yt:'incline dumbbell press form'},
+ 'Dumbbell lateral raise':{metric:'weight_reps',std:{u:'lb per hand',s:8,n:12,i:20,a:30},how:['Slight forward lean, elbows soft','Raise to shoulder height leading with the elbows, pinkies slightly up','Lower for 2 s. Light weight, perfect reps'],why:'Side delt width — the single fastest aesthetic change in the upper body.',yt:'dumbbell lateral raise proper form'},
+ 'Seated cable row':{metric:'weight_reps',std:{u:'lb on the stack',s:70,n:100,i:140,a:180},how:['Neutral grip, chest tall, slight forward reach at the start','Pull to the belly button, elbows drive back','Squeeze 1 s, reach forward under control'],why:'Horizontal pull for mid-back thickness and posture.',yt:'seated cable row neutral grip form'},
+ 'Cable face pull':{metric:'weight_reps',std:{u:'lb on the stack',s:20,n:35,i:50,a:70},how:['Rope at face height, step back, palms facing you','Pull to the face, elbows high, then rotate hands so knuckles face the ceiling','Squeeze the rear delts 1 s'],why:'Rear delts and rotator cuff. Protects the shoulder from years of punching.',yt:'face pull form rope'},
+ 'Cable bar curl':{metric:'weight_reps',std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Straight bar on the low pulley, elbows pinned to your sides','Curl to the chin, squeeze, lower for 2 s','No swinging'],why:'Direct bicep work on the same stack as the pushdown — one station, zero walking.',yt:'cable bar curl form'},
+ 'Rope tricep pushdown':{metric:'weight_reps',std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Elbows pinned, lean slightly forward','Push down and split the rope at the bottom','Let it come back only to 90° at the elbow'],why:'Tricep size. Two-thirds of your arm.',yt:'rope tricep pushdown form'},
+ 'Box jump':{metric:'reps_only',std:{u:'box height',s:'Step-up',n:'12 in',i:'18 in',a:'24 in'},how:['Low box — 12 to 18 in. Land soft, hips above knees','Swing arms, jump, land tall like a quarter squat','Step down every rep, never jump down'],why:'Explosive hip extension without heavy loading.',hip:'Land tall. A crashing deep landing is the position we avoid.',yt:'box jump proper landing technique'},
+ 'Barbell hip thrust':{metric:'weight_reps',std:{u:'lb',s:95,n:155,i:225,a:315},how:['Upper back on a bench, bar in the hip crease with a pad','Tuck the chin, ribs down, drive through heels','Full hip extension, squeeze 1 s, do not arch the low back'],why:'The single best glute builder. Glutes are what pull your pelvis out of anterior tilt.',hip:'Your priority lift on Friday. Load it.',yt:'barbell hip thrust form Bret Contreras'},
+ 'Leg press':{metric:'weight_reps',std:{u:'lb of plates, not counting the sled',s:90,n:180,i:320,a:450},how:['Feet high and wide on the plate','Lower only to 90° at the hip — stop before any pinch','Drive through heels, do not lock knees hard'],why:'Quad and glute volume with the spine unloaded.',hip:'Depth stops at 90°. Deeper is where the cam impinges.',yt:'leg press form feet high wide'},
+ 'Reverse lunge':{metric:'weight_reps',std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Dumbbells at the sides, step back long','Drop straight down until the front thigh is parallel, torso tall','Drive through the front heel to stand'],why:'More glute, less hip flexion than a forward lunge. Kinder to the labrum.',hip:'Chosen over walking lunges for a shorter, controlled hip range.',yt:'reverse lunge dumbbells form'},
+ 'Single-leg RDL':{metric:'weight_reps',std:{u:'lb, one dumbbell',s:15,n:30,i:45,a:65},how:['Dumbbell in the opposite hand of the working leg','Hinge, reach the free leg back, hips stay square','Stop at mid-shin or when balance breaks. Drive up through the heel'],why:'Glute max and med together, with balance. Fixes the side-to-side pelvic wobble.',yt:'single leg romanian deadlift dumbbell form'},
+ 'Lateral step-down':{metric:'bodyweight_reps',std:{u:'box height',s:'4 in',n:'6 in',i:'9 in',a:'12 in'},how:['Stand on a 6–12 in box sideways, free leg off the edge','Lower the free heel toward the floor by bending the standing knee, hips level','Tap and drive back up. Knee tracks over the second toe'],why:'Glute med and quad control in a shallow, safe range. Replaces pistol squats.',hip:'Pistols demand deep hip flexion plus rotation — the worst combination for a labrum. This gives you the single-leg strength without it.',yt:'lateral step down exercise glute medius'},
+ 'Single-leg calf raise':{metric:'bodyweight_reps',ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:20},step:5,topReps:15},std:{u:'level',s:'BW × 8',n:'BW × 12',i:'BW × 20',a:'+25 lb × 15'},how:['Ball of foot on a step, hold the rail lightly','Full stretch, then up to the big toe','15–20 slow reps each side'],why:'Unilateral ankle strength for footwork.',yt:'single leg calf raise form'},
+ 'Seated dumbbell overhead press':{metric:'weight_reps',std:{u:'lb per hand',s:25,n:40,i:55,a:75},how:['Bench at 85°, dumbbells at shoulder height, forearms vertical','Press up and slightly in, ribs down — do not arch','Lower to ear height'],why:'Shoulder strength and the cap on the delts.',yt:'seated dumbbell shoulder press form'},
+ 'Chest-supported dumbbell row':{metric:'weight_reps',std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Chest on a 30–45° incline bench, dumbbells hanging','Row to the hips, elbows back, squeeze the shoulder blades','Lower for 2 s'],why:'Back thickness with zero low-back involvement.',yt:'chest supported dumbbell row incline bench'},
+ 'Prone rear delt fly':{metric:'weight_reps',std:{u:'lb per hand',s:8,n:12,i:18,a:25},how:['Same bench, lighter dumbbells, slight elbow bend','Raise out to the sides to shoulder height, thumbs down','Lower slow. Pure rear delt — no rowing'],why:'Rear delts round out the shoulder from behind. Pairs with the row on the same bench.',yt:'incline prone rear delt fly dumbbell'},
+ 'Dips':{metric:'assisted_bodyweight',ladder:{modes:['assisted','bodyweight','added'],toBodyweight:{sets:3,reps:8,maxAssist:20},toAdded:{sets:3,reps:12},step:5,topReps:12},std:{u:'level',s:'Assisted machine',n:'Bodyweight × 8',i:'Bodyweight × 12',a:'+45 lb × 8'},how:['Slight forward lean, shoulders down','Lower until the upper arm is parallel — no deeper','Press to lockout. Add a belt at 12 clean reps'],why:'Lower chest and triceps. Heavy bodyweight pressing.',yt:'weighted dips form chest triceps'},
+ 'Straight-arm pulldown':{metric:'weight_reps',std:{u:'lb on the stack',s:30,n:50,i:70,a:100},how:['Straight bar or rope on the high pulley, slight hinge','Arms nearly straight, pull the bar to the thighs in an arc','Feel the lats, not the triceps. 2 s back up'],why:'Lat isolation for width. Same stack as the tricep extension.',yt:'straight arm cable pulldown lats form'},
+ 'Overhead rope tricep extension':{metric:'weight_reps',std:{u:'lb on the stack',s:30,n:45,i:60,a:85},how:['Face away from the stack, rope behind the head','Elbows stay by the ears, extend fully','Stretch at the bottom, squeeze at the top'],why:'Long head of the tricep — the part that adds arm size from the back.',yt:'overhead rope tricep extension form'},
+ 'Incline dumbbell curl':{metric:'weight_reps',std:{u:'lb per hand',s:10,n:17.5,i:25,a:35},how:['Bench at 45°, arms hanging straight down','Curl without moving the shoulder, squeeze at the top','Lower for 3 s — the stretch is the point'],why:'Bicep long head under stretch. Arms look bigger from the front.',yt:'incline dumbbell curl form'},
+ 'HIIT bike or rower':{metric:'duration',how:['30 s hard: standing out of the saddle or pulling max watts','30 s easy spin','Rounds 15–20 should be ugly. If they are not, the hard was not hard'],why:'Interval work preferentially strips visceral fat and builds the top end of your gas tank.',yt:'assault bike interval workout 30 30'},
+ 'Incline walk':{metric:'duration',how:['Treadmill 12% at 3.0 mph, or hills outside','Hands off the rails, natural stride','Heart rate 120–135. You can talk'],why:'Calorie burn with almost no recovery cost and no appetite spike.',yt:'12 3 30 incline walk'},
+ 'Full-body stretch':{metric:'duration',how:['Couch stretch 60 s per side first','Then hamstrings, adductors, pecs, lats — 45 s each','Breathe slow. Nothing sharp'],why:'Ten quiet minutes that make Monday feel better.',yt:'full body stretch routine 10 minutes'}
 };
 
-/* Day templates. ss = superset group letter (same-station pairs). warm = activation. t: S strength, H hypertrophy, A accessory, C cardio/core/mobility */
+/* Day templates. ss = superset group letter (same-station pairs). warm = activation. t: S strength, H hypertrophy, A accessory, C cardio/core/mobility
+   tgt = the prescription in the movement's own unit — seconds for a hold, minutes for a walk, reps for anything counted — and what the log form starts on. */
 const DAYS={
  1:{title:'Lower A',kind:'lift',tag:'Strength',when:'Morning · 50 min',mt:'Muay Thai',mtTime:'7:00 pm',
    intro:'Heavy and short. Straight sets with full rest — no supersets, no jumping. Legs recover all day before class.',
    ex:[
-    {n:'Banded lateral walk',t:'A',warm:1,sets:2,reps:'12 / side',rest:'0'},
-    {n:'Glute bridge',t:'A',warm:1,sets:2,reps:'12 · 3 s hold',rest:'0'},
+    {n:'Banded lateral walk',t:'A',warm:1,sets:2,reps:'12 / side',tgt:12,rest:'0'},
+    {n:'Glute bridge',t:'A',warm:1,sets:2,reps:'12 · 3 s hold',tgt:12,rest:'0'},
     {n:'Trap bar deadlift',alt:'high handles',t:'S',sets:4,reps:'5',rest:'2–3 min',note:'Add 10 lb when all sets are clean'},
     {n:'Bulgarian split squat',alt:'dumbbells, to parallel',t:'H',sets:3,reps:'8 / leg',rest:'90 s'},
     {n:'Romanian deadlift',alt:'barbell',t:'H',sets:3,reps:'8',rest:'90 s'},
-    {n:'Sliding leg curl',alt:'towel or sliders',t:'A',sets:3,reps:'10–12',rest:'60 s',note:'Wk 1–2 two-leg · Wk 3–4 single-leg · Wk 6+ hips never touch'},
+    {n:'Sliding leg curl',alt:'towel or sliders',t:'A',sets:3,reps:'10–12',tgt:10,rest:'60 s',note:'Wk 1–2 two-leg · Wk 3–4 single-leg · Wk 6+ hips never touch'},
     {n:'Standing calf raise',t:'A',sets:3,reps:'12–15',rest:'45 s'}
    ]},
  2:{title:'Upper A',kind:'lift',tag:'Strength + aesthetics',when:'Morning · 50 min',mt:'Muay Thai',mtTime:'7:00 pm',
    intro:'Two heavy lifts with full rest, then three supersets — each pair lives on one station so you never cross the gym.',
    ex:[
     {n:'Barbell bench press',t:'S',sets:4,reps:'5',rest:'2–3 min',note:'Straight sets. Add 5 lb when all 4×5 are clean'},
-    {n:'Weighted pull-up',alt:'or heavy lat pulldown',t:'S',sets:4,reps:'5–6',rest:'2–3 min',note:'Straight sets'},
+    {n:'Pull-up',alt:'or heavy lat pulldown',t:'S',sets:4,reps:'5–6',rest:'2–3 min',note:'Straight sets'},
     {n:'Incline dumbbell press',t:'H',ss:'A',where:'One incline bench, two pairs of dumbbells',sets:3,reps:'10–12',rest:'0'},
     {n:'Dumbbell lateral raise',t:'H',ss:'A',sets:3,reps:'12–15',rest:'75 s'},
     {n:'Seated cable row',alt:'neutral grip',t:'H',ss:'B',where:'One cable station — swap handle for rope',sets:3,reps:'10–12',rest:'0'},
@@ -492,37 +727,37 @@ const DAYS={
  3:{title:'Core + Walk',kind:'core',tag:'Pelvis and abs',when:'Morning · 35 min',mt:'Muay Thai',mtTime:'7:00 pm',
    intro:'Every movement here pulls the pelvis toward neutral. No hip-flexor-driven ab work. Then a conversational walk.',
    ex:[
-    {n:'Reverse crunch',t:'A',sets:3,reps:'12–15',rest:'45 s'},
-    {n:'Dead bug',t:'A',sets:3,reps:'10 / side',rest:'45 s'},
+    {n:'Reverse crunch',t:'A',sets:3,reps:'12–15',tgt:12,rest:'45 s'},
+    {n:'Dead bug',t:'A',sets:3,reps:'10 / side',tgt:10,rest:'45 s'},
     {n:'Pallof press',t:'A',sets:3,reps:'12 / side',rest:'45 s'},
-    {n:'Side plank with leg raise',t:'A',sets:2,reps:'10 + 15 s hold / side',rest:'45 s'},
-    {n:'RKC plank',t:'A',sets:3,reps:'20–30 s',rest:'45 s'},
-    {n:'Incline walk',alt:'12% · 3.0 mph',t:'C',sets:1,reps:'20 min',rest:''}
+    {n:'Side plank with leg raise',t:'A',sets:2,reps:'10 + 15 s hold / side',tgt:10,rest:'45 s'},
+    {n:'RKC plank',t:'A',sets:3,reps:'20–30 s',tgt:25,rest:'45 s'},
+    {n:'Incline walk',alt:'12% · 3.0 mph',t:'C',sets:1,reps:'20 min',tgt:20,rest:''}
    ]},
  4:{title:'Hip Reset',kind:'mobility',tag:'Labrum, cam, pelvis',when:'Morning · 25 min',mt:'Sparring',mtTime:'7:00 pm',
    intro:'Nothing here should fatigue you. You should walk into sparring with hips that feel oiled, not tired. Every rep is pain-free or it is too far.',
    ex:[
-    {n:'Hip CARs',t:'A',sets:2,reps:'5 / side · slow',rest:'0'},
-    {n:'Couch stretch',t:'A',sets:2,reps:'60 s / side',rest:'0'},
-    {n:'90/90 hip switch',t:'A',sets:2,reps:'8 switches',rest:'0'},
-    {n:'Glute bridge',t:'A',sets:2,reps:'12 · 3 s hold',rest:'0'},
-    {n:'Clamshell',t:'A',sets:2,reps:'15 / side',rest:'0'},
-    {n:'Bird dog',t:'A',sets:2,reps:'8 / side',rest:'0'},
-    {n:'Dead bug',t:'A',sets:2,reps:'8 / side',rest:'0'}
+    {n:'Hip CARs',t:'A',sets:2,reps:'5 / side · slow',tgt:5,rest:'0'},
+    {n:'Couch stretch',t:'A',sets:2,reps:'60 s each side',tgt:60,rest:'0'},
+    {n:'90/90 hip switch',t:'A',sets:2,reps:'8 switches',tgt:8,rest:'0'},
+    {n:'Glute bridge',t:'A',sets:2,reps:'12 · 3 s hold',tgt:12,rest:'0'},
+    {n:'Clamshell',t:'A',sets:2,reps:'15 / side',tgt:15,rest:'0'},
+    {n:'Bird dog',t:'A',sets:2,reps:'8 / side',tgt:8,rest:'0'},
+    {n:'Dead bug',t:'A',sets:2,reps:'8 / side',tgt:8,rest:'0'}
    ]},
  5:{title:'Lower B',kind:'lift',tag:'Glutes, hypertrophy, power',when:'Any time · 60 min',mt:null,
    intro:'No class tonight — this is the day to push legs. Hip thrust is the priority lift. Every depth cue here protects the labrum.',
    ex:[
-    {n:'Banded lateral walk',t:'A',warm:1,sets:2,reps:'12 / side',rest:'0'},
-    {n:'Glute bridge',t:'A',warm:1,sets:2,reps:'12 · 3 s hold',rest:'0'},
-    {n:'Box jump',alt:'12–18 in box',t:'H',sets:3,reps:'6',rest:'90 s'},
+    {n:'Banded lateral walk',t:'A',warm:1,sets:2,reps:'12 / side',tgt:12,rest:'0'},
+    {n:'Glute bridge',t:'A',warm:1,sets:2,reps:'12 · 3 s hold',tgt:12,rest:'0'},
+    {n:'Box jump',alt:'12–18 in box',t:'H',sets:3,reps:'6',tgt:6,rest:'90 s'},
     {n:'Barbell hip thrust',t:'S',sets:4,reps:'10',rest:'2 min',note:'Priority lift. Add 10–20 lb weekly'},
     {n:'Leg press',alt:'feet high and wide, stop at 90°',t:'H',sets:3,reps:'12',rest:'90 s'},
     {n:'Reverse lunge',alt:'dumbbells',t:'H',sets:3,reps:'10 / leg',rest:'90 s'},
     {n:'Single-leg RDL',alt:'dumbbell',t:'H',ss:'A',where:'Same dumbbell, same spot — alternate with step-downs',sets:3,reps:'8 / leg',rest:'0'},
-    {n:'Lateral step-down',alt:'6–12 in box',t:'A',ss:'A',sets:3,reps:'8 / leg',rest:'75 s'},
-    {n:'Single-leg calf raise',t:'A',sets:3,reps:'15–20',rest:'45 s'},
-    {n:'Incline walk',alt:'or easy bike',t:'C',sets:1,reps:'20 min',rest:''}
+    {n:'Lateral step-down',alt:'6–12 in box',t:'A',ss:'A',sets:3,reps:'8 / leg',tgt:8,rest:'75 s'},
+    {n:'Single-leg calf raise',t:'A',sets:3,reps:'15–20',tgt:15,rest:'45 s'},
+    {n:'Incline walk',alt:'or easy bike',t:'C',sets:1,reps:'20 min',tgt:20,rest:''}
    ]},
  6:{title:'Upper B',kind:'lift',tag:'Hypertrophy + HIIT',when:'Any time · 60 min',mt:null,
    intro:'Volume for shoulders, back and arms. Two same-station supersets, then 20 minutes of intervals.',
@@ -534,81 +769,339 @@ const DAYS={
     {n:'Straight-arm pulldown',t:'H',ss:'B',where:'One cable station — bar, then rope, high pulley',sets:3,reps:'12',rest:'0'},
     {n:'Overhead rope tricep extension',t:'A',ss:'B',sets:3,reps:'12',rest:'75 s'},
     {n:'Incline dumbbell curl',t:'A',sets:3,reps:'12',rest:'60 s'},
-    {n:'HIIT bike or rower',t:'C',sets:1,reps:'20 rounds · 30 s hard / 30 s easy',rest:''}
+    {n:'HIIT bike or rower',t:'C',sets:1,reps:'20 rounds · 30 s hard / 30 s easy',tgt:20,rest:''}
    ]},
  0:{title:'Recovery',kind:'recovery',tag:'Check-in day',when:'Any time · 60 min',mt:null,
    intro:'Long easy walk, the stretch routine, and your weekly measurements.',
    ex:[
-    {n:'Incline walk',alt:'or outdoors',t:'C',sets:1,reps:'45 min',rest:''},
-    {n:'Couch stretch',t:'A',sets:1,reps:'60 s / side',rest:'0'},
-    {n:'Full-body stretch',t:'C',sets:1,reps:'10 min',rest:''}
+    {n:'Incline walk',alt:'or outdoors',t:'C',sets:1,reps:'45 min',tgt:45,rest:''},
+    {n:'Couch stretch',t:'A',sets:1,reps:'60 s each side',tgt:60,rest:'0'},
+    {n:'Full-body stretch',t:'C',sets:1,reps:'10 min',tgt:10,rest:''}
    ]}
 };
 const ALT={1:'Missed class? 20 min heavy bag (3 min on / 1 min off × 5) or a 30 min incline walk tonight.',2:'Missed class? 20 min bike HIIT (30 s hard / 30 s easy) or a 30 min incline walk tonight.',3:'Missed class? 15 min of jump rope tonight, or a 30 min incline walk.',4:'Missed sparring? Light 30 min circuit — push-ups, rows, goblet squats to parallel, RKC plank × 3 rounds — then 15 min easy bike.'};
 
+/* ---------------- metrics ---------------- */
+/* Not everything is weight × reps. Every exercise in the library carries a
+ * metric, and that metric is the only thing that decides what the logger asks
+ * for, what a stored set means, and how two sets of one movement compare.
+ *
+ * The three bodyweight metrics are the rungs of one ladder. Which rung a person
+ * is on is theirs, not the library's, so it is remembered per exercise in
+ * settings.exMode. Assisted logs the assistance, added logs what is hanging off
+ * the belt, bodyweight logs reps and nothing else. The user's own bodyweight is
+ * never stored, never shown as a load and never folded into one — there is no
+ * effective-load number anywhere in this app. */
+const RUNG_METRIC={assisted:'assisted_bodyweight',bodyweight:'bodyweight_reps',added:'loaded_bodyweight'};
+const RUNG_OF={assisted_bodyweight:'assisted',bodyweight_reps:'bodyweight',loaded_bodyweight:'added'};
+const RUNG_LABEL={assisted:'Assisted',bodyweight:'Bodyweight',added:'Added'};
+const isBodyweight=m=>!!RUNG_OF[m];
+/* Metrics that belong on the strength board. A hold, a rep count and a walk are
+ * not loads and never appear there. */
+const ON_BOARD=m=>m==='weight_reps'||isBodyweight(m);
+const libMetric=n=>(LIB[n]||{}).metric||'weight_reps';
+const ladderOf=n=>(LIB[n]||{}).ladder||null;
+/* The rungs a movement offers. A bodyweight movement with no ladder — a glute
+ * bridge — offers exactly the one it is. */
+function rungsOf(n){const lad=ladderOf(n);if(lad&&lad.modes&&lad.modes.length)return lad.modes;const r=RUNG_OF[libMetric(n)];return r?[r]:[];}
+/* The rung this person is on: what they last chose, else the library's entry rung. */
+function rungOf(n){const rungs=rungsOf(n);if(!rungs.length)return null;const saved=(DB.settings.exMode||{})[n];return rungs.indexOf(saved)>=0?saved:(RUNG_OF[libMetric(n)]||rungs[0]);}
+/* The metric a set logged right now would be written in. */
+function metricOf(n){const m=libMetric(n);return isBodyweight(m)?(RUNG_METRIC[rungOf(n)]||m):m;}
+function setRung(n,rung){DB.settings.exMode=DB.settings.exMode||{};DB.settings.exMode[n]=rung;}
+/* Which exercise a stored log slot holds. The v4 migration cannot work this out
+ * on its own — sets are stored under the day's slot index, not a name — so the
+ * app hands it over. */
+function exerciseAt(dateKey,slot){
+  const d=new Date(dateKey+'T00:00:00');if(isNaN(d.getTime()))return null;
+  const day=DAYS[d.getDay()];if(!day||!day.ex)return null;
+  const e=day.ex[+slot];if(!e)return null;
+  return{name:e.n,metric:(LIB[e.n]||{}).metric||null};
+}
+
+/* A stored set as short text for its button. A set logged before metrics existed
+ * has no m, and is shown the way the old logger wrote it rather than being
+ * reinterpreted as seconds or minutes it may not be. */
+function legacySetText(v){ if(v.w>0&&v.r>0)return `${v.w}×${v.r}`; if(v.r>0)return `${v.r}`; if(v.w>0)return `${v.w} lb`; return null; }
+function setText(v){
+  if(!v||typeof v!=='object')return null;
+  if(v.skip)return'skipped';
+  switch(v.m){
+    case'hold':return v.sec>0?`${v.sec}s`:legacySetText(v);
+    case'hold_each_side':return(v.left>0||v.right>0)?`${v.left||0}/${v.right||0}s`:legacySetText(v);
+    case'duration':return v.min>0?`${v.min} min`:legacySetText(v);
+    case'reps_only':case'bodyweight_reps':return v.r>0?`${v.r}`:legacySetText(v);
+    case'assisted_bodyweight':return v.r>0?`−${v.w||0}×${v.r}`:legacySetText(v);
+    case'loaded_bodyweight':return v.r>0?`+${v.w||0}×${v.r}`:legacySetText(v);
+    default:return legacySetText(v);
+  }
+}
+/* The same set spelled out, for "last time" and the strength board. */
+function setPhrase(v){
+  if(!v||typeof v!=='object')return null;
+  if(v.skip)return'skipped';
+  switch(v.m){
+    case'hold':return v.sec>0?`${v.sec} s`:legacySetText(v);
+    case'hold_each_side':return(v.left>0||v.right>0)?`${v.left||0} s left / ${v.right||0} s right`:legacySetText(v);
+    case'duration':return v.min>0?`${v.min} min`:legacySetText(v);
+    case'reps_only':return v.r>0?`${v.r} reps`:legacySetText(v);
+    case'bodyweight_reps':return v.r>0?`bodyweight ${v.r}`:legacySetText(v);
+    case'assisted_bodyweight':return v.r>0?`assisted ${v.w||0} lb × ${v.r}`:legacySetText(v);
+    case'loaded_bodyweight':return v.r>0?`+${v.w||0} lb × ${v.r}`:legacySetText(v);
+    default:return v.w>0&&v.r>0?`${v.w} lb × ${v.r}`:legacySetText(v);
+  }
+}
+/* An entry that exists but measures nothing is a skip — that is how the old
+ * logger recorded one before the Skip button wrote {skip:1}. */
+const isSkipped=v=>!!v&&(!!v.skip||setText(v)===null);
+/* How two sets of one movement compare: rung, then load, then reps, in that
+ * order. Bodyweight beats assisted whatever the numbers say, and less
+ * assistance beats more. null means the set measures nothing, so it can never
+ * be a best — which is also how a zero-weight entry stays out of best lifts. */
+function setRank(v){
+  if(!v||v.skip)return null;
+  switch(v.m){
+    case'assisted_bodyweight':return v.r>0?[0,-(v.w||0),v.r]:null;
+    case'bodyweight_reps':return v.r>0?[1,0,v.r]:null;
+    case'loaded_bodyweight':return v.r>0?[2,v.w||0,v.r]:null;
+    case'hold':return v.sec>0?[0,v.sec,0]:null;
+    case'hold_each_side':return(v.left>0&&v.right>0)?[0,Math.min(v.left,v.right),0]:null;
+    case'duration':return v.min>0?[0,v.min,0]:null;
+    case'reps_only':return v.r>0?[0,0,v.r]:null;
+    default:return(v.w>0&&v.r>0)?[0,v.w,v.r]:null;
+  }
+}
+const rankGt=(a,b)=>{for(let i=0;i<3;i++){if(a[i]!==b[i])return a[i]>b[i];}return false;};
+function bestOf(sets){let best=null,bestR=null;for(const v of sets||[]){const r=setRank(v);if(!r)continue;if(!bestR||rankGt(r,bestR)){best=v;bestR=r;}}return best;}
+
+/* The ladder gates. Every number comes from the library so each movement sets
+ * its own. A met gate only ever prompts — nothing moves a rung on its own. */
+function gateFor(name,sets){
+  const lad=ladderOf(name);if(!lad)return null;
+  const rung=rungOf(name),modes=lad.modes||[];
+  const clean=(sets||[]).filter(v=>v&&!v.skip);
+  const count=(metric,reps,maxLoad)=>clean.filter(v=>v.m===metric&&v.r>=reps&&(maxLoad==null||(v.w||0)<=maxLoad)).length;
+  if(rung==='assisted'&&lad.toBodyweight&&modes.indexOf('bodyweight')>=0){
+    const g=lad.toBodyweight;
+    if(count('assisted_bodyweight',g.reps,g.maxAssist)>=g.sets)
+      return{kind:'rung',to:'bodyweight',title:`Ready for bodyweight ${name.toLowerCase()}?`,
+        why:`${g.sets}×${g.reps} clean on ${g.maxAssist} lb of assistance or less. That is the gate.`,yes:'Move to bodyweight'};
+  }
+  if(rung==='bodyweight'&&lad.toAdded&&modes.indexOf('added')>=0){
+    const g=lad.toAdded;
+    if(count('bodyweight_reps',g.reps)>=g.sets)
+      return{kind:'rung',to:'added',title:'Ready to add weight?',
+        why:`${g.sets}×${g.reps} clean at bodyweight. That is the gate.`,yes:'Move to added weight'};
+  }
+  if(rung==='added'&&lad.topReps){
+    const top=bestOf(clean.filter(v=>v.m==='loaded_bodyweight'));
+    if(top&&top.r>=lad.topReps)
+      return{kind:'load',title:`Add ${lad.step} lb next time`,
+        why:`Top set hit ${top.r} at +${top.w||0} lb. Next session go +${(top.w||0)+lad.step}.`,yes:'Got it'};
+  }
+  return null;
+}
+/* Dismissed for this session only, in memory. Nothing about a prompt is stored. */
+const gateSeen=new Set();
+
+/* Migrate before anything reads. This sits below the library and the day
+ * templates on purpose: the v4 migration stamps each stored set with its
+ * exercise's metric, and sets are stored under a day's slot index, so it has to
+ * be able to ask exerciseAt() what a slot holds.
+ *
+ * If this comes back not ok the store was left untouched, saving is held in
+ * memory, and the banner at the bottom of this file tells the user to get a
+ * backup out of the Data tab.
+ * No localStorage at all (private browsing on the hosted page) is not a failed
+ * migration — there is nothing stored to migrate, and the app degrades to
+ * memory the way it always has, quietly. */
+const MIGRATION=(function(){
+  try{localStorage.setItem('camp.probe','1');localStorage.removeItem('camp.probe');}
+  catch(e){return{ok:true,migrated:false,version:CampCore.CURRENT_VERSION,applied:[],notes:[]};}
+  try{return CampCore.run(localStorage,{exerciseAt});}catch(e){return{ok:false,error:String(e),message:CampCore.FAIL_MESSAGE,notes:[]};}
+})();
+const DB={
+  logs:store.get('logs',{}), weight:store.get('weight',{}), waist:store.get('waist',{}), hip:store.get('hip',{}),
+  macros:store.get('macros',{}), quick:store.get('quick',[]),
+  settings:store.get('settings',{startWeight:205,goalWeight:180,kcal:2300,p:165,c:230,f:75})
+};
+/* The rest timer and its alerts are the same for everybody, so their defaults
+ * live in core.js next to the migration that backfills them, not in each
+ * profile. Anything already stored wins. */
+DB.settings=Object.assign({},CampCore.SETTINGS_DEFAULTS,DB.settings);
+/* The rung each bodyweight exercise is on, by exercise name. Set by the user,
+ * never by the app on its own. */
+DB.settings.exMode=DB.settings.exMode&&typeof DB.settings.exMode==='object'?DB.settings.exMode:{};
+const save=()=>{for(const k in DB)store.set(k,DB[k]);};
+/* Anything the migration could not read with certainty is reported, never
+ * guessed at and never discarded. Keep the report with the data so the Data tab
+ * can show it on a later launch too, not only on the one that migrated. */
+if(MIGRATION.ok&&MIGRATION.notes&&MIGRATION.notes.length){DB.settings.dataNotes=MIGRATION.notes.slice(0,50);save();}
+
+/* tgt is the prescription in the exercise's own unit — seconds for a hold,
+ * minutes for a walk, reps for everything counted — and is what the log form
+ * starts on. reps stays the human sentence next to it. */
 function rx(ex,phase){
-  let sets=ex.sets,reps=ex.reps,note=ex.note||'';
-  if(ex.warm) return {sets,reps,note};
+  let sets=ex.sets,reps=ex.reps,note=ex.note||'',tgt=ex.tgt;
+  if(ex.warm) return {sets,reps,note,tgt};
   if(ex.t==='S'){
     if(phase==='Deload'){sets=3;note='Deload — about 70% of last week. Leave 3 reps in the tank.';}
     if(phase==='Peak'&&(reps==='5'||reps==='5–6')){sets=5;reps='3';note='Peak — heavy triples. Add weight, keep bar speed.';}
   }
   if(ex.t==='H'){ if(phase==='Deload')sets=Math.max(2,sets-1); if(phase==='Peak')sets=sets+1; }
   if(ex.n.startsWith('HIIT')){
-    if(phase==='Deload')return{sets:1,reps:'20 min easy bike — no intervals this week',note:''};
-    if(phase==='Peak')return{sets:1,reps:'25 rounds · 30 s hard / 30 s easy',note:'Peak — 5 extra rounds'};
+    if(phase==='Deload')return{sets:1,reps:'20 min easy bike — no intervals this week',note:'',tgt:20};
+    if(phase==='Peak')return{sets:1,reps:'25 rounds · 30 s hard / 30 s easy',note:'Peak — 5 extra rounds',tgt:25};
   }
-  if(ex.t==='C'&&ex.reps==='45 min'&&phase==='Peak')return{sets:1,reps:'60 min',note:'Peak — longer walk'};
-  return{sets,reps,note};
+  if(ex.t==='C'&&ex.tgt===45&&phase==='Peak')return{sets:1,reps:'60 min',note:'Peak — longer walk',tgt:60};
+  return{sets,reps,note,tgt};
 }
-const restSec=s=>{ if(!s||s==='0')return 0; const m=s.match(/(\d+)(?:–(\d+))?\s*(min|s)/); if(!m)return 0; const v=+(m[2]||m[1]); return m[3]==='min'?v*60:v; };
+/* The prescription line. A hold per side is rounds of seconds, not sets of
+ * reps, and a single walk is just its length. */
+function rxLabel(e,r){
+  const m=libMetric(e.n);
+  if(m==='hold_each_side')return r.sets>1?`${r.sets} rounds · ${esc(r.reps)}`:esc(r.reps);
+  if(m==='duration'&&r.sets===1)return esc(r.reps);
+  return r.sets?`${r.sets} × ${esc(r.reps)}`:esc(r.reps);
+}
+/* '0' means genuinely no rest — warm-ups, and the first lift of a superset.
+ * Anything the program does not spell out falls back to the Settings default. */
+const restSec=s=>{ if(s==='0')return 0; if(!s)return DB.settings.restDefault; const m=String(s).match(/(\d+)(?:–(\d+))?\s*(min|s)/); if(!m)return DB.settings.restDefault; const v=+(m[2]||m[1]); return m[3]==='min'?v*60:v; };
 
 /* ---------------- state ---------------- */
 let view='today'; let cur=new Date(); cur.setHours(0,0,0,0);
 let weekView=new Date(cur), monthView=new Date(cur.getFullYear(),cur.getMonth(),1);
-let editing=null; const openEx=new Set(); let editQuick=false;
+let editing=null; const openEx=new Set(); let editQuick=false; let skipPicker=false;
 const $=s=>document.querySelector(s); const app=$('#app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1600);}
 
-/* rest timer */
-let restT=null, restEnd=0;
-function startRest(sec){ if(!sec)return; restEnd=Date.now()+sec*1000; clearInterval(restT); tickRest(); restT=setInterval(tickRest,250); }
-function tickRest(){ const el=$('#rest'); const left=Math.ceil((restEnd-Date.now())/1000); if(left<=0){ clearInterval(restT); el.textContent='Go'; setTimeout(()=>el.classList.add('hidden'),2500); if(navigator.vibrate)navigator.vibrate([120,80,120]); return; } el.classList.remove('hidden'); el.innerHTML=`<small>Rest</small>${Math.floor(left/60)}:${pad(left%60)}`; }
-$('#rest').addEventListener('click',()=>{clearInterval(restT);$('#rest').classList.add('hidden');});
+/* rest timer — a full-width bar with digits big enough to read from the rack.
+ * At zero it buzzes and beeps once, then keeps counting upwards so an overrun
+ * is as visible as the rest itself. Sound and vibration are settings, both on
+ * by default, and every path through them fails silently: a device with no
+ * vibrator, no Web Audio, or audio blocked until a gesture must still log sets.
+ * OVER_CAP stops the interval an hour past zero; the bar stays up until it is
+ * dismissed or another set starts a new rest. */
+const OVER_CAP=3600;
+let restT=null, restEnd=0, restSpan=0, restFired=false, AC=null;
+function audioCtx(){
+  try{ const C=window.AudioContext||window.webkitAudioContext; if(!C)return null;
+    if(!AC)AC=new C(); if(AC.state==='suspended'&&AC.resume)AC.resume(); return AC; }
+  catch(e){ return null; }
+}
+function beep(){
+  if(!DB.settings.restSound)return;
+  const c=audioCtx(); if(!c)return;
+  try{ const t0=c.currentTime;
+    [[0,880],[0.17,1245]].forEach(([off,hz])=>{
+      const o=c.createOscillator(), g=c.createGain();
+      o.type='sine'; o.frequency.value=hz;
+      g.gain.setValueAtTime(0.0001,t0+off);
+      g.gain.exponentialRampToValueAtTime(0.3,t0+off+0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001,t0+off+0.15);
+      o.connect(g); g.connect(c.destination); o.start(t0+off); o.stop(t0+off+0.16);
+    });
+  }catch(e){}
+}
+function buzz(){ if(!DB.settings.restVibrate)return; try{ if(navigator.vibrate)navigator.vibrate([140,90,140]); }catch(e){} }
+function restAlert(){ buzz(); beep(); }
+function showRest(on){ $('#rest').classList.toggle('hidden',!on); document.body.classList.toggle('resting',on); }
+function clock(n){ return `${Math.floor(n/60)}:${pad(n%60)}`; }
+function startRest(sec){
+  if(!sec)return;
+  audioCtx();                       /* warm it up inside the tap that started us */
+  restSpan=sec; restEnd=Date.now()+sec*1000; restFired=false;
+  clearInterval(restT); tickRest(); restT=setInterval(tickRest,250);
+}
+function addRest(sec){
+  if(!restT&&!restEnd)return;
+  restEnd=Math.max(restEnd,Date.now())+sec*1000; restSpan+=sec; restFired=false;
+  clearInterval(restT); tickRest(); restT=setInterval(tickRest,250);
+}
+function stopRest(){ clearInterval(restT); restT=null; restEnd=0; showRest(false); }
+function tickRest(){
+  const el=$('#rest'); const ms=restEnd-Date.now(); const over=ms<=0;
+  if(over&&!restFired){ restFired=true; restAlert(); }
+  const n=over?Math.floor(-ms/1000):Math.ceil(ms/1000);
+  const pct=over?100:Math.max(0,Math.min(100,(1-ms/(restSpan*1000))*100));
+  el.classList.toggle('over',over);
+  el.innerHTML=`<div class="rt-top"><div class="rt-grow"><div class="rt-lab">${over?'Rest over':'Rest'}</div>`+
+    `<div class="rt-num">${over?'+':''}${clock(n)}</div>`+
+    `<div class="rt-sub">${over?'Next set now':`of ${clock(restSpan)}`}</div></div>`+
+    `<button data-restadd="30">+30s</button><button data-restdone="1">Done</button></div>`+
+    `<div class="rt-bar"><i style="width:${pct.toFixed(1)}%"></i></div>`;
+  showRest(true);
+  if(over&&n>=OVER_CAP){ clearInterval(restT); restT=null; }
+}
 
 /* ---------------- helpers ---------------- */
-function logFor(d){const k=key(d);if(!DB.logs[k])DB.logs[k]={done:false,sets:{},mt:null};return DB.logs[k];}
+function logFor(d){const k=key(d);if(!DB.logs[k])DB.logs[k]={done:false,sets:{},mt:null,skipped:null};return DB.logs[k];}
 function lastSets(exName,before){
   const keys=Object.keys(DB.logs).filter(k=>k<key(before)).sort().reverse();
-  for(const k of keys){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];const i=day.ex.findIndex(e=>e.n===exName);
-    if(i>=0&&DB.logs[k].sets[i]&&DB.logs[k].sets[i].length){const s=DB.logs[k].sets[i].filter(x=>x&&!x.skip);if(!s.length)continue;const best=s.reduce((a,b)=>(b.w||0)>(a.w||0)?b:a,s[0]);return`${best.w?best.w+' lb × ':''}${best.r}`;}}
+  for(const k of keys){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];if(!day)continue;const i=day.ex.findIndex(e=>e.n===exName);
+    if(i>=0&&DB.logs[k].sets[i]&&DB.logs[k].sets[i].length){const best=bestOf(DB.logs[k].sets[i]);if(!best)continue;return setPhrase(best);}}
   return null;
 }
-function bestFor(exName){let best=null;for(const k in DB.logs){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];const i=day.ex.findIndex(e=>e.n===exName);if(i<0)continue;for(const s of(DB.logs[k].sets[i]||[])){if(s&&!s.skip&&s.w>0&&s.r>0&&(!best||s.w>best.w||(s.w===best.w&&s.r>best.r)))best={...s,date:k};}}return best;}
+function bestFor(exName){let best=null,bestR=null;for(const k in DB.logs){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];if(!day)continue;const i=day.ex.findIndex(e=>e.n===exName);if(i<0)continue;for(const v of(DB.logs[k].sets[i]||[])){const r=setRank(v);if(!r)continue;if(!bestR||rankGt(r,bestR)){best={...v,date:k};bestR=r;}}}return best;}
 function plannedDone(d){const day=DAYS[d.getDay()];const l=DB.logs[key(d)];return !!(l&&l.done);}
-function streak(){let n=0;let d=new Date(cur);if(!plannedDone(d))d=addDays(d,-1);while(d>=START&&plannedDone(d)){n++;d=addDays(d,-1);}return n;}
+
+/* A skipped session is a deliberate nothing: travel, illness, a rest day taken
+ * on purpose. It is not a missed day, so it neither counts towards the streak
+ * nor breaks it — the streak reads straight through it — and it comes out of
+ * the adherence denominator rather than counting against it. Nothing is written
+ * to the day's sets, so a skip can never look like a 0 lb lift. */
+const SKIP_REASONS=[['travel','Travel'],['illness','Illness'],['rest','Rest'],['other','Other']];
+const skipLabel=r=>{const m=SKIP_REASONS.find(x=>x[0]===r);return m?m[1]:'Other';};
+function skipOf(d){const l=DB.logs[key(d)];return (l&&l.skipped)||null;}
+function streak(){
+  let n=0;let d=new Date(cur);
+  if(!plannedDone(d)&&!skipOf(d))d=addDays(d,-1);
+  while(d>=START){
+    if(plannedDone(d))n++;
+    else if(!skipOf(d))break;
+    d=addDays(d,-1);
+  }
+  return n;
+}
+/* Sessions completed out of the days that asked for one. Today only counts once
+ * it is logged — an unfinished morning is not a miss yet. */
+function adherence(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const last=addDays(START,WEEKS*7-1);
+  const end=today<last?today:last;
+  let done=0,scheduled=0,skipped=0;
+  for(let d=new Date(START);d<=end;d=addDays(d,1)){
+    const l=DB.logs[key(d)];
+    if(l&&l.skipped){skipped++;continue;}
+    if(sameDay(d,today)&&!(l&&l.done))continue;
+    scheduled++;if(l&&l.done)done++;
+  }
+  return {done,scheduled,skipped,pct:scheduled?Math.round(done/scheduled*100):null};
+}
 function latestWeight(){const ks=Object.keys(DB.weight).sort();return ks.length?{k:ks[ks.length-1],v:DB.weight[ks[ks.length-1]]}:null;}
 function weeklyAvg(off){const end=addDays(cur,-7*off);const vals=[];for(let i=0;i<7;i++){const v=DB.weight[key(addDays(end,-i))];if(v)vals.push(v);}return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;}
 function levelOf(w,std){ if(!std||typeof std.s!=='number'||!w)return null;
   if(w<std.s)return['Getting started',0]; if(w<std.n)return['Starting out → novice',1];
   if(w<std.i)return['Novice → intermediate',2]; if(w<std.a)return['Intermediate → advanced',3]; return['Advanced',4]; }
-function stdHtml(e){const lib=LIB[e.n]||{};const st=lib.std;if(!st)return'';const best=bestFor(e.n);const num=typeof st.s==='number';const lv=best?levelOf(best.w,st):null;
+/* A level only means anything where the standard is a load and the set carries
+ * one. A bodyweight rung and a hold get their best shown, never a tier. */
+function stdHtml(e){const lib=LIB[e.n]||{};const st=lib.std;if(!st)return'';const best=bestFor(e.n);const num=typeof st.s==='number'&&libMetric(e.n)==='weight_reps';const lv=(best&&num)?levelOf(best.w,st):null;
   return `<div class="std"><div class="std-h">Working-set loads at these reps for a 205 lb male${num?`, ${esc(st.u)}`:''}. Not 1RMs.</div>
    <div class="std-g"><div><small>Starting</small><b>${esc(st.s)}</b></div><div><small>Novice</small><b>${esc(st.n)}</b></div><div><small>Intermediate</small><b>${esc(st.i)}</b></div><div><small>Advanced</small><b>${esc(st.a)}</b></div></div>
-   ${best&&num&&lv?`<div class="std-you"><span>Your best: <b>${best.w} × ${best.r}</b></span><span class="lv lv${lv[1]}">${lv[0]}</span></div>`:num?`<div class="meta" style="margin-top:6px">Log a set and your level appears here.</div>`:''}</div>`;}
+   ${best?`<div class="std-you"><span>Your best: <b>${esc(setPhrase(best))}</b></span>${lv?`<span class="lv lv${lv[1]}">${lv[0]}</span>`:''}</div>`:num?`<div class="meta" style="margin-top:6px">Log a set and your level appears here.</div>`:''}</div>`;}
 const yt=q=>`https://www.youtube.com/results?search_query=${encodeURIComponent(q+' ')}`;
 
 /* ---------------- views ---------------- */
-function render(top){const y=window.scrollY;app.innerHTML=view==='today'?vToday():view==='week'?vWeek():view==='month'?vMonth():view==='track'?vTrack():view==='export'?vExport():view==='data'?vData():vFuel();renderNav();window.scrollTo(0,top?0:y);}
-function renderNav(){const items=[['today','Today','<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'],['week','Week','<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>'],['month','Month','<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'],['track','Track','<svg viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 7-9"/></svg>'],['fuel','Fuel','<svg viewBox="0 0 24 24"><path d="M6 3h9v18H6zM15 8h2l2 2v8a2 2 0 0 1-2 2M6 10h9"/></svg>']];
+function render(top){const y=window.scrollY;app.innerHTML=view==='today'?vToday():view==='week'?vWeek():view==='month'?vMonth():view==='track'?vTrack():view==='export'?vExport():view==='data'?vData():view==='settings'?vSettings():vFuel();renderNav();window.scrollTo(0,top?0:y);}
+function renderNav(){const items=[['today','Today','<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'],['week','Week','<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>'],['month','Month','<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'],['track','Track','<svg viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 7-9"/></svg>'],['fuel','Fuel','<svg viewBox="0 0 24 24"><path d="M6 3h9v18H6zM15 8h2l2 2v8a2 2 0 0 1-2 2M6 10h9"/></svg>'],['settings','Settings','<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.4v2.1M12 18.5v2.1M5.1 7.6l1.8 1.05M17.1 15.35l1.8 1.05M5.1 16.4l1.8-1.05M17.1 8.65l1.8-1.05"/></svg>']];
   $('#nav').innerHTML=items.map(([id,l,ic])=>`<button class="${view===id||(['export','data'].includes(view)&&id==='track')?'on':''}" data-v="${id}">${ic}<span>${l}</span></button>`).join('');}
 
 function exBlock(e,i,ph,l){
   const r=rx(e,ph);const sets=l.sets[i]||[];const last=lastSets(e.n,cur);const lib=LIB[e.n]||{};const open=openEx.has(i);
   let h=`<div class="ex"><button class="ex-head" data-info="${i}"><div>
     <div class="ex-name">${esc(e.n)}${e.alt?` <span class="alt">— ${esc(e.alt)}</span>`:''}</div>
-    <div class="ex-rx">${r.sets?`${r.sets} × ${esc(r.reps)}`:esc(r.reps)}${e.rest&&e.rest!=='0'?` · rest ${esc(e.rest)}`:''}</div>
+    <div class="ex-rx">${rxLabel(e,r)}${e.rest&&e.rest!=='0'?` · rest ${esc(e.rest)}`:''}</div>
     ${r.note?`<div class="ex-note">${esc(r.note)}</div>`:''}
     ${lib.hip&&!open?`<div class="ex-hip">Hip: ${esc(lib.hip)}</div>`:''}
     ${last&&e.t!=='C'&&!e.warm?`<div class="ex-last">Last time: ${esc(last)}</div>`:''}
@@ -619,12 +1112,59 @@ function exBlock(e,i,ph,l){
     ${stdHtml(e)}
     <a href="${yt(lib.yt||e.n+' proper form')}" target="_blank" rel="noopener">Watch a demo</a></div>`;}
   if(r.sets>0){h+=`<div class="sets">`;
-    for(let s=0;s<r.sets;s++){const v=sets[s];const ed=editing&&editing.ex===i&&editing.set===s;const skipped=v&&(v.skip||(!v.w&&!v.r));h+=`<button class="set ${v?(skipped?'skip':'done'):''} ${ed?'editing':''}" data-set="${i}:${s}">${v?(skipped?'skipped':(e.t==='C'||e.warm?'✓':`${v.w?v.w+'×':''}${v.r}`)):`Set ${s+1}`}</button>`;}
+    for(let s=0;s<r.sets;s++){const v=sets[s];const ed=editing&&editing.ex===i&&editing.set===s;const skipped=isSkipped(v);h+=`<button class="set ${v?(skipped?'skip':'done'):''} ${ed?'editing':''}" data-set="${i}:${s}">${v?(skipped?'skipped':esc(setText(v))):`Set ${s+1}`}</button>`;}
     h+=`</div>`;
-    if(editing&&editing.ex===i){const v=sets[editing.set]||{};const isC=e.t==='C'||e.warm;
-      h+=`<div class="setform">${isC?'':`<input type="number" inputmode="decimal" id="sf-w" placeholder="lb" value="${v.w??''}"><span class="x">×</span>`}<input type="number" inputmode="numeric" id="sf-r" placeholder="${isC?'done':'reps'}" value="${v.r??(isC?1:'')}"><button data-savesets="1">Log</button><button class="ghost" data-skipset="1">Skip</button><button class="ghost" data-cancel="1">✕</button></div>`;}
+    if(editing&&editing.ex===i)h+=setForm(e,sets[editing.set]||{},r);
+    h+=gateHtml(e,sets);
+    /* With auto-start off the timer still has to be reachable, so the rest this
+     * lift asks for gets its own button. A movement with no rest between rounds
+     * — a walk, a warm-up, a mobility sequence — has none to offer. */
+    if(!DB.settings.restAuto&&!e.warm&&e.t!=='C'){const rs=restSec(e.rest);
+      if(rs)h+=`<button class="secondary" style="margin-top:8px;padding:9px" data-startrest="${rs}">Start rest ${clock(rs)}</button>`;}
   }
   return h+`</div>`;
+}
+
+/* The log form, built from the metric. A movement with no external load never
+ * gets a weight box — there is nothing true to put in it. */
+function setForm(e,v,r){
+  const m=metricOf(e.n),rungs=rungsOf(e.n),tgt=r.tgt;
+  const num=(id,ph,val,mode)=>`<input type="number" inputmode="${mode||'numeric'}" id="${id}" placeholder="${ph}" value="${val??''}">`;
+  let h='';
+  if(rungs.length>1)h+=`<div class="rungs">${rungs.map(x=>`<button class="${rungOf(e.n)===x?'on':''}" data-rung="${x}" data-ex="${esc(e.n)}">${RUNG_LABEL[x]}</button>`).join('')}</div>`;
+  h+=`<div class="setform">`;
+  let hint='';
+  if(m==='hold'){
+    h+=num('sf-sec','seconds',v.sec??tgt)+`<button class="ghost" data-hold="sf-sec">Timer</button>`;
+  }else if(m==='hold_each_side'){
+    h+=num('sf-l','left s',v.left??tgt)+`<button class="ghost" data-hold="sf-l">L</button>`+
+       num('sf-rt','right s',v.right??tgt)+`<button class="ghost" data-hold="sf-rt">R</button>`;
+    hint='Tap L or R to time that side.';
+  }else if(m==='duration'){
+    h+=num('sf-min','minutes',v.min??tgt)+`<span class="x">min</span>`;
+  }else if(m==='reps_only'||m==='bodyweight_reps'){
+    h+=`<button class="ghost" data-repstep="-1">−</button>`+num('sf-r','reps',v.r??tgt)+`<button class="ghost" data-repstep="1">+</button>`;
+    if(m==='bodyweight_reps'&&rungs.length>1)hint='Bodyweight — reps only. Nothing added, nothing taken off.';
+  }else if(m==='assisted_bodyweight'){
+    h+=num('sf-w','assist lb',v.w,'decimal')+`<span class="x">×</span>`+num('sf-r','reps',v.r);
+    hint='Log the assistance the machine or band is taking off.';
+  }else if(m==='loaded_bodyweight'){
+    h+=num('sf-w','added lb',v.w,'decimal')+`<span class="x">×</span>`+num('sf-r','reps',v.r);
+    hint='Log what is hanging off the belt, not your bodyweight.';
+  }else{
+    h+=num('sf-w','lb',v.w,'decimal')+`<span class="x">×</span>`+num('sf-r','reps',v.r);
+  }
+  h+=`<button data-savesets="1">Log</button><button class="ghost" data-skipset="1">Skip</button><button class="ghost" data-cancel="1">✕</button></div>`;
+  return h+(hint?`<div class="sf-hint">${hint}</div>`:'');
+}
+
+/* A met gate asks. It never moves anybody up on its own. */
+function gateHtml(e,sets){
+  const g=gateFor(e.n,sets);if(!g)return'';
+  const id=e.n+'|'+key(cur)+'|'+(g.to||g.kind);
+  if(gateSeen.has(id))return'';
+  return `<div class="gate"><b>${esc(g.title)}</b><div class="meta">${esc(g.why)}</div>
+    <div class="g-b"><button data-gateyes="${esc(id)}">${esc(g.yes)}</button><button class="ghost" data-gateno="${esc(id)}">Not yet</button></div></div>`;
 }
 
 function vToday(){
@@ -647,7 +1187,17 @@ function vToday(){
     } else { h+=exBlock(e,i,ph,l); k++; }
   }
   h+=`</div>`;
-  h+=`<button class="primary ${l.done?'done':''}" data-done="1">${l.done?'Session logged ✓ (tap to undo)':'Mark session complete'}</button>`;
+  const logged=Object.values(l.sets||{}).some(a=>a&&a.some(v=>v));
+  if(l.skipped){
+    h+=`<div class="card skipped-card"><h3>Session skipped — ${esc(skipLabel(l.skipped.reason))}</h3><div class="meta">Neither done nor missed. This day is out of your streak and out of adherence.${logged?' The sets you did log before skipping are still here and still count towards your best lifts.':' Nothing was logged against it.'}</div><button class="secondary" data-unskip="1">Undo skip</button></div>`;
+  }else{
+    h+=`<button class="primary ${l.done?'done':''}" data-done="1">${l.done?'Session logged ✓ (tap to undo)':'Mark session complete'}</button>`;
+    if(!l.done){
+      h+=skipPicker
+        ?`<div class="card"><h3>Skip this session</h3><div class="meta">Why? The day stays on the calendar and comes out of your streak and adherence — it is never counted as missed.${logged?' Anything you already logged today stays exactly as it is.':''}</div><div class="scale">${SKIP_REASONS.map(([v,lab])=>`<button data-skipreason="${v}">${lab}</button>`).join('')}</div><button class="secondary" data-skipcancel="1">Cancel</button></div>`
+        :`<button class="secondary" data-skipday="1">Skip this session</button>`;
+    }
+  }
   if(day.kind==='mobility'||cur.getDay()===0){const hv=DB.hip[key(cur)];h+=`<div class="card"><h3>Hip today</h3><div class="meta">0 = silent, 10 = can't kick. Log it before you move.</div><div class="scale">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="${hv===n?'on':''}" data-hip="${n}">${n}</button>`).join('')}</div>${hv>=5?`<p class="note"><b>5 or above:</b> skip box jumps and leg press this week, keep everything else shallow, and get eyes on it — a hip PT who knows FAI, not a general one.</p>`:''}</div>`;}
   if(day.mt){h+=`<div class="card"><div class="mt"><div><h3>${day.mt}</h3><div class="time">${day.mtTime}</div></div><div class="seg"><button class="${l.mt==='went'?'on':''}" data-mt="went">Went</button><button class="${l.mt==='missed'?'on':''}" data-mt="missed">Missed</button></div></div>${l.mt==='missed'?`<div class="altbox"><b>Replacement:</b> ${ALT[cur.getDay()]}</div>`:''}${day.kind==='mobility'&&l.mt!=='missed'?`<div class="altbox">Legs should feel fresh walking in. If they don't, Monday was too heavy — pull 10% off next Lower A.</div>`:''}</div>`;}
   if(cur.getDay()===0){const lw=DB.weight[key(cur)];const ws=DB.waist[key(cur)];h+=`<div class="card"><h3>Weekly check-in</h3><div class="inline"><input type="number" inputmode="decimal" id="ci-w" placeholder="Weight (lb)" value="${lw??''}"><input type="number" inputmode="decimal" id="ci-waist" placeholder="Waist (in)" value="${ws??''}"><button data-checkin="1">Save</button></div><p class="note">Same scale, same time, before food. Photos: front and side, same spot, same light.</p></div>`;}
@@ -657,9 +1207,9 @@ function vToday(){
 function vWeek(){
   const mon=addDays(weekView,-((weekView.getDay()+6)%7));const w=weekOf(mon),ph=phaseOf(w);
   let h=`<div class="wk"><button data-wk="-1">‹</button><div style="text-align:center"><h3>${w>=1&&w<=WEEKS?`Week ${w} of ${WEEKS}`:'Off program'}</h3><div class="meta">${MON[mon.getMonth()]} ${mon.getDate()} – ${MON[addDays(mon,6).getMonth()]} ${addDays(mon,6).getDate()}${ph?` <span class="pill ${ph.toLowerCase()}">${ph}</span>`:''}</div></div><button data-wk="1">›</button></div>`;
-  for(let i=0;i<7;i++){const d=addDays(mon,i);const day=DAYS[d.getDay()];const l=DB.logs[key(d)];const done=l&&l.done;const mtTxt=day.mt?`${day.mt} 7 pm`:'No class';
-    const status=done?'Done':(d<cur?'Missed':'');
-    h+=`<button class="dayrow ${sameDay(d,new Date())?'isToday':''}" data-open="${key(d)}"><div class="d">${DOW[d.getDay()].slice(0,3)}<small>${MON[d.getMonth()]} ${d.getDate()}</small></div><div class="t">${day.title}<small>${day.tag} · ${mtTxt}</small></div><div class="s ${status==='Done'?'ok':''}">${status}</div></button>`;}
+  for(let i=0;i<7;i++){const d=addDays(mon,i);const day=DAYS[d.getDay()];const l=DB.logs[key(d)];const done=l&&l.done;const sk=l&&l.skipped;const mtTxt=day.mt?`${day.mt} 7 pm`:'No class';
+    const status=sk?'Skipped':done?'Done':(d<cur?'Missed':'');
+    h+=`<button class="dayrow ${sameDay(d,new Date())?'isToday':''} ${sk?'isSkipped':''}" data-open="${key(d)}"><div class="d">${DOW[d.getDay()].slice(0,3)}<small>${MON[d.getMonth()]} ${d.getDate()}</small></div><div class="t">${day.title}<small>${day.tag} · ${mtTxt}</small></div><div class="s ${done?'ok':''} ${sk?'skip':''}">${status}${sk?`<small>${esc(skipLabel(sk.reason))}</small>`:''}</div></button>`;}
   h+=`<h2>The weekly shape</h2><div class="rows"><div class="row"><b>Mon – Wed</b><div class="meta">Lift or core in the morning, class at 7 pm</div></div><div class="row"><b>Thursday</b><div class="meta">Hip reset only — mobility, glute activation, zero fatigue. Then sparring.</div></div><div class="row"><b>Fri – Sat</b><div class="meta">No class — the two hardest sessions of the week plus HIIT</div></div><div class="row"><b>Sunday</b><div class="meta">Long walk, stretch, weigh-in, waist, photos, hip score</div></div></div>`;
   h+=`<h2>Supersets</h2><p class="note" style="margin-top:0">Only exercises boxed together are supersets, and every pair shares one station — a bench with two pairs of dumbbells, or one cable stack with an attachment swap. Everything else is straight sets with the rest shown. Heavy lifts are never superset.</p>`;
   h+=`<h2>If you only make two classes</h2><p class="note" style="margin-top:0">Keep every lift. Add 15 min jump rope after Wednesday core, and run the replacement on any missed evening (shown when you tap Missed).</p>`;
@@ -672,9 +1222,9 @@ function vMonth(){
   let h=`<div class="wk"><button data-mo="-1">‹</button><h3>${first.toLocaleString('en-US',{month:'long'})} ${first.getFullYear()}</h3><button data-mo="1">›</button></div>`;
   h+=`<div class="cal"><div class="cal-h"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div><div class="cal-g">`;
   for(let i=0;i<lead;i++)h+=`<div class="cell out"></div>`;
-  for(let d=1;d<=days;d++){const dt=new Date(m.getFullYear(),m.getMonth(),d);const w=weekOf(dt);const inP=w>=1&&w<=WEEKS;const day=DAYS[dt.getDay()];const l=DB.logs[key(dt)];const done=l&&l.done;
-    h+=`<button class="cell ${sameDay(dt,new Date())?'isToday':''} ${done?'done':''} ${inP?'':'pre'}" data-open="${key(dt)}"><span>${d}</span>${inP?`<span class="bar" style="background:${KIND_COLOR[day.kind]}"></span>`:''}</button>`;}
-  h+=`</div></div><div class="legend"><span style="--c:#F0A63A">Lift</span><span style="--c:#7FD1B9">Core + walk</span><span style="--c:#8FA6D9">Hip reset</span><span style="--c:#4A6C65">Recovery</span></div>`;
+  for(let d=1;d<=days;d++){const dt=new Date(m.getFullYear(),m.getMonth(),d);const w=weekOf(dt);const inP=w>=1&&w<=WEEKS;const day=DAYS[dt.getDay()];const l=DB.logs[key(dt)];const done=l&&l.done;const sk=l&&l.skipped;
+    h+=`<button class="cell ${sameDay(dt,new Date())?'isToday':''} ${sk?'skipped':done?'done':''} ${inP?'':'pre'}" data-open="${key(dt)}" title="${sk?'Skipped — '+esc(skipLabel(sk.reason)):''}"><span>${d}</span>${inP?`<span class="bar" style="background:${sk?'#8FA6D9':KIND_COLOR[day.kind]}"></span>`:''}</button>`;}
+  h+=`</div></div><div class="legend"><span style="--c:#F0A63A">Lift</span><span style="--c:#7FD1B9">Core + walk</span><span style="--c:#8FA6D9">Hip reset</span><span style="--c:#4A6C65">Recovery</span><span class="skip">Skipped</span></div>`;
   h+=`<h2>The nine weeks</h2><div class="rows"><div class="row"><span class="pill build">Build</span> <b>Weeks 1–4</b>, Aug 31 – Sep 27<div class="meta">Heavy 5s, learn the movements, add weight every week. Protein locked in.</div></div><div class="row"><span class="pill deload">Deload</span> <b>Week 5</b>, Sep 28 – Oct 4<div class="meta">Fewer sets, 70% loads, no HIIT. Joints recover, strength rebounds.</div></div><div class="row"><span class="pill peak">Peak</span> <b>Weeks 6–9</b>, Oct 5 – Nov 1<div class="meta">Heavy triples, an extra hypertrophy set, longer HIIT and walks. This is where the look arrives.</div></div></div>`;
   h+=`<h2>Checkpoints</h2><div class="rows"><div class="row"><b>Oct 1, day 30</b><div class="meta">Roughly 6–9 lb down, waist 1.5–2 in smaller, 10–15% more on the heavy lifts. Face and shoulders visibly leaner.</div></div><div class="row"><b>Nov 1, day 60</b><div class="meta">12–18 lb down, shoulder and arm definition, upper abs showing, noticeably better gas in rounds.</div></div></div>`;
   return h;
@@ -690,15 +1240,18 @@ function exportText(){
   out.push('');out.push('WAIST');out.push(ws.length?ws.map(k=>k+'  '+DB.waist[k]+'in').join('\n'):'none logged');
   const hp=Object.keys(DB.hip).sort();
   out.push('');out.push('HIP SCORE (0-10)');out.push(hp.length?hp.map(k=>k+'  '+DB.hip[k]).join('\n'):'none logged');
+  const ad=adherence();
   out.push('');out.push('SESSIONS');
+  out.push('adherence '+(ad.pct==null?'n/a':ad.pct+'%')+'  ('+ad.done+' of '+ad.scheduled+' scheduled, '+ad.skipped+' skipped and not counted)');
   Object.keys(DB.logs).sort().forEach(k=>{
     const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];const l=DB.logs[k];
     const w=weekOf(d);const lines=[];
     day.ex.forEach((e,i)=>{const sets=(l.sets[i]||[]);if(!sets.length)return;
-      const txt=sets.map(v=>!v?'-':v.skip||(!v.w&&!v.r)?'skip':(v.w?v.w+'x':'')+v.r).join(', ');
+      const txt=sets.map(v=>!v?'-':isSkipped(v)?'skip':setPhrase(v)).join(', ');
       lines.push('  '+e.n+': '+txt);});
-    if(!lines.length&&!l.done&&!l.mt)return;
-    out.push('');out.push(k+'  wk'+w+' '+day.title+(l.done?' [complete]':' [partial]')+(l.mt?'  MT: '+l.mt:''));
+    if(!lines.length&&!l.done&&!l.mt&&!l.skipped)return;
+    const mark=l.skipped?' [skipped — '+skipLabel(l.skipped.reason)+']':l.done?' [complete]':' [partial]';
+    out.push('');out.push(k+'  wk'+w+' '+day.title+mark+(l.mt?'  MT: '+l.mt:''));
     out.push(lines.length?lines.join('\n'):'  nothing logged');});
   out.push('');out.push('NUTRITION');
   const mk=Object.keys(DB.macros).sort();
@@ -713,9 +1266,11 @@ function applyBackup(txt,mode){
   let d=o&&o.data?o.data:o; if(!d||typeof d!=='object')return{ok:0,msg:'No data found in that backup'};
   /* Backups written before the storage layer existed have no schemaVersion, so
    * they are version 1. Bring them up to the current shape before merging. */
-  const m=CampCore.migrate(d,(o&&typeof o.schemaVersion==='number')?o.schemaVersion:1);
+  const m=CampCore.migrate(d,(o&&typeof o.schemaVersion==='number')?o.schemaVersion:1,{exerciseAt});
   if(!m.ok)return{ok:0,msg:'That backup could not be read into this version of the app'};
   d=m.data;
+  /* A restore runs the same migrations, so it reports the same way. */
+  if(m.notes&&m.notes.length)DB.settings.dataNotes=(DB.settings.dataNotes||[]).concat(m.notes).slice(0,50);
   const fields=['logs','weight','waist','hip','macros'];
   let n=0;
   if(mode==='replace'){ fields.forEach(f=>{ if(d[f]&&typeof d[f]==='object'){DB[f]=d[f];n+=Object.keys(d[f]).length;} });
@@ -735,8 +1290,14 @@ function downloadBackup(){
 }
 function vData(){
   const nSets=Object.values(DB.logs).reduce((a,l)=>a+Object.keys(l.sets||{}).length,0);
+  const notes=DB.settings.dataNotes||[];
   return `<div class="today-nav"><button data-v="track">‹ Track</button><span class="meta">Data</span><span style="width:60px"></span></div>
   <h1>Data</h1><div class="sub">${Object.keys(DB.logs).length} sessions, ${nSets} logged exercises, ${Object.keys(DB.weight).length} weigh-ins.</div>
+  ${notes.length?`<div class="card"><h3>${notes.length} old entr${notes.length===1?'y':'ies'} to look at</h3>
+    <div class="meta">Sets now record what they were measured in. These were logged before that and could not be read with certainty, so they were left exactly as they are — nothing was changed and nothing was thrown away. Re-log any that matter.</div>
+    <ul class="notes">${notes.slice(0,20).map(n=>`<li><b>${esc(n.date)}${n.name?' · '+esc(n.name):''}</b> — ${esc(n.reason)}</li>`).join('')}</ul>
+    ${notes.length>20?`<div class="meta">…and ${notes.length-20} more.</div>`:''}
+    <button class="secondary" data-clearnotes="1">I have looked at these</button></div>`:''}
   <div class="card"><h3>Backup</h3><div class="meta">A full copy of everything, as a file you keep. Do this before any app update.</div>
     <button class="primary" style="margin-top:12px" data-savebackup="1">Save backup file</button>
     <button class="secondary" data-copybackup="1">Copy backup to clipboard</button>${AND?`<button class="secondary" data-sharebackup="1">Share backup…</button>`:''}</div>
@@ -758,19 +1319,43 @@ function vExport(){
   <p class="note">If Copy doesn't work, long-press the text above and select all. For a full machine-readable backup, use Data → Save backup file.</p>`;
 }
 function vTrack(){
-  const s=DB.settings;const lw=latestWeight();const w0=weeklyAvg(0),w1=weeklyAvg(1);const delta=lw?(lw.v-s.startWeight):null;const rate=(w0&&w1)?(w0-w1):null;
+  const s=DB.settings;const lw=latestWeight();const w0=weeklyAvg(0),w1=weeklyAvg(1);const delta=lw?(lw.v-s.startWeight):null;const rate=(w0&&w1)?(w0-w1):null;const ad=adherence();
   let h=`<div class="meta">Progress</div><h1>Track</h1><div class="sub">Weight, waist, hip, strength. The scale is one signal of four.</div>`;
   h+=`<div class="card"><div class="big">${lw?lw.v.toFixed(1):'—'}<small>lb${lw?`, ${lw.k===key(new Date())?'today':lw.k.slice(5).replace('-','/')}`:''}</small></div><div class="inline"><input type="number" inputmode="decimal" id="tw" placeholder="Today's weight" step="0.1"><button data-addw="1">Save</button></div>${svgChart()}</div>`;
-  h+=`<div class="grid2" style="margin-top:12px"><div class="stat"><div class="l">Since start (${s.startWeight})</div><div class="v" style="color:${delta!=null&&delta<0?'var(--mint)':'var(--bone)'}">${delta!=null?(delta>0?'+':'')+delta.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">This week vs last</div><div class="v" style="color:${rate!=null&&rate<-2.5?'var(--ember)':'var(--bone)'}">${rate!=null?(rate>0?'+':'')+rate.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">Session streak</div><div class="v">${streak()}</div></div><div class="stat"><div class="l">To goal (${s.goalWeight})</div><div class="v">${lw?Math.max(0,lw.v-s.goalWeight).toFixed(1)+' lb':'—'}</div></div></div>`;
+  h+=`<div class="grid2" style="margin-top:12px"><div class="stat"><div class="l">Since start (${s.startWeight})</div><div class="v" style="color:${delta!=null&&delta<0?'var(--mint)':'var(--bone)'}">${delta!=null?(delta>0?'+':'')+delta.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">This week vs last</div><div class="v" style="color:${rate!=null&&rate<-2.5?'var(--ember)':'var(--bone)'}">${rate!=null?(rate>0?'+':'')+rate.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">Session streak</div><div class="v">${streak()}</div></div><div class="stat"><div class="l">To goal (${s.goalWeight})</div><div class="v">${lw?Math.max(0,lw.v-s.goalWeight).toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">Adherence</div><div class="v">${ad.pct==null?'—':ad.pct+'%'}<span style="font-size:13px;color:var(--muted);font-weight:400"> ${ad.scheduled?ad.done+'/'+ad.scheduled:''}</span></div></div><div class="stat"><div class="l">Skipped days</div><div class="v">${ad.skipped}<span style="font-size:13px;color:var(--muted);font-weight:400"> not counted</span></div></div></div>`;
   if(rate!=null&&rate<-2.5)h+=`<p class="note"><b>Losing faster than 2.5 lb a week.</b> That's past the muscle-safe zone. Add ~200 kcal a day (carbs around training) and hold protein.</p>`;
   const wk=Object.keys(DB.waist).sort();
   h+=`<div class="card"><h3>Waist</h3><div class="inline"><input type="number" inputmode="decimal" id="tws" placeholder="Inches at navel" step="0.25"><button data-addwaist="1">Save</button></div>${wk.length?`<div class="note">${wk.slice(-4).map(k=>`${k.slice(5).replace('-','/')}: <b>${DB.waist[k]}"</b>`).join(' &nbsp; ')}</div>`:'<div class="note">Measure Sundays at the navel, relaxed.</div>'}</div>`;
   const hk=Object.keys(DB.hip).sort();
   h+=`<div class="card"><h3>Hip score</h3>${hk.length?`<div class="note" style="margin-top:6px">${hk.slice(-6).map(k=>`${k.slice(5).replace('-','/')}: <b>${DB.hip[k]}</b>`).join(' &nbsp; ')}</div><div class="meta" style="margin-top:8px">Logged Thursdays and Sundays. Trend down = the program is working on the hip too. Trend up = pull depth and load on leg days, not the mobility work.</div>`:`<div class="note">Logged from the Thursday and Sunday pages. Trend matters, not the number.</div>`}</div>`;
+  /* Loads and rungs only. A hold, a rep count and a walk are not loads, so they
+   * are not on the board. Pull-ups and the lat pulldown are two movements and
+   * always two lines — a pulldown number is not a pull-up number. */
   h+=`<div class="card"><h3>Strength board</h3>`;
-  ['Trap bar deadlift','Barbell bench press','Weighted pull-up','Barbell hip thrust','Seated dumbbell overhead press','Romanian deadlift'].forEach(n=>{const b=bestFor(n);const lv=b?levelOf(b.w,(LIB[n]||{}).std):null;h+=`<div class="pr"><span>${n}${lv?`<div class="meta" style="font-size:12px">${lv[0]}</div>`:''}</span>${b?`<b>${b.w} × ${b.r}</b>`:`<span class="meta">not logged</span>`}</div>`;});
-  h+=`</div><div class="card"><h3>Settings</h3><div class="form2"><div><label>Start weight</label><input type="number" id="s-start" value="${s.startWeight}"></div><div><label>Goal weight</label><input type="number" id="s-goal" value="${s.goalWeight}"></div></div><button class="primary" style="margin-top:12px;padding:12px" data-savesettings="1">Save settings</button></div>
+  ['Trap bar deadlift','Barbell bench press','Pull-up','Lat pulldown','Barbell hip thrust','Seated dumbbell overhead press','Romanian deadlift']
+    .filter(n=>ON_BOARD(libMetric(n)))
+    .forEach(n=>{const b=bestFor(n);const lv=(b&&libMetric(n)==='weight_reps')?levelOf(b.w,(LIB[n]||{}).std):null;
+      h+=`<div class="pr"><span>${n}${lv?`<div class="meta" style="font-size:12px">${lv[0]}</div>`:''}</span>${b?`<b>${esc(setPhrase(b))}</b>`:`<span class="meta">not logged</span>`}</div>`;});
+  h+=`<div class="meta" style="margin-top:10px">Bodyweight lifts show the rung you are on, not a weight. Holds, rep counts and walks are logged on the day, not here.</div>`;
+  h+=`</div><button class="secondary" data-v="settings">Settings</button>
   <button class="secondary" data-v="data">Backup, restore &amp; export</button>`;
+  return h;
+}
+function vSettings(){
+  const s=DB.settings;
+  const tog=(k,label,sub)=>`<div class="tog"><div class="tl">${label}<small>${sub}</small></div><button class="${s[k]?'on':''}" data-settog="${k}">${s[k]?'On':'Off'}</button></div>`;
+  let h=`<div class="meta">App</div><h1>Settings</h1><div class="sub">The rest timer and your numbers. Everything here is stored on this device with the rest of your data, and rides along in a backup.</div>`;
+  h+=`<div class="card"><h3>Rest timer</h3>
+    ${tog('restAuto','Start automatically','The timer opens the moment you log a set.')}
+    ${tog('restSound','Sound at zero','A short two-note tone. Silent on a device that blocks audio.')}
+    ${tog('restVibrate','Vibrate at zero','Silent on a device with no vibrator.')}
+    <label class="meta" style="display:block;margin-top:12px">Default rest, in seconds</label>
+    <div class="inline"><input type="number" inputmode="numeric" id="s-rest" value="${s.restDefault}"><button data-saverest="1">Save</button></div>
+    <div class="meta" style="margin-top:8px">Most lifts carry their own rest and the session page shows it. This is what a lift without one uses. Supersets and warm-ups still rest nothing between moves.</div>
+    <button class="secondary" data-testrest="1">Test the alert</button></div>`;
+  h+=`<div class="card"><h3>Weight</h3><div class="form2"><div><label>Start weight</label><input type="number" id="s-start" value="${s.startWeight}"></div><div><label>Goal weight</label><input type="number" id="s-goal" value="${s.goalWeight}"></div></div><button class="primary" style="margin-top:12px;padding:12px" data-savesettings="1">Save</button></div>`;
+  h+=`<div class="card"><h3>Nutrition targets</h3><div class="meta">${s.kcal} kcal · ${s.p} g protein · ${s.c} g carbs · ${s.f} g fat. Edit them on Fuel, next to the day's totals.</div><button class="secondary" data-v="fuel">Open Fuel</button></div>`;
+  h+=`<button class="secondary" data-v="data">Backup, restore &amp; export</button>`;
   return h;
 }
 function svgChart(){
@@ -806,39 +1391,96 @@ function vFuel(){
 }
 
 /* ---------------- events ---------------- */
+/* Builds a set out of whichever boxes the metric put on screen. Every set
+ * stamps m, so it can always be read back without the day template. */
+function readSet(name){
+  const m=metricOf(name);
+  const val=id=>{const el=$('#'+id);return el?parseFloat(el.value):NaN;};
+  const pos=n=>!isNaN(n)&&n>0;
+  if(m==='hold'){const sec=val('sf-sec');return pos(sec)?{set:{m,sec}}:{err:'Log the seconds, or tap Skip'};}
+  if(m==='hold_each_side'){const a=val('sf-l'),b=val('sf-rt');return(pos(a)&&pos(b))?{set:{m,left:a,right:b}}:{err:'Log both sides, or tap Skip'};}
+  if(m==='duration'){const min=val('sf-min');return pos(min)?{set:{m,min}}:{err:'Log the minutes, or tap Skip'};}
+  if(m==='reps_only'||m==='bodyweight_reps'){const r=val('sf-r');return pos(r)?{set:{m,r}}:{err:'Log the reps, or tap Skip'};}
+  const r=val('sf-r'),w=val('sf-w');
+  if(!pos(r))return{err:'Enter reps, or tap Skip'};
+  if(m==='assisted_bodyweight')return pos(w)?{set:{m,w,r}}:{err:'Log the assistance, or switch to Bodyweight'};
+  if(m==='loaded_bodyweight')return pos(w)?{set:{m,w,r}}:{err:'Log the added weight, or switch to Bodyweight'};
+  return{set:{m:'weight_reps',w:isNaN(w)?null:w,r}};
+}
+
+/* A hold is timed, not counted. The stopwatch counts up into the box it was
+ * started from and leaves the number there, editable like any other. */
+const HOLD_LABEL={'sf-sec':'Timer','sf-l':'L','sf-rt':'R'};
+let holdT=null,holdStart=0,holdField=null;
+function stopHold(){clearInterval(holdT);holdT=null;
+  if(holdField){const b=$('[data-hold="'+holdField+'"]');if(b)b.textContent=HOLD_LABEL[holdField]||'Timer';holdField=null;}}
+function tickHold(){const el=$('#'+holdField);if(!el){stopHold();return;}
+  const n=Math.round((Date.now()-holdStart)/1000);el.value=n;
+  const b=$('[data-hold="'+holdField+'"]');if(b)b.textContent=clock(n);}
+function toggleHold(id){
+  if(holdField===id){stopHold();return;}
+  stopHold();holdField=id;holdStart=Date.now();tickHold();holdT=setInterval(tickHold,250);
+}
+/* Into whichever box the metric put first. */
+function focusForm(){setTimeout(()=>{const f=$('#sf-w')||$('#sf-sec')||$('#sf-l')||$('#sf-min')||$('#sf-r');f&&f.focus();},0);}
 function fallbackCopy(t,cb){const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');cb();}catch(e){toast('Long-press the text to copy');}document.body.removeChild(ta);}
 function readMeal(){const n=$('#m-n').value.trim(),p=+$('#m-p').value||0,c=+$('#m-c').value||0,f=+$('#m-f').value||0;return{n,p,c,f};}
 document.addEventListener('input',e=>{if(['m-p','m-c','m-f'].includes(e.target.id)){const m=readMeal();$('#m-k').value=m.p*4+m.c*4+m.f*9||'';}});
 document.addEventListener('click',e=>{
   const a=e.target.closest('a'); if(a) return; // let links through
   const b=e.target.closest('button');if(!b)return;const d=b.dataset;
-  if(d.v){view=d.v;editing=null;if(view==='week')weekView=new Date(cur);if(view==='month')monthView=new Date(cur.getFullYear(),cur.getMonth(),1);render(true);return;}
-  if(d.nav){cur=addDays(cur,+d.nav);editing=null;openEx.clear();render(true);return;}
-  if(d.jump){cur=new Date();cur.setHours(0,0,0,0);editing=null;openEx.clear();render(true);return;}
+  /* Anything but the stopwatch itself re-renders, which would orphan it. */
+  if(!d.hold&&holdField)stopHold();
+  if(d.hold){toggleHold(d.hold);return;}
+  if(d.repstep){const el=$('#sf-r');if(el)el.value=Math.max(0,(parseFloat(el.value)||0)+ +d.repstep);return;}
+  if(d.rung){setRung(d.ex,d.rung);save();render();focusForm();return;}
+  /* A gate only ever asks. This is the confirmation, and it is the only thing
+   * that moves anybody up a rung. */
+  if(d.gateyes){const parts=d.gateyes.split('|');gateSeen.add(d.gateyes);
+    if(RUNG_METRIC[parts[2]]){setRung(parts[0],parts[2]);save();toast(parts[0]+' — '+RUNG_LABEL[parts[2]].toLowerCase());}
+    else toast('Noted — add it next session');
+    render();return;}
+  if(d.gateno){gateSeen.add(d.gateno);render();toast('Stay where you are');return;}
+  if(d.v){view=d.v;editing=null;skipPicker=false;if(view==='week')weekView=new Date(cur);if(view==='month')monthView=new Date(cur.getFullYear(),cur.getMonth(),1);render(true);return;}
+  if(d.nav){cur=addDays(cur,+d.nav);editing=null;skipPicker=false;openEx.clear();render(true);return;}
+  if(d.jump){cur=new Date();cur.setHours(0,0,0,0);editing=null;skipPicker=false;openEx.clear();render(true);return;}
   if(d.wk){weekView=addDays(weekView,7*+d.wk);render(true);return;}
   if(d.mo){monthView=new Date(monthView.getFullYear(),monthView.getMonth()+ +d.mo,1);render(true);return;}
-  if(d.open){cur=new Date(d.open+'T00:00:00');view='today';editing=null;openEx.clear();render(true);return;}
+  if(d.open){cur=new Date(d.open+'T00:00:00');view='today';editing=null;skipPicker=false;openEx.clear();render(true);return;}
   if(d.info){const i=+d.info;openEx.has(i)?openEx.delete(i):openEx.add(i);render();return;}
-  if(d.set){const [i,s]=d.set.split(':').map(Number);editing=(editing&&editing.ex===i&&editing.set===s)?null:{ex:i,set:s};render();setTimeout(()=>{const f=$('#sf-w')||$('#sf-r');f&&f.focus();},0);return;}
+  if(d.set){const [i,s]=d.set.split(':').map(Number);editing=(editing&&editing.ex===i&&editing.set===s)?null:{ex:i,set:s};render();focusForm();return;}
   if(d.cancel){editing=null;render();return;}
+  if(d.restadd){addRest(+d.restadd);return;}
+  if(d.restdone){stopRest();return;}
+  if(d.startrest){startRest(+d.startrest);return;}
   if(d.skipset){const l=logFor(cur);l.sets[editing.ex]=l.sets[editing.ex]||[];l.sets[editing.ex][editing.set]={skip:1};
     const day=DAYS[cur.getDay()];const total=rx(day.ex[editing.ex],phaseOf(weekOf(cur))).sets;
     editing=editing.set+1<total?{ex:editing.ex,set:editing.set+1}:null;save();render();toast('Skipped');return;}
-  if(d.savesets){const l=logFor(cur);const w=$('#sf-w')?parseFloat($('#sf-w').value):null;const r=parseFloat($('#sf-r').value);if(isNaN(r)||r<=0){toast('Enter reps, or tap Skip');return;}
-    l.sets[editing.ex]=l.sets[editing.ex]||[];l.sets[editing.ex][editing.set]={w:isNaN(w)?null:w,r};
-    const day=DAYS[cur.getDay()];const ex=day.ex[editing.ex];const total=rx(ex,phaseOf(weekOf(cur))).sets;
+  if(d.savesets){const l=logFor(cur);const day=DAYS[cur.getDay()];const ex=day.ex[editing.ex];
+    const built=readSet(ex.n);if(built.err){toast(built.err);return;}
+    l.sets[editing.ex]=l.sets[editing.ex]||[];l.sets[editing.ex][editing.set]=built.set;
+    const total=rx(ex,phaseOf(weekOf(cur))).sets;
     // rest: if in a superset and this is the first of the pair, no rest; else exercise rest
     let rest=restSec(ex.rest);
     editing=editing.set+1<total?{ex:editing.ex,set:editing.set+1}:null;
-    save();render();if(rest&&!ex.warm&&ex.t!=='C')startRest(rest);
-    if(editing){setTimeout(()=>{const f=$('#sf-w')||$('#sf-r');f&&f.focus();},0);}return;}
-  if(d.done){const l=logFor(cur);l.done=!l.done;save();render();toast(l.done?'Session logged':'Unmarked');return;}
+    save();render();if(rest&&!ex.warm&&ex.t!=='C'&&DB.settings.restAuto)startRest(rest);
+    if(editing)focusForm();return;}
+  if(d.done){const l=logFor(cur);l.done=!l.done;if(l.done)l.skipped=null;save();render();toast(l.done?'Session logged':'Unmarked');return;}
+  if(d.skipday){skipPicker=true;render();return;}
+  if(d.skipcancel){skipPicker=false;render();return;}
+  /* A skip writes a reason and nothing else. No sets are touched, so a skipped
+   * day can never turn into a row of 0 lb lifts in the strength board. */
+  if(d.skipreason){const l=logFor(cur);l.skipped={reason:d.skipreason,at:new Date().toISOString()};l.done=false;skipPicker=false;save();render();toast('Session skipped — '+skipLabel(d.skipreason));return;}
+  if(d.unskip){const l=logFor(cur);l.skipped=null;save();render();toast('Skip removed');return;}
   if(d.mt){const l=logFor(cur);l.mt=l.mt===d.mt?null:d.mt;save();render();return;}
   if(d.hip){DB.hip[key(cur)]=+d.hip;save();render();return;}
   if(d.checkin){const w=parseFloat($('#ci-w').value),ws=parseFloat($('#ci-waist').value);if(!isNaN(w))DB.weight[key(cur)]=w;if(!isNaN(ws))DB.waist[key(cur)]=ws;save();render();toast('Check-in saved');return;}
   if(d.addw){const w=parseFloat($('#tw').value);if(isNaN(w)){toast('Enter a weight');return;}DB.weight[key(new Date())]=w;save();render();toast('Weight saved');return;}
   if(d.addwaist){const w=parseFloat($('#tws').value);if(isNaN(w)){toast('Enter inches');return;}DB.waist[key(new Date())]=w;save();render();toast('Waist saved');return;}
   if(d.savesettings){DB.settings.startWeight=parseFloat($('#s-start').value)||205;DB.settings.goalWeight=parseFloat($('#s-goal').value)||180;save();render();toast('Saved');return;}
+  if(d.settog){DB.settings[d.settog]=!DB.settings[d.settog];save();render();toast(DB.settings[d.settog]?'On':'Off');return;}
+  if(d.saverest){const v=Math.round(parseFloat($('#s-rest').value));if(isNaN(v)||v<10||v>900){toast('Between 10 and 900 seconds');return;}DB.settings.restDefault=v;save();render();toast('Default rest '+clock(v));return;}
+  if(d.testrest){restAlert();toast('Sound '+(DB.settings.restSound?'on':'off')+' · vibration '+(DB.settings.restVibrate?'on':'off'));return;}
   if(d.q){const q=QUICK[+d.q];(DB.macros[key(cur)]=DB.macros[key(cur)]||[]).push({...q});save();render();toast(`+${q.p} g protein`);return;}
   if(d.mq){const q=DB.quick[+d.mq];(DB.macros[key(cur)]=DB.macros[key(cur)]||[]).push({...q});save();render();toast(`+${q.p} g protein`);return;}
   if(d.editquick){editQuick=!editQuick;render();return;}
@@ -847,6 +1489,7 @@ document.addEventListener('click',e=>{
   if(d.saveq){const m=readMeal();if(!m.n){toast('Give it a name');return;}if(!m.p&&!m.c&&!m.f){toast('Enter macros');return;}DB.quick.push(m);save();render();toast('Saved to My meals');return;}
   if(d.delm){DB.macros[key(cur)].splice(+d.delm,1);save();render();return;}
   if(d.edittargets){$('#targets').classList.toggle('hidden');return;}
+  if(d.clearnotes){delete DB.settings.dataNotes;save();render();toast('Cleared');return;}
   if(d.savebackup){downloadBackup();return;}
   if(d.copybackup){const t=backupJSON();const done=()=>toast('Backup copied');if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));}else fallbackCopy(t,done);return;}
   if(d.sharebackup){try{Camp.shareBackup(backupJSON(),'camp-backup-'+key(new Date())+'.json');}catch(e){toast('Share unavailable');}return;}
@@ -860,7 +1503,7 @@ document.addEventListener('click',e=>{
     return;}
   if(d.savetargets){const s=DB.settings;s.kcal=+$('#t-k').value||s.kcal;s.p=+$('#t-p').value||s.p;s.c=+$('#t-c').value||s.c;s.f=+$('#t-f').value||s.f;save();render();toast('Targets saved');return;}
 });
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&editing&&(e.target.id==='sf-w'||e.target.id==='sf-r')){e.preventDefault();$('[data-savesets]').click();}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&editing&&/^sf-/.test(e.target.id||'')){e.preventDefault();$('[data-savesets]').click();}});
 render(true);
 if(!MIGRATION.ok){
   const bar=document.createElement('div');
