@@ -262,7 +262,7 @@ body.resting .toast{bottom:calc(210px + env(safe-area-inset-bottom))}
  *
  * Every value we keep in localStorage is written inside an envelope:
  *
- *   { "schemaVersion": 5, "data": <the value the app actually uses> }
+ *   { "schemaVersion": 6, "data": <the value the app actually uses> }
  *
  * Saves written before this layer existed are bare values with no envelope.
  * Those are version 1 by definition — a missing version means 1, never 0 and
@@ -285,9 +285,10 @@ body.resting .toast{bottom:calc(210px + env(safe-area-inset-bottom))}
  *
  * A migration that cannot work from the snapshot alone gets a context object as
  * its second argument: options.exerciseAt lets it ask the app which exercise a
- * log slot holds, and ctx.note() is where it reports anything it could not
- * classify. Notes come back on the result. up() stays a pure function of its
- * two arguments — ctx.note is a reporting sink, never data.
+ * log slot holds, options.startDate is the profile's start date for the v6
+ * backfill, and ctx.note() is where it reports anything it could not classify.
+ * Notes come back on the result. up() stays a pure function of its two
+ * arguments — ctx.note is a reporting sink, never data.
  *
  * Loaded as a plain script (spliced into the app) it defines CampCore; under
  * node it also exports it, which is what build/check-migrations.js drives.
@@ -295,10 +296,12 @@ body.resting .toast{bottom:calc(210px + env(safe-area-inset-bottom))}
 var CampCore = (function () {
   'use strict';
 
-  var CURRENT_VERSION = 5;
+  var CURRENT_VERSION = 6;
 
-  /* Every localStorage key the app owns. Order is the write order. */
-  var KEYS = ['logs', 'weight', 'waist', 'hip', 'macros', 'quick', 'settings'];
+  /* Every localStorage key the app owns. Order is the write order. app is
+   * state the app owns and the user does not edit as a setting: the start
+   * date, and later whatever else has to survive a rebuilt page. */
+  var KEYS = ['logs', 'weight', 'waist', 'hip', 'macros', 'quick', 'settings', 'app'];
 
   var ROLLBACK_KEY = 'camp.rollback';
 
@@ -491,6 +494,32 @@ var CampCore = (function () {
         out.logs = nextLogs;
         return out;
       }
+    },
+    {
+      from: 5,
+      to: 6,
+      name: 'app-state-start-date',
+      /* The store gains an app key: state the app owns that is neither a log
+       * nor a setting the user edits. Its first field is startDate, the Monday
+       * the program is counted from. Until now that date was a constant baked
+       * into the page; from v6 the page reads it from here, so a rebuilt page
+       * cannot move anyone's weeks.
+       *
+       * It is backfilled from ctx.startDate — the profile's date, handed over
+       * by the app — so an existing install comes through on exactly the week
+       * it was on. With nobody to ask (a backup restored outside the app) it is
+       * null and the app falls back to the profile's date at runtime. An app
+       * key already present keeps everything it has; only a missing startDate
+       * is filled in. Nothing else in the store is touched. */
+      up: function (snapshot, ctx) {
+        var out = Object.assign({}, snapshot);
+        var app = isPlainObject(snapshot.app) ? Object.assign({}, snapshot.app) : {};
+        if (!('startDate' in app)) {
+          app.startDate = (ctx && typeof ctx.startDate === 'string') ? ctx.startDate : null;
+        }
+        out.app = app;
+        return out;
+      }
     }
   ];
 
@@ -610,6 +639,7 @@ var CampCore = (function () {
       notes: notes,
       ctx: {
         exerciseAt: (options && options.exerciseAt) || null,
+        startDate: (options && typeof options.startDate === 'string') ? options.startDate : null,
         note: function (n) { notes.push(n); }
       }
     };
@@ -733,7 +763,8 @@ const mem={};
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:CampCore.unwrap(JSON.parse(v));}catch(e){return k in mem?mem[k]:d;}},set(k,v){if(!MIGRATION.ok){mem[k]=v;return;}try{localStorage.setItem(k,JSON.stringify(CampCore.wrap(v)));}catch(e){mem[k]=v;}}};
 
 /* ---------------- program ---------------- */
-const START=new Date(2026,7,31); const WEEKS=9;
+const PROFILE={"id":"landon","displayName":"Landon","schemaVersion":2,"startDate":"2026-08-31","startDateEditable":false,"programWeeks":9,"phases":[{"name":"Build","startWeek":1,"endWeek":5,"setScale":1},{"name":"Deload","startWeek":6,"endWeek":6,"setScale":0.6},{"name":"Peak","startWeek":7,"endWeek":9,"setScale":1}],"schedule":{"type":"fixed","days":{"mon":"lowerA","tue":"upperA","wed":"core","thu":"hipReset","fri":"lowerB","sat":"upperB","sun":"recovery"}},"nutrition":{"mode":"macros","trainingKcal":2500,"restKcal":2300,"floorKcal":2200,"protein":165,"carbs":280,"fat":80},"bodyweight":{"start":205,"goal":180},"features":{"flareTracking":false,"cardioLog":false,"hipScore":true,"notifications":true},"notifications":{"enabled":false}};
+const WEEKS=PROFILE.programWeeks;
 const pad=n=>String(n).padStart(2,'0');
 const key=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
@@ -741,8 +772,23 @@ const sameDay=(a,b)=>key(a)===key(b);
 const DOW=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const fmt=d=>`${DOW[d.getDay()]}, ${MON[d.getMonth()]} ${d.getDate()}`;
-const weekOf=d=>Math.floor(Math.round((d-START)/864e5)/7)+1;
-const phaseOf=w=>w<1||w>WEEKS?null:w<=4?'Build':w===5?'Deload':'Peak';
+/* The Monday the program is counted from. A person whose profile marks the
+ * date editable owns it: what they chose lives in app state (DB.app.startDate)
+ * and the profile's date is only the first-run default, so a rebuilt page can
+ * never move their weeks. A fixed date is the profile's, always. null means
+ * not chosen yet: no week, no phase, and nothing to log against until it is.
+ * START is recomputed by applyStart() once the store is loaded and again
+ * whenever the date changes; every week number in the app derives from it. */
+let START=null;
+function startISO(){return PROFILE.startDateEditable?(DB.app.startDate||PROFILE.startDate):PROFILE.startDate;}
+function applyStart(){const s=startISO();START=s?new Date(s+'T00:00:00'):null;}
+const weekAt=(d,start)=>start?Math.floor(Math.round((d-start)/864e5)/7)+1:0;
+const weekOf=d=>weekAt(d,START);
+const phaseOf=w=>{if(w<1||w>WEEKS)return null;const p=PROFILE.phases.find(p=>w>=p.startWeek&&w<=p.endWeek);return p?p.name:null;};
+/* A date's place in the program, in words: "week 3", "6 days before week 1",
+ * "after the program". Never a week 0 or a negative week. */
+function weekLabel(d,start){if(start===undefined)start=START;if(!start)return'no start date';const w=weekAt(d,start);
+  if(w>=1&&w<=WEEKS)return'week '+w;if(w<1){const n=Math.round((start-d)/864e5);return n+' day'+(n===1?'':'s')+' before week 1';}return'after the program';}
 
 /* Exercise library: how = form cues, why = purpose, hip = FAI / labrum / APT guidance, yt = search
  *
@@ -1049,12 +1095,12 @@ const gateSeen=new Set();
 const MIGRATION=(function(){
   try{localStorage.setItem('camp.probe','1');localStorage.removeItem('camp.probe');}
   catch(e){return{ok:true,migrated:false,version:CampCore.CURRENT_VERSION,applied:[],notes:[]};}
-  try{return CampCore.run(localStorage,{exerciseAt});}catch(e){return{ok:false,error:String(e),message:CampCore.FAIL_MESSAGE,notes:[]};}
+  try{return CampCore.run(localStorage,{exerciseAt,startDate:PROFILE.startDate});}catch(e){return{ok:false,error:String(e),message:CampCore.FAIL_MESSAGE,notes:[]};}
 })();
 const DB={
   logs:store.get('logs',{}), weight:store.get('weight',{}), waist:store.get('waist',{}), hip:store.get('hip',{}),
-  macros:store.get('macros',{}), quick:store.get('quick',[]),
-  settings:store.get('settings',{startWeight:205,goalWeight:180,kcal:2300,p:165,c:230,f:75})
+  macros:store.get('macros',{}), quick:store.get('quick',[]), app:store.get('app',{}),
+  settings:store.get('settings',{startWeight:205,goalWeight:180})
 };
 /* The rest timer and its alerts are the same for everybody, so their defaults
  * live in core.js next to the migration that backfills them, not in each
@@ -1063,6 +1109,31 @@ DB.settings=Object.assign({},CampCore.SETTINGS_DEFAULTS,DB.settings);
 /* The rung each bodyweight exercise is on, by exercise name. Set by the user,
  * never by the app on its own. */
 DB.settings.exMode=DB.settings.exMode&&typeof DB.settings.exMode==='object'?DB.settings.exMode:{};
+/* App state. A fresh install has none; the v6 migration gives an existing one
+ * its startDate. Either way the profile's date is the fallback until a date is
+ * chosen, and only an editable profile ever lets one be chosen. */
+DB.app=DB.app&&typeof DB.app==='object'&&!Array.isArray(DB.app)?DB.app:{};
+if(DB.app.startDate===undefined)DB.app.startDate=null;
+applyStart();
+/* Nutrition targets. The program's numbers are the profile's and are read at
+ * runtime, so changing the program reaches a phone that never touched them.
+ * Anything typed into Edit targets is that person's own and is kept in app
+ * state, overriding the profile field by field until they put it back. NUT is
+ * the two merged, rebuilt by applyNutrition() whenever either side changes. */
+let NUT=null;
+function applyNutrition(){
+  const o=DB.app.nutrition;
+  NUT=Object.assign({},PROFILE.nutrition,(o&&typeof o==='object'&&!Array.isArray(o))?o:{});
+}
+applyNutrition();
+/* Training day or rest day, read off the day's own session and never set by
+ * hand. Only a recovery day is a rest day. Everything else is a training day:
+ * a lift, a core session, and the mobility morning before sparring, because
+ * sparring is not rest. Where it is close, the day gets the training target —
+ * on a GLP-1 the failure mode is undereating, and 200 kcal of precision is not
+ * worth being wrong in that direction. */
+const isRestDay=d=>{const day=DAYS[d.getDay()];return !!day&&day.kind==='recovery';};
+const kcalFor=d=>isRestDay(d)?NUT.restKcal:NUT.trainingKcal;
 const save=()=>{for(const k in DB)store.set(k,DB[k]);};
 /* Anything the migration could not read with certainty is reported, never
  * guessed at and never discarded. Keep the report with the data so the Data tab
@@ -1183,6 +1254,7 @@ const SKIP_REASONS=[['travel','Travel'],['illness','Illness'],['rest','Rest'],['
 const skipLabel=r=>{const m=SKIP_REASONS.find(x=>x[0]===r);return m?m[1]:'Other';};
 function skipOf(d){const l=DB.logs[key(d)];return (l&&l.skipped)||null;}
 function streak(){
+  if(!START)return 0;
   let n=0;let d=new Date(cur);
   if(!plannedDone(d)&&!skipOf(d))d=addDays(d,-1);
   while(d>=START){
@@ -1195,6 +1267,7 @@ function streak(){
 /* Sessions completed out of the days that asked for one. Today only counts once
  * it is logged — an unfinished morning is not a miss yet. */
 function adherence(){
+  if(!START)return{done:0,scheduled:0,skipped:0,pct:null};
   const today=new Date();today.setHours(0,0,0,0);
   const last=addDays(START,WEEKS*7-1);
   const end=today<last?today:last;
@@ -1390,15 +1463,19 @@ function gateHtml(e,sets){
 
 function vToday(){
   const w=weekOf(cur),ph=phaseOf(w);const day=DAYS[cur.getDay()];const l=logFor(cur);const isToday=sameDay(cur,new Date());const inProg=w>=1&&w<=WEEKS;
-  const end=addDays(START,WEEKS*7-1);const left=Math.round((end-cur)/864e5);
+  const end=START?addDays(START,WEEKS*7-1):null;const left=end?Math.round((end-cur)/864e5):0;
   let h=`<div class="today-nav"><button data-nav="-1">‹ Prev</button>${isToday?`<span class="meta">Today</span>`:`<button class="jump" data-jump="1">Back to today</button>`}<button data-nav="1">Next ›</button></div>`;
   /* Campaign header: where this day sits in a finite nine weeks. */
-  h+=`<div class="arc">${inProg?`<span class="phase">${ph}</span><span>Week ${w} of ${WEEKS}</span><span class="right">${left>0?`${left} day${left===1?'':'s'} to ${MON[end.getMonth()]} ${end.getDate()}`:'Last day'}</span>`:`<span class="phase">${cur<START?'Before camp':'After camp'}</span><span class="right">${MON[START.getMonth()]} ${START.getDate()} – ${MON[end.getMonth()]} ${end.getDate()}</span>`}</div>`;
+  h+=`<div class="arc">${inProg?`<span class="phase">${ph}</span><span>Week ${w} of ${WEEKS}</span><span class="right">${left>0?`${left} day${left===1?'':'s'} to ${MON[end.getMonth()]} ${end.getDate()}`:'Last day'}</span>`:`<span class="phase">${!START?'No start date':cur<START?'Before camp':'After camp'}</span><span class="right">${START?`${MON[START.getMonth()]} ${START.getDate()} – ${MON[end.getMonth()]} ${end.getDate()}`:''}</span>`}</div>`;
   h+=`<h1>${day.title}</h1><p class="date">${fmt(cur)} · ${day.when}</p>`;
   let track='';for(let k=1;k<=WEEKS;k++)track+=`<i class="${inProg&&k<w?'past':inProg&&k===w?'now':''}"></i>`;
   const labs=[];for(let k=1;k<=WEEKS;k++){const p=phaseOf(k);if(p&&labs[labs.length-1]!==p)labs.push(p);}
   h+=`<div class="track" aria-label="${inProg?`Week ${w} of ${WEEKS}`:'Nine weeks'}">${track}</div><div class="track-lab">${labs.map(p=>`<span>${p}</span>`).join('')}</div>`;
-  if(!inProg){return h+`<div class="card"><h3>${cur<START?`Program starts Monday, ${MON[START.getMonth()]} ${START.getDate()}`:'Program complete'}</h3><p class="note">${cur<START?'Week 1 begins with Lower A.':'Nine weeks done. Re-test the heavy lifts, take photos, and start the next block.'}</p></div>`;}
+  /* Before the start date nothing can be logged: the session list, the check-in
+   * and every handler below this line are never rendered for that day. */
+  if(!START){return h+`<div class="card"><h3>Choose a start date</h3><p class="note">Pick the Monday your program begins in Settings. Nothing can be logged until then.</p><button class="secondary" data-v="settings">Open Settings</button></div>`;}
+  if(!inProg){const until=cur<START?Math.round((START-cur)/864e5):0;
+    return h+`<div class="card"><h3>${cur<START?`Program starts Monday, ${MON[START.getMonth()]} ${START.getDate()}`:'Program complete'}</h3><p class="note">${cur<START?`Starts in ${until} day${until===1?'':'s'}. `+'Week 1 begins with Lower A.':'Nine weeks done. Re-test the heavy lifts, take photos, and start the next block.'}</p></div>`;}
   h+=`<p class="intro">${esc(day.tag)}. ${day.intro}</p>`;
   /* The session: one surface, everything else a row. Activation and each
    * superset keep a quiet label so the pairing and the station stay visible. */
@@ -1435,7 +1512,7 @@ function vToday(){
 
 function vWeek(){
   const mon=addDays(weekView,-((weekView.getDay()+6)%7));const w=weekOf(mon),ph=phaseOf(w);
-  let h=`<div class="wk"><button data-wk="-1">‹</button><div style="text-align:center"><h3>${w>=1&&w<=WEEKS?`Week ${w} of ${WEEKS}`:'Off program'}</h3><div class="meta">${MON[mon.getMonth()]} ${mon.getDate()} – ${MON[addDays(mon,6).getMonth()]} ${addDays(mon,6).getDate()}${ph?` <span class="pill">${ph}</span>`:''}</div></div><button data-wk="1">›</button></div>`;
+  let h=`<div class="wk"><button data-wk="-1">‹</button><div style="text-align:center"><h3>${!START?'No start date':w>=1&&w<=WEEKS?`Week ${w} of ${WEEKS}`:'Off program'}</h3><div class="meta">${MON[mon.getMonth()]} ${mon.getDate()} – ${MON[addDays(mon,6).getMonth()]} ${addDays(mon,6).getDate()}${ph?` <span class="pill">${ph}</span>`:''}</div></div><button data-wk="1">›</button></div>`;
   for(let i=0;i<7;i++){const d=addDays(mon,i);const day=DAYS[d.getDay()];const l=DB.logs[key(d)];const done=l&&l.done;const sk=l&&l.skipped;const mtTxt=day.mt?`${day.mt} 7 pm`:'No class';
     const status=sk?'Skipped':done?'Done':(d<cur?'Missed':'');
     h+=`<button class="dayrow ${sameDay(d,new Date())?'isToday':''} ${sk?'isSkipped':''}" data-open="${key(d)}"><div class="d">${DOW[d.getDay()].slice(0,3)}<small>${MON[d.getMonth()]} ${d.getDate()}</small></div><div class="t">${day.title}<small>${day.tag} · ${mtTxt}</small></div><div class="s ${done?'ok':''} ${sk?'skip':''}">${status}${sk?`<small>${esc(skipLabel(sk.reason))}</small>`:''}</div></button>`;}
@@ -1457,7 +1534,7 @@ function vMonth(){
     h+=`<button class="cell ${sameDay(dt,new Date())?'isToday':''} ${sk?'skipped':done?'done':''} ${inP?'':'pre'}" data-open="${key(dt)}" title="${sk?'Skipped — '+esc(skipLabel(sk.reason)):''}"><span>${d}</span>${inP&&!sk?`<span class="bar" style="--c:${KIND_COLOR[day.kind]}"></span>`:''}</button>`;}
   h+=`</div></div><div class="legend"><span style="--c:${KIND_COLOR.lift}">Lift</span><span style="--c:${KIND_COLOR.core}">Core + walk</span><span style="--c:${KIND_COLOR.mobility}">Hip reset</span><span style="--c:${KIND_COLOR.recovery}">Recovery</span><span class="skip">Skipped</span></div>`;
   const nowPh=phaseOf(weekOf(new Date()));const pill=p=>`<span class="pill ${nowPh===p?'now':''}">${p}</span>`;
-  h+=`<h2>The nine weeks</h2><div class="rows"><div class="row">${pill('Build')} <b>Weeks 1–4</b>, Aug 31 – Sep 27<div class="meta">Heavy 5s, learn the movements, add weight every week. Protein locked in.</div></div><div class="row">${pill('Deload')} <b>Week 5</b>, Sep 28 – Oct 4<div class="meta">Fewer sets, 70% loads, no HIIT. Joints recover, strength rebounds.</div></div><div class="row">${pill('Peak')} <b>Weeks 6–9</b>, Oct 5 – Nov 1<div class="meta">Heavy triples, an extra hypertrophy set, longer HIIT and walks. This is where the look arrives.</div></div></div>`;
+  h+=`<h2>The nine weeks</h2><div class="rows"><div class="row">${pill('Build')} <b>Weeks 1–5</b>, Aug 31 – Oct 4<div class="meta">Heavy 5s, learn the movements, add weight every week. Protein locked in.</div></div><div class="row">${pill('Deload')} <b>Week 6</b>, Oct 5 – Oct 11<div class="meta">Fewer sets, 70% loads, no HIIT. Joints recover, strength rebounds.</div></div><div class="row">${pill('Peak')} <b>Weeks 7–9</b>, Oct 12 – Nov 1<div class="meta">Heavy triples, an extra hypertrophy set, longer HIIT and walks. This is where the look arrives.</div></div></div>`;
   h+=`<h2>Checkpoints</h2><div class="rows"><div class="row"><b>Oct 1, day 30</b><div class="meta">Roughly 6–9 lb down, waist 1.5–2 in smaller, 10–15% more on the heavy lifts. Face and shoulders visibly leaner.</div></div><div class="row"><b>Nov 1, day 60</b><div class="meta">12–18 lb down, shoulder and arm definition, upper abs showing, noticeably better gas in rounds.</div></div></div>`;
   return h;
 }
@@ -1465,7 +1542,9 @@ function vMonth(){
 function exportText(){
   const S=DB.settings;const out=[];
   out.push('CAMP — PROGRESS EXPORT  '+key(new Date()));
-  out.push('Start '+S.startWeight+' lb, goal '+S.goalWeight+' lb, targets '+S.kcal+' kcal / '+S.p+'P '+S.c+'C '+S.f+'F');
+  out.push('Start '+S.startWeight+' lb, goal '+S.goalWeight+' lb');
+  out.push('Targets  '+NUT.trainingKcal+' kcal training day / '+NUT.restKcal+' rest day, floor '+NUT.floorKcal+
+    '  '+NUT.protein+'P '+NUT.carbs+'C '+NUT.fat+'F'+(DB.app.nutrition?'  (edited on this device)':''));
   const wk=Object.keys(DB.weight).sort();
   out.push('');out.push('WEIGHT');out.push(wk.length?wk.map(k=>k+'  '+DB.weight[k]).join('\n'):'none logged');
   const ws=Object.keys(DB.waist).sort();
@@ -1489,16 +1568,18 @@ function exportText(){
   const mk=Object.keys(DB.macros).sort();
   if(!mk.length)out.push('none logged');
   mk.forEach(k=>{const t=DB.macros[k].reduce((a,e)=>({p:a.p+e.p,c:a.c+e.c,f:a.f+e.f}),{p:0,c:0,f:0});
-    out.push(k+'  '+(t.p*4+t.c*4+t.f*9)+' kcal  '+t.p+'P '+t.c+'C '+t.f+'F  ('+DB.macros[k].length+' entries)');});
+    const dd=new Date(k+'T00:00:00');
+    out.push(k+'  '+(t.p*4+t.c*4+t.f*9)+' kcal  '+t.p+'P '+t.c+'C '+t.f+'F  ('+DB.macros[k].length+' entries)'+
+      '  target '+kcalFor(dd)+' '+(isRestDay(dd)?'rest':'training'));});
   return out.join('\n');
 }
-function backupJSON(){return JSON.stringify({app:'camp',v:1,schemaVersion:CampCore.CURRENT_VERSION,exported:new Date().toISOString(),data:{logs:DB.logs,weight:DB.weight,waist:DB.waist,hip:DB.hip,macros:DB.macros,quick:DB.quick,settings:DB.settings}},null,1);}
+function backupJSON(){return JSON.stringify({app:'camp',v:1,schemaVersion:CampCore.CURRENT_VERSION,exported:new Date().toISOString(),data:{logs:DB.logs,weight:DB.weight,waist:DB.waist,hip:DB.hip,macros:DB.macros,quick:DB.quick,settings:DB.settings,app:DB.app}},null,1);}
 function applyBackup(txt,mode){
   let o; try{o=JSON.parse(txt);}catch(e){return{ok:0,msg:'That is not valid backup text'};}
   let d=o&&o.data?o.data:o; if(!d||typeof d!=='object')return{ok:0,msg:'No data found in that backup'};
   /* Backups written before the storage layer existed have no schemaVersion, so
    * they are version 1. Bring them up to the current shape before merging. */
-  const m=CampCore.migrate(d,(o&&typeof o.schemaVersion==='number')?o.schemaVersion:1,{exerciseAt});
+  const m=CampCore.migrate(d,(o&&typeof o.schemaVersion==='number')?o.schemaVersion:1,{exerciseAt,startDate:PROFILE.startDate});
   if(!m.ok)return{ok:0,msg:'That backup could not be read into this version of the app'};
   d=m.data;
   /* A restore runs the same migrations, so it reports the same way. */
@@ -1506,11 +1587,14 @@ function applyBackup(txt,mode){
   const fields=['logs','weight','waist','hip','macros'];
   let n=0;
   if(mode==='replace'){ fields.forEach(f=>{ if(d[f]&&typeof d[f]==='object'){DB[f]=d[f];n+=Object.keys(d[f]).length;} });
-    if(Array.isArray(d.quick))DB.quick=d.quick; if(d.settings)DB.settings=Object.assign(DB.settings,d.settings); }
+    if(Array.isArray(d.quick))DB.quick=d.quick; if(d.settings)DB.settings=Object.assign(DB.settings,d.settings);
+    if(d.app&&typeof d.app==='object')DB.app=Object.assign({},DB.app,d.app); }
   else { fields.forEach(f=>{ if(d[f]&&typeof d[f]==='object'){ for(const k in d[f]){ if(!(k in DB[f])){DB[f][k]=d[f][k];n++;} } } });
     if(Array.isArray(d.quick)){ d.quick.forEach(q=>{ if(!DB.quick.some(x=>x.n===q.n))DB.quick.push(q); }); }
-    if(d.settings)DB.settings=Object.assign({},d.settings,DB.settings); }
-  save(); return{ok:1,msg:(mode==='replace'?'Restored ':'Merged ')+n+' records'};
+    if(d.settings)DB.settings=Object.assign({},d.settings,DB.settings);
+    /* Merge fills only what is unset here: a start date already chosen on this device stays. */
+    if(d.app&&typeof d.app==='object'){ for(const k in d.app){ if(DB.app[k]==null)DB.app[k]=d.app[k]; } } }
+  applyStart(); applyNutrition(); save(); return{ok:1,msg:(mode==='replace'?'Restored ':'Merged ')+n+' records'};
 }
 window.__campRestore=function(txt){ const r=applyBackup(txt,'merge'); toast(r.msg); if(r.ok)render(true); };
 const AND = (typeof Camp!=='undefined' && Camp && Camp.saveBackup) ? Camp : null;
@@ -1586,14 +1670,21 @@ function vSettings(){
     <div class="meta" style="margin-top:8px">Most lifts carry their own rest and the session page shows it. This is what a lift without one uses. Supersets and warm-ups still rest nothing between moves.</div>
     <button class="secondary" data-testrest="1">Test the alert</button></div>`;
   h+=`<div class="card"><h3>Weight</h3><div class="form2"><div><label>Start weight</label><input type="number" id="s-start" value="${s.startWeight}"></div><div><label>Goal weight</label><input type="number" id="s-goal" value="${s.goalWeight}"></div></div><button class="primary" style="margin-top:12px;padding:12px" data-savesettings="1">Save</button></div>`;
-  h+=`<div class="card"><h3>Nutrition targets</h3><div class="meta">${s.kcal} kcal · ${s.p} g protein · ${s.c} g carbs · ${s.f} g fat. Edit them on Fuel, next to the day's totals.</div><button class="secondary" data-v="fuel">Open Fuel</button></div>`;
+  /* Only a profile that marks its start date editable gets the control. A fixed
+   * date is the profile's and nothing on the device can move it. */
+  if(PROFILE.startDateEditable){const s0=startISO();const today=new Date();today.setHours(0,0,0,0);
+    h+=`<div class="card"><h3>Start date</h3><div class="meta">The Monday week 1 is counted from. Changing it renumbers the weeks; nothing you have logged moves — every entry stays on its own date.</div>
+    <div class="inline"><input type="date" id="s-startdate" value="${s0||''}"><button data-savestart="1">Save</button></div>
+    <div class="meta" style="margin-top:8px">${s0?`Week 1 began ${fmt(new Date(s0+'T00:00:00'))}. Today is ${weekLabel(today)}.`:'Not set yet. Nothing can be logged until it is.'}</div></div>`;}
+  h+=`<div class="card"><h3>Nutrition targets</h3><div class="meta">${NUT.trainingKcal} kcal on a training day, ${NUT.restKcal} on a rest day, never below ${NUT.floorKcal}. ${NUT.protein} g protein · ${NUT.carbs} g carbs · ${NUT.fat} g fat.${DB.app.nutrition?' Edited on this device — the program\'s own numbers are on Fuel.':''} Edit them on Fuel, next to the day's totals.</div><button class="secondary" data-v="fuel">Open Fuel</button></div>`;
   h+=`<button class="secondary" data-v="data">Backup, restore &amp; export</button>`;
   return h;
 }
 function svgChart(){
   const ks=Object.keys(DB.weight).sort();if(ks.length<2)return`<p class="note">Log a few days and the trend line appears here. Goal line is ${DB.settings.goalWeight} lb.</p>`;
-  const pts=ks.map(k=>({x:Math.round((new Date(k+'T00:00:00')-START)/864e5),y:DB.weight[k]}));const W=320,H=170,P=28;const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y).concat([DB.settings.goalWeight]);
-  const minX=Math.min(0,...xs),maxX=Math.max(WEEKS*7,...xs);let minY=Math.floor(Math.min(...ys)-2),maxY=Math.ceil(Math.max(...ys)+2);
+  const origin=START||new Date(ks[0]+'T00:00:00');
+  const pts=ks.map(k=>({x:Math.round((new Date(k+'T00:00:00')-origin)/864e5),y:DB.weight[k]}));const W=320,H=170,P=28;const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y).concat([DB.settings.goalWeight]);
+  const minX=Math.min(0,...xs),maxX=Math.max(START?WEEKS*7:0,...xs);let minY=Math.floor(Math.min(...ys)-2),maxY=Math.ceil(Math.max(...ys)+2);
   const sx=x=>P+(x-minX)/(maxX-minX)*(W-2*P),sy=y=>H-P+(y-minY)/(maxY-minY)*-(H-2*P);
   const path=pts.map((p,i)=>`${i?'L':'M'}${sx(p.x).toFixed(1)},${sy(p.y).toFixed(1)}`).join(' ');const g=DB.settings.goalWeight;
   let h=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend">`;
@@ -1608,18 +1699,25 @@ function svgChart(){
 const QUICK=[{n:'Whey shake',p:30,c:3,f:2},{n:'Greek yogurt, 1 cup',p:20,c:9,f:0},{n:'Cottage cheese, 1 cup',p:25,c:8,f:5},{n:'4 whole eggs',p:24,c:2,f:20},{n:'Chicken breast, 6 oz',p:52,c:0,f:6},{n:'Chicken thigh, 6 oz',p:40,c:0,f:14},{n:'Ground beef 90%, 6 oz',p:44,c:0,f:17},{n:'Salmon, 6 oz',p:38,c:0,f:20},{n:'Tuna can',p:26,c:0,f:1},{n:'White rice, 1 cup',p:4,c:45,f:0},{n:'Oats, 1/2 cup dry',p:5,c:27,f:3},{n:'Banana',p:1,c:27,f:0},{n:'Protein bar',p:20,c:22,f:8},{n:'Avocado, half',p:1,c:6,f:11},{n:'Olive oil, 1 tbsp',p:0,c:0,f:14}];
 function vFuel(){
   const s=DB.settings;const k=key(cur);const list=DB.macros[k]||[];const tot=list.reduce((a,e)=>({p:a.p+e.p,c:a.c+e.c,f:a.f+e.f}),{p:0,c:0,f:0});const kcal=tot.p*4+tot.c*4+tot.f*9;const isToday=sameDay(cur,new Date());
+  /* The calorie target is the day's, not a single number: the session on this
+   * weekday decides it. Protein, carbs and fat are the same every day. */
+  const rest=isRestDay(cur),tgt=kcalFor(cur);
   let h=`<div class="today-nav"><button data-nav="-1">‹ Prev</button>${isToday?`<span class="meta">Today</span>`:`<button class="jump" data-jump="1">Back to today</button>`}<button data-nav="1">Next ›</button></div>`;
   h+=`<div class="meta">${fmt(cur)}</div><h1>Fuel</h1><div class="sub">Protein first. Calories are a floor, not a ceiling, on tirzepatide.</div>`;
   const bar=(l,v,t)=>`<div class="macro"><div class="lab"><span>${l}</span><span><b>${Math.round(v)}</b> / ${t}${l==='Calories'?'':' g'}</span></div><div class="bar-bg"><div class="bar-fg ${v>t*1.15?'over':v>=t?'met':''}" style="width:${Math.min(100,v/t*100)}%"></div></div></div>`;
-  h+=`<div class="card">${bar('Protein',tot.p,s.p)}${bar('Calories',kcal,s.kcal)}${bar('Carbs',tot.c,s.c)}${bar('Fat',tot.f,s.f)}${tot.p<s.p*0.6&&new Date().getHours()>=18&&isToday?`<p class="note"><b>Protein is behind.</b> A shake and a cup of Greek yogurt tonight closes 50 g of the gap.</p>`:''}</div>`;
+  h+=`<div class="card"><div class="meta" style="margin-bottom:12px">${DAYS[cur.getDay()].title} · <b style="color:var(--bone)">${rest?'rest day':'training day'}</b> — ${tgt} kcal, never below ${NUT.floorKcal}</div>${bar('Protein',tot.p,NUT.protein)}${bar('Calories',kcal,tgt)}${bar('Carbs',tot.c,NUT.carbs)}${bar('Fat',tot.f,NUT.fat)}${tot.p<NUT.protein*0.6&&new Date().getHours()>=18&&isToday?`<p class="note"><b>Protein is behind.</b> A shake and a cup of Greek yogurt tonight closes 50 g of the gap.</p>`:''}</div>`;
   h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3>My meals</h3><button class="meta" data-editquick="1" style="padding:4px 8px">${editQuick?'Done':DB.quick.length?'Edit':''}</button></div>`;
   h+=DB.quick.length?`<div class="quick">${DB.quick.map((q,i)=>`<button class="mine ${editQuick?'del':''}" data-${editQuick?'delq':'mq'}="${i}">${editQuick?'× ':''}${esc(q.n)} <small>${q.p}p</small></button>`).join('')}</div>`:`<div class="meta" style="margin-top:6px">Save the meals you actually eat below and they show up here as one-tap buttons.</div>`;
   h+=`<h4>Starter foods</h4><div class="quick" style="margin-top:4px">${QUICK.map((q,i)=>`<button data-q="${i}">${q.n} <small>${q.p}p</small></button>`).join('')}</div></div>`;
   h+=`<div class="card"><h3>New meal</h3><div class="form4"><div style="grid-column:span 4"><label>Name</label><input id="m-n" placeholder="e.g. Post-lift shake + banana"></div><div><label>Protein g</label><input type="number" inputmode="numeric" id="m-p"></div><div><label>Carbs g</label><input type="number" inputmode="numeric" id="m-c"></div><div><label>Fat g</label><input type="number" inputmode="numeric" id="m-f"></div><div><label>kcal</label><input id="m-k" disabled placeholder="auto"></div></div>
     <button class="primary" style="margin-top:12px;padding:12px" data-addm="1">Add to ${isToday?'today':MON[cur.getMonth()]+' '+cur.getDate()}</button><button class="secondary" data-saveq="1">Save as a My meal</button></div>`;
   if(list.length){h+=`<div class="card"><h3>Logged</h3>${list.map((e,i)=>`<div class="meal"><div>${esc(e.n)}<div class="m">${e.p}p · ${e.c}c · ${e.f}f · ${e.p*4+e.c*4+e.f*9} kcal</div></div><button data-delm="${i}">Remove</button></div>`).join('')}</div>`;}
-  h+=`<h2>Your targets and why</h2><div class="card rows"><div class="row"><b>Protein ${s.p} g</b><div class="meta">About 2 g per kg of your 180 lb goal weight — the top of the range recommended on a GLP-1. Four hits of ~40 g. The single most important number in the app.</div></div><div class="row"><b>Calories ${s.kcal}</b><div class="meta">A moderate deficit for a 205 lb man training 8–10 times a week. Never below 2,000 on a lifting day. If the weekly average drops more than 2.5 lb a week two weeks running, add 200.</div></div><div class="row"><b>Carbs ${s.c} g, fat ${s.f} g</b><div class="meta">Carbs around training — before the morning lift, before class. Fat fills the rest. Protein and total calories are the two that need to be exact.</div></div><div class="row"><b>Also daily</b><div class="meta">Creatine monohydrate 5 g (clear it with your prescriber). Water ~1 gallon. Fiber 30 g+. Electrolytes after class.</div></div><div class="row"><b>Eating with no appetite</b><div class="meta">Liquid and dense: shakes, Greek yogurt, cottage cheese, eggs, deli meat. Eat by the clock — 8 am, 12 pm, 4 pm, 9 pm.</div></div></div>`;
-  h+=`<button class="secondary" data-edittargets="1">Edit targets</button><div id="targets" class="hidden card"><div class="form4"><div><label>kcal</label><input type="number" id="t-k" value="${s.kcal}"></div><div><label>P</label><input type="number" id="t-p" value="${s.p}"></div><div><label>C</label><input type="number" id="t-c" value="${s.c}"></div><div><label>F</label><input type="number" id="t-f" value="${s.f}"></div></div><button class="primary" style="margin-top:12px;padding:12px" data-savetargets="1">Save targets</button></div>`;
+  h+=`<h2>Your targets and why</h2><div class="card rows"><div class="row"><b>Protein ${NUT.protein} g</b><div class="meta">About 2 g per kg of your 180 lb goal weight — the top of the range recommended on a GLP-1. Four hits of ~40 g. The single most important number in the app.</div></div><div class="row"><b>Calories ${NUT.trainingKcal} training, ${NUT.restKcal} rest</b><div class="meta">A moderate deficit for a 205 lb man training 8–10 times a week. Sunday is the only day with no lift and no class, so it is the only rest day. Never below ${NUT.floorKcal}, on any day. If the weekly average drops more than 2.5 lb a week two weeks running, add 200.</div></div><div class="row"><b>Carbs ${NUT.carbs} g, fat ${NUT.fat} g</b><div class="meta">Carbs around training — before the morning lift, before class. Fat fills the rest. Protein and total calories are the two that need to be exact.</div></div><div class="row"><b>Also daily</b><div class="meta">Creatine monohydrate 5 g (clear it with your prescriber). Water ~1 gallon. Fiber 30 g+. Electrolytes after class.</div></div><div class="row"><b>Eating with no appetite</b><div class="meta">Liquid and dense: shakes, Greek yogurt, cottage cheese, eggs, deli meat. Eat by the clock — 8 am, 12 pm, 4 pm, 9 pm.</div></div></div>`;
+  const edited=!!DB.app.nutrition;
+  h+=`<button class="secondary" data-edittargets="1">Edit targets</button><div id="targets" class="hidden card">
+    <div class="meta">These come from your program. Anything you change here is yours and overrides it until you put it back.</div>
+    <div class="form4" style="margin-top:10px"><div><label>Training kcal</label><input type="number" id="t-kt" value="${NUT.trainingKcal}"></div><div><label>Rest kcal</label><input type="number" id="t-kr" value="${NUT.restKcal}"></div><div><label>Floor</label><input type="number" id="t-kf" value="${NUT.floorKcal}"></div><div><label>P</label><input type="number" id="t-p" value="${NUT.protein}"></div><div><label>C</label><input type="number" id="t-c" value="${NUT.carbs}"></div><div><label>F</label><input type="number" id="t-f" value="${NUT.fat}"></div></div>
+    <button class="primary" style="margin-top:12px;padding:12px" data-savetargets="1">Save targets</button>${edited?`<button class="secondary" data-resettargets="1">Use the program's targets</button>`:''}</div>`;
   return h;
 }
 
@@ -1724,6 +1822,22 @@ document.addEventListener('click',e=>{
   if(d.addwaist){const w=parseFloat($('#tws').value);if(isNaN(w)){toast('Enter inches');return;}DB.waist[key(new Date())]=w;save();render();toast('Waist saved');return;}
   if(d.savesettings){DB.settings.startWeight=parseFloat($('#s-start').value)||205;DB.settings.goalWeight=parseFloat($('#s-goal').value)||180;save();render();toast('Saved');return;}
   if(d.settog){DB.settings[d.settog]=!DB.settings[d.settog];save();render();toast(DB.settings[d.settog]?'On':'Off');return;}
+  /* The start date. Must be a Monday: anything else moves back to the Monday
+   * before it, and the confirmation says so rather than doing it quietly. The
+   * confirmation also says what today's week becomes. Logs are keyed by date
+   * and are not touched — only the numbering changes. */
+  if(d.savestart){
+    const raw=($('#s-startdate').value||'').trim();
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(raw)){toast('Pick a date');return;}
+    let dt=new Date(raw+'T00:00:00');if(isNaN(dt.getTime())){toast('Pick a date');return;}
+    const moved=dt.getDay()!==1;if(moved)dt=addDays(dt,-((dt.getDay()+6)%7));
+    const iso=key(dt);
+    if(iso===startISO()){toast(moved?'That moves back to '+fmt(dt)+', which is already the start date':'Already the start date');return;}
+    const today=new Date();today.setHours(0,0,0,0);
+    const msg=(moved?raw+' is not a Monday, so the start date moves back to '+fmt(dt)+'.\n\n':'')+
+      'Set the start date to '+fmt(dt)+'?\n\nToday goes from '+weekLabel(today)+' to '+weekLabel(today,dt)+'. Nothing you have logged moves.';
+    if(!confirm(msg))return;
+    DB.app.startDate=iso;applyStart();save();render(true);toast(moved?'Start date set: '+fmt(dt):'Start date set');return;}
   if(d.saverest){const v=Math.round(parseFloat($('#s-rest').value));if(isNaN(v)||v<10||v>900){toast('Between 10 and 900 seconds');return;}DB.settings.restDefault=v;save();render();toast('Default rest '+clock(v));return;}
   if(d.testrest){restAlert();toast('Sound '+(DB.settings.restSound?'on':'off')+' · vibration '+(DB.settings.restVibrate?'on':'off'));return;}
   if(d.q){const q=QUICK[+d.q];(DB.macros[key(cur)]=DB.macros[key(cur)]||[]).push({...q});save();render();toast(`+${q.p} g protein`);return;}
@@ -1746,7 +1860,16 @@ document.addEventListener('click',e=>{
     const done=()=>toast('Copied — paste it into a chat');
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));}else fallbackCopy(t,done);
     return;}
-  if(d.savetargets){const s=DB.settings;s.kcal=+$('#t-k').value||s.kcal;s.p=+$('#t-p').value||s.p;s.c=+$('#t-c').value||s.c;s.f=+$('#t-f').value||s.f;save();render();toast('Targets saved');return;}
+  /* An edit is stored as an override on top of the profile, never written back
+   * over the program's own numbers, so Use the program's targets can always put
+   * them back and a later program change reaches anyone who never edited. */
+  if(d.savetargets){
+    const num=(id,was)=>{const v=parseFloat(($('#'+id)||{}).value);return isFinite(v)&&v>0?v:was;};
+    const o={trainingKcal:num('t-kt',NUT.trainingKcal),restKcal:num('t-kr',NUT.restKcal),floorKcal:num('t-kf',NUT.floorKcal),
+      protein:num('t-p',NUT.protein),carbs:num('t-c',NUT.carbs),fat:num('t-f',NUT.fat)};
+    if(o.floorKcal>o.restKcal||o.restKcal>o.trainingKcal){toast('Needs floor ≤ rest ≤ training');return;}
+    DB.app.nutrition=o;applyNutrition();save();render();toast('Targets saved');return;}
+  if(d.resettargets){delete DB.app.nutrition;applyNutrition();save();render();toast('Back to the program\'s targets');return;}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&/^sf-/.test(e.target.id||'')){e.preventDefault();const b=$('[data-savesets]');b&&b.click();}});
 render(true);
