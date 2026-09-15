@@ -3,185 +3,256 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
-<meta name="theme-color" content="#0E2A25">
+<meta name="theme-color" content="#081916">
 <meta name="mobile-web-app-capable" content="yes">
 <title>Camp — Nov 1</title>
 <style>
-:root{--ink:#0E2A25;--panel:#153933;--panel2:#1C4640;--line:#255650;--bone:#EFE7D3;--muted:#9DB3AB;--saffron:#F0A63A;--mint:#7FD1B9;--ember:#E4694A;--lav:#8FA6D9;--r:14px}
+/* ---- tokens ----
+   Deep field green, widened steps for real separation.
+   ONE accent (flare) for "act now". ONE state colour (gain) for "done".
+   ONE alert (flag) used only for over-target. Nothing decorative.
+   Radii: exactly three. 10 = control, 16 = surface, 999 = pip. */
+:root{
+  --ink:#081916;        /* page */
+  --raise:#102A25;      /* surface */
+  --edge:#1D423B;       /* border, input fill */
+  --bone:#ECE5D5;       /* text */
+  --dim:#88A199;        /* secondary text */
+  --ghost:#4E6B63;      /* tertiary / previous-session numbers */
+  --flare:#F5A524;      /* the only "do this now" colour */
+  --gain:#63CDAA;       /* completed state only */
+  --flag:#E4694A;       /* over/alert only */
+  --r-ctl:10px;
+  --r-surf:16px;
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--ink);color:var(--bone);font-family:system-ui,-apple-system,Roboto,"Segoe UI",sans-serif;font-size:16px;line-height:1.4;-webkit-font-smoothing:antialiased}
-body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+html,body{margin:0;background:var(--ink);color:var(--bone);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
-a{color:var(--mint)}
-input,select{font:inherit;color:var(--bone);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;outline:none}
-input:focus,select:focus,button:focus-visible{outline:2px solid var(--saffron);outline-offset:2px}
+a{color:var(--bone)}
+input,select,textarea{font:inherit;color:var(--bone);background:var(--edge);border:1px solid transparent;border-radius:var(--r-ctl);padding:10px 12px;width:100%;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--flare)}
 input[type=number]{-moz-appearance:textfield}
-input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
-.wrap{max-width:520px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 18px 24px}
-.meta{color:var(--muted);font-size:14px}
-h1{font-size:44px;line-height:1;letter-spacing:-0.03em;font-weight:800;margin:6px 0 2px}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+:focus-visible{outline:2px solid var(--flare);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+.wrap{max-width:480px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 18px 24px}
+.meta{color:var(--dim);font-size:14px}
+h1{font-size:38px;line-height:1;letter-spacing:-0.035em;font-weight:800;margin:10px 0 4px}
 h2{font-size:21px;letter-spacing:-0.02em;font-weight:700;margin:26px 0 10px}
 h3{font-size:17px;font-weight:700;margin:0}
-h4{font-size:13px;font-weight:700;color:var(--muted);margin:18px 0 4px;letter-spacing:0}
-.sub{color:var(--muted);font-size:15px;margin-bottom:16px}
-.today-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.today-nav button{color:var(--muted);font-size:15px;padding:6px 10px;border-radius:8px;background:var(--panel)}
-.today-nav .jump{color:var(--saffron)}
-.card{background:var(--panel);border-radius:var(--r);padding:14px 16px;margin-top:12px}
+h4{font-size:13px;font-weight:700;color:var(--dim);margin:18px 0 4px}
+.sub{color:var(--dim);font-size:15px;margin-bottom:16px}
+.date{color:var(--dim);font-size:15px;margin:0}
+.today-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.today-nav button{color:var(--dim);font-size:14px;padding:6px 10px;border-radius:var(--r-ctl);background:var(--raise)}
+.today-nav .jump{color:var(--flare)}
+.card{background:var(--raise);border-radius:var(--r-surf);padding:16px 18px;margin-top:12px}
 .card h3+.meta{margin-top:2px}
-.ex{padding:12px 0;border-bottom:1px solid var(--line)}
-.ex:last-child{border-bottom:0}
-.ex-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;width:100%}
-.ex-name{font-weight:650;font-size:16px}
-.ex-name .alt{color:var(--muted);font-weight:400}
-.ex-rx{color:var(--muted);font-size:14px;margin-top:2px}
-.ex-note{color:var(--saffron);font-size:13px;margin-top:4px}
-.ex-hip{color:var(--lav);font-size:13px;margin-top:4px}
-.ex-last{color:var(--mint);font-size:13px;margin-top:4px}
-.info{flex:none;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
-.info.on{background:var(--bone);color:var(--ink);border-color:var(--bone)}
-.how{margin-top:10px;padding:12px 14px;background:var(--panel2);border-radius:10px;font-size:14.5px}
-.how ul{margin:6px 0 0;padding-left:18px}.how li{margin:5px 0}
-.how .why{color:var(--muted);margin-top:8px}
-.how a{display:inline-block;margin-top:10px;font-weight:700;text-decoration:none;color:var(--ink);background:var(--mint);padding:8px 12px;border-radius:9px}
-.std{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
-.std-h{font-size:12.5px;color:var(--muted)}
+
+/* ---- campaign header ---- */
+.arc{display:flex;align-items:baseline;gap:10px;font-size:13px;color:var(--dim)}
+.arc .phase{color:var(--flare);font-weight:700}
+.arc .right{margin-left:auto;color:var(--ghost)}
+.track{display:flex;gap:3px;margin:18px 0 6px}
+.track i{flex:1;height:5px;border-radius:999px;background:var(--edge)}
+.track i.past{background:var(--ghost)}
+.track i.now{background:var(--flare)}
+.track-lab{display:flex;justify-content:space-between;font-size:12px;color:var(--ghost)}
+.intro{color:var(--dim);font-size:14px;margin:16px 0 0}
+
+/* ---- session list ---- */
+.list{margin-top:22px;border-top:1px solid var(--edge)}
+.grp{display:flex;justify-content:space-between;gap:10px;padding:12px 2px 0;font-size:12px;color:var(--ghost)}
+.grp b{font-weight:700;color:var(--dim)}
+.row{display:flex;align-items:center;gap:12px;width:100%;padding:15px 2px;border-bottom:1px solid var(--edge)}
+.row .mark{width:18px;flex:none;color:var(--ghost);font-size:15px;text-align:center}
+.row.done .mark{color:var(--gain)}
+.row .name{flex:1;font-size:16px}
+.row .name small{display:block;color:var(--ghost);font-size:12px}
+.row.done .name{color:var(--dim)}
+.row .val{font-size:15px;color:var(--ghost);white-space:nowrap}
+.row.done .val{color:var(--dim)}
+.row.skipped .name,.row.skipped .val{color:var(--ghost);text-decoration:line-through;text-decoration-color:var(--ghost)}
+
+/* ---- the active exercise: the only heavy thing on screen ---- */
+.active{background:var(--raise);border-radius:var(--r-surf);padding:20px 18px;margin:14px 0;box-shadow:0 1px 0 var(--edge) inset}
+.active .top{display:flex;align-items:baseline;gap:10px}
+.active h2{font-size:25px;letter-spacing:-0.025em;font-weight:800;margin:0;flex:1;line-height:1.1}
+.active .rx{color:var(--dim);font-size:14px;white-space:nowrap;text-align:right}
+.active .alt{color:var(--dim);font-size:14px;margin-top:2px}
+.active .note{color:var(--dim);font-size:14px;margin:8px 0 0}
+.prev{margin-top:6px;font-size:14px;color:var(--ghost)}
+.prev b{font-weight:600;color:var(--dim)}
+.sofar{margin-top:6px;font-size:14px;color:var(--dim)}
+.sofar b{font-weight:600;color:var(--bone)}
+.newtag{font-size:11px;font-weight:700;color:var(--ink);background:var(--flare);border-radius:999px;padding:2px 7px;vertical-align:4px;letter-spacing:0;margin-left:4px}
+.pips{display:flex;gap:6px;margin-top:16px}
+.pips button{height:6px;flex:1;border-radius:999px;background:var(--edge);padding:0}
+.pips button.hit{background:var(--gain)}
+.pips button.here{background:var(--flare)}
+.pips button.miss{background:var(--ghost)}
+.entry{display:flex;align-items:flex-end;gap:10px;margin-top:16px}
+.field{flex:1;min-width:0}
+.field label{display:block;font-size:12px;color:var(--dim);margin-bottom:6px}
+.field input{padding:14px 10px;text-align:center;font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+.times{color:var(--ghost);font-size:20px;padding-bottom:16px}
+.unit{color:var(--dim);font-size:15px;padding-bottom:18px}
+.step{flex:none;width:52px;padding:14px 0;border-radius:var(--r-ctl);background:var(--edge);color:var(--bone);font-size:24px;text-align:center;line-height:29px}
+.tick{flex:none;min-width:64px;padding:14px 10px;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);font-size:15px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;line-height:29px}
+.tick.on{background:var(--bone);color:var(--ink)}
+.log{display:block;width:100%;margin-top:14px;padding:17px;border-radius:var(--r-ctl);background:var(--flare);color:#122;font-weight:800;font-size:17px;text-align:center}
+.log:active{transform:translateY(1px)}
+.aux{display:flex;gap:8px;margin-top:10px}
+.aux button{flex:1;padding:11px;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);font-size:14px;text-align:center}
+.aux button.on{background:var(--bone);color:var(--ink);font-weight:700}
+.hint{color:var(--dim);font-size:13px;margin-top:8px}
+
+/* ---- the standing cue: part of the prescription, never hidden ---- */
+.cue{display:flex;gap:10px;margin-top:12px;padding:9px 0 9px 12px;border-left:2px solid var(--flare);font-size:14px;line-height:1.4}
+.cue b{color:var(--flare);font-weight:700}
+
+/* ---- the guide: expands in place, never navigates away ---- */
+.guide{margin-top:12px;border-top:1px solid var(--edge);padding-top:14px}
+.guide dl{margin:0}
+.guide dt{font-size:13px;color:var(--dim);margin-top:12px}
+.guide dt:first-child{margin-top:0}
+.guide dd{margin:3px 0 0;font-size:15px;line-height:1.5}
+.guide ul{margin:3px 0 0;padding-left:18px;font-size:15px;line-height:1.5}
+.guide li{margin:3px 0}
+.guide .watch{display:flex;align-items:center;gap:10px;width:100%;margin-top:16px;padding:13px 14px;border-radius:var(--r-ctl);background:var(--edge);font-size:15px;color:var(--bone);text-decoration:none}
+.guide .watch .tri{color:var(--flare);font-size:13px}
+.guide .watch .away{margin-left:auto;color:var(--ghost);font-size:12px}
+
+/* bodyweight rung switch and its ladder */
+.modes{display:flex;gap:6px;margin-top:14px}
+.modes button{flex:1;padding:10px 4px;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);font-size:13px;text-align:center}
+.modes button.on{background:var(--bone);color:var(--ink);font-weight:700}
+.ladder{margin-top:12px;font-size:13px;color:var(--dim)}
+.ladder b{color:var(--flare)}
+.gate{margin-top:12px;padding:12px 14px;border:1px solid var(--flare);border-radius:var(--r-ctl)}
+.gate b{display:block;color:var(--flare);font-size:14px}
+.gate .g-b{display:flex;gap:8px;margin-top:10px}
+.gate .g-b button{flex:1;padding:10px 0;border-radius:var(--r-ctl);background:var(--flare);color:var(--ink);text-align:center;font-size:14px;font-weight:700}
+.gate .g-b button.ghost{background:var(--edge);color:var(--dim)}
+
+/* strength standards, inside the guide */
+.std{margin-top:14px;padding-top:12px;border-top:1px solid var(--edge)}
+.std-h{font-size:12.5px;color:var(--dim)}
 .std-g{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;margin-top:8px}
-.std-g div{background:var(--ink);border-radius:8px;padding:8px 4px;text-align:center}
-.std-g small{display:block;color:var(--muted);font-size:11px}
+.std-g div{background:var(--ink);border-radius:var(--r-ctl);padding:8px 4px;text-align:center}
+.std-g small{display:block;color:var(--dim);font-size:11px}
 .std-g b{font-size:13px;line-height:1.2;display:block;margin-top:2px}
 .std-you{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13.5px;gap:8px;flex-wrap:wrap}
-.lv{padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;background:var(--panel)}
-.lv0{color:var(--muted)}.lv1{color:var(--muted)}.lv2{color:var(--saffron)}.lv3{color:var(--mint)}.lv4{color:var(--ink);background:var(--mint)}
-.ss{border:1px solid var(--line);border-radius:12px;padding:0 12px;margin:10px 0}
-.ss-lab{display:flex;justify-content:space-between;color:var(--saffron);font-size:13px;font-weight:700;padding:10px 0 2px}
-.ss-lab span:last-child{color:var(--muted);font-weight:400}
-.ss .ex:last-child{border-bottom:0}
-.sets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.set{min-width:56px;padding:8px 10px;border-radius:9px;background:var(--panel2);border:1px solid var(--line);font-size:14px;text-align:center;color:var(--muted)}
-.set.done{background:var(--mint);color:var(--ink);border-color:var(--mint);font-weight:700}
-.set.skip{background:transparent;border-style:dashed;color:var(--muted);font-size:12px}
-.set.editing{border-color:var(--saffron);color:var(--bone)}
-.setform{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
-.setform input{width:84px;text-align:center;padding:9px 6px}
-.setform .x{color:var(--muted)}
-.setform button{background:var(--saffron);color:var(--ink);font-weight:700;padding:10px 14px;border-radius:10px}
-.setform button.ghost{background:var(--panel2);color:var(--muted);min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
-.sf-hint{color:var(--muted);font-size:13px;margin-top:8px}
-.rungs{display:flex;gap:6px;margin-top:10px}
-.rungs button{flex:1;padding:9px 0;border-radius:9px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;font-size:14px}
-.rungs button.on{background:var(--bone);color:var(--ink);border-color:var(--bone);font-weight:700}
-.gate{margin-top:10px;padding:10px 12px;border:1px solid var(--saffron);border-radius:11px;background:rgba(240,166,58,.08)}
-.gate b{display:block;color:var(--saffron);font-size:14px}
-.gate .g-b{display:flex;gap:8px;margin-top:9px}
-.gate .g-b button{flex:1;padding:9px 0;border-radius:9px;background:var(--saffron);color:var(--ink);text-align:center;font-size:14px;font-weight:700}
-.gate .g-b button.ghost{background:var(--panel2);color:var(--muted)}
-.notes{margin:10px 0 0;padding-left:18px;font-size:13px;color:var(--muted)}
+.lv{padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;background:var(--edge);color:var(--dim)}
+.lv3,.lv4{background:var(--bone);color:var(--ink)}
+
+/* ---- session-level ---- */
+.notes{margin:10px 0 0;padding-left:18px;font-size:13px;color:var(--dim)}
 .notes li{margin-bottom:6px}
 .notes b{color:var(--bone)}
 .mt{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .mt .time{font-size:28px;font-weight:800;letter-spacing:-0.02em}
 .seg{display:flex;gap:6px}
-.seg button{padding:8px 12px;border-radius:9px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);font-size:14px}
-.seg button.on{background:var(--bone);color:var(--ink);border-color:var(--bone);font-weight:700}
-.altbox{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:15px}
-.altbox b{color:var(--saffron)}
-.primary{display:block;width:100%;margin-top:16px;padding:16px;border-radius:12px;background:var(--saffron);color:var(--ink);font-weight:800;font-size:17px;text-align:center}
-.primary.done{background:var(--mint)}
-.secondary{display:block;width:100%;margin-top:10px;padding:12px;border-radius:12px;background:var(--panel2);color:var(--bone);font-weight:700;text-align:center}
-.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700}
-.pill.build{background:#2B5E55;color:var(--mint)}.pill.deload{background:#4A4020;color:var(--saffron)}.pill.peak{background:#5A2E24;color:#FFB9A6}
+.seg button{padding:8px 12px;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);font-size:14px}
+.seg button.on{background:var(--bone);color:var(--ink);font-weight:700}
+.altbox{margin-top:12px;padding-top:12px;border-top:1px solid var(--edge);font-size:15px}
+.altbox b{color:var(--flare)}
+.primary{display:block;width:100%;margin-top:16px;padding:16px;border-radius:var(--r-ctl);background:var(--flare);color:#122;font-weight:800;font-size:17px;text-align:center}
+.primary.done{background:var(--gain)}
+.secondary{display:block;width:100%;margin-top:10px;padding:12px;border-radius:var(--r-ctl);background:var(--edge);color:var(--bone);font-weight:700;text-align:center}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;background:var(--edge);color:var(--dim)}
+.pill.now{background:var(--flare);color:var(--ink)}
 .wk{display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px}
-.wk button{color:var(--saffron);padding:6px 12px;background:var(--panel);border-radius:8px;font-size:18px}
-.dayrow{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);width:100%}
-.dayrow .d{font-weight:700}.dayrow .d small{display:block;color:var(--muted);font-weight:400;font-size:12px}
-.dayrow .t{font-weight:600}.dayrow .t small{display:block;color:var(--muted);font-weight:400;font-size:13px}
-.dayrow .s{color:var(--muted);font-size:13px;text-align:right}
-.dayrow.isToday .d{color:var(--saffron)}.dayrow .s.ok{color:var(--mint);font-weight:700}
-.dayrow .s.skip{color:var(--lav);font-weight:700}
-.dayrow .s small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.wk button{color:var(--dim);padding:6px 12px;background:var(--raise);border-radius:var(--r-ctl);font-size:18px}
+.dayrow{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--edge);width:100%}
+.dayrow .d{font-weight:700}.dayrow .d small{display:block;color:var(--dim);font-weight:400;font-size:12px}
+.dayrow .t{font-weight:600}.dayrow .t small{display:block;color:var(--dim);font-weight:400;font-size:13px}
+.dayrow .s{color:var(--dim);font-size:13px;text-align:right}
+.dayrow.isToday .d{color:var(--flare)}.dayrow .s.ok{color:var(--gain);font-weight:700}
+.dayrow .s.skip{color:var(--ghost);font-weight:700}
+.dayrow .s small{display:block;color:var(--dim);font-weight:400;font-size:12px}
 .dayrow.isSkipped .t,.dayrow.isSkipped .d{opacity:.55}
 .cal{margin-top:10px}
-.cal-h{display:grid;grid-template-columns:repeat(7,1fr);color:var(--muted);font-size:12px;text-align:center;margin-bottom:6px}
+.cal-h{display:grid;grid-template-columns:repeat(7,1fr);color:var(--dim);font-size:12px;text-align:center;margin-bottom:6px}
 .cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.cell{aspect-ratio:1/1.15;border-radius:9px;background:var(--panel);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:14px;color:var(--bone);position:relative}
-.cell.out{visibility:hidden}.cell .bar{width:60%;height:4px;border-radius:2px}
-.cell.isToday{outline:2px solid var(--saffron);outline-offset:-2px}
-.cell.done::after{content:"";position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--mint)}
+.cell{aspect-ratio:1/1.15;border-radius:var(--r-ctl);background:var(--raise);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:14px;color:var(--bone);position:relative}
+.cell.out{visibility:hidden}.cell .bar{width:60%;height:4px;border-radius:999px;background:var(--c)}
+.cell.isToday{outline:2px solid var(--flare);outline-offset:-2px}
+.cell.done::after{content:"";position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:999px;background:var(--gain)}
 .cell.pre{opacity:.35}
-.cell.skipped{background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 4px,#213F4C 4px,#213F4C 8px);box-shadow:inset 0 0 0 1px var(--lav)}
-.cell.skipped::after{content:"";position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--lav)}
-.legend .skip::before{background:transparent;box-shadow:inset 0 0 0 1px var(--lav)}
-.legend{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:12px;font-size:13px;color:var(--muted)}
-.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c)}
-.rows .row{padding:12px 0;border-bottom:1px solid var(--line)}.rows .row:last-child{border-bottom:0}
+.cell.skipped{box-shadow:inset 0 0 0 1px var(--ghost)}
+.cell.skipped span:first-child{color:var(--ghost);text-decoration:line-through}
+.legend{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:12px;font-size:13px;color:var(--dim)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:999px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.legend .skip::before{background:transparent;box-shadow:inset 0 0 0 1px var(--ghost)}
+.rows .row{display:block;padding:12px 0;border-bottom:1px solid var(--edge)}.rows .row:last-child{border-bottom:0}
 .big{font-size:40px;font-weight:800;letter-spacing:-0.03em;line-height:1}
-.big small{font-size:15px;color:var(--muted);font-weight:400;letter-spacing:0;margin-left:6px}
+.big small{font-size:15px;color:var(--dim);font-weight:400;letter-spacing:0;margin-left:6px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.stat{background:var(--panel);border-radius:var(--r);padding:14px 16px}
-.stat .l{color:var(--muted);font-size:13px}.stat .v{font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-top:2px}
+.stat{background:var(--raise);border-radius:var(--r-surf);padding:14px 16px}
+.stat .l{color:var(--dim);font-size:13px}.stat .v{font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-top:2px}
+.stat .v.over{color:var(--flag)}
 .inline{display:flex;gap:8px;margin-top:10px}.inline input{flex:1}
-.inline button{background:var(--saffron);color:var(--ink);font-weight:700;padding:10px 16px;border-radius:10px;white-space:nowrap}
+.inline button{background:var(--flare);color:var(--ink);font-weight:700;padding:10px 16px;border-radius:var(--r-ctl);white-space:nowrap}
 svg.chart{width:100%;height:190px;display:block;margin-top:8px}
-.pr{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line)}.pr:last-child{border-bottom:0}.pr b{color:var(--mint)}
+.pr{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--edge)}.pr:last-child{border-bottom:0}.pr b{color:var(--bone)}
 .macro{margin-top:14px}.macro .lab{display:flex;justify-content:space-between;font-size:14px}
-.bar-bg{height:10px;border-radius:5px;background:var(--panel2);margin-top:6px;overflow:hidden}
-.bar-fg{height:100%;border-radius:5px;background:var(--mint);transition:width .25s}.bar-fg.over{background:var(--ember)}.bar-fg.p{background:var(--saffron)}
+.bar-bg{height:10px;border-radius:999px;background:var(--edge);margin-top:6px;overflow:hidden}
+.bar-fg{height:100%;border-radius:999px;background:var(--dim);transition:width .25s}.bar-fg.met{background:var(--gain)}.bar-fg.over{background:var(--flag)}
 .quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.quick button{padding:8px 12px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);font-size:14px}
-.quick button.mine{border-color:var(--mint)}
-.quick button small{color:var(--muted)}
-.quick button.del{background:#4A2A22;border-color:var(--ember);color:#FFB9A6}
-.entry{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}.entry:last-child{border-bottom:0}
-.entry .m{color:var(--muted);font-size:13px}.entry button{color:var(--ember);padding:4px 8px}
+.quick button{padding:8px 12px;border-radius:999px;background:var(--edge);font-size:14px}
+.quick button.mine{box-shadow:inset 0 0 0 1px var(--dim)}
+.quick button small{color:var(--dim)}
+.quick button.del{background:transparent;box-shadow:inset 0 0 0 1px var(--flag);color:var(--flag)}
+.meal{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--edge);font-size:15px}.meal:last-child{border-bottom:0}
+.meal .m{color:var(--dim);font-size:13px}.meal button{color:var(--dim);padding:4px 8px}
 .form4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:10px}
 .form4 input{text-align:center;padding:10px 4px}
-.form4 label,.form2 label{font-size:12px;color:var(--muted);display:block;text-align:center;margin-bottom:4px}
+.form4 label,.form2 label{font-size:12px;color:var(--dim);display:block;text-align:center;margin-bottom:4px}
 .form2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.note{font-size:14px;color:var(--muted);margin-top:12px}.note b{color:var(--bone)}
-.skipped-card{border:1px dashed var(--lav)}
-.skipped-card h3{color:var(--lav)}
-.tog{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.note{font-size:14px;color:var(--dim);margin-top:12px}.note b{color:var(--bone)}
+.skipped-card{background:transparent;box-shadow:inset 0 0 0 1px var(--edge)}
+.skipped-card h3{color:var(--dim)}
+.tog{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--edge)}
 .tog .tl{font-weight:650;font-size:15px}
-.tog .tl small{display:block;color:var(--muted);font-size:13px;font-weight:400;margin-top:2px}
-.tog button{flex:none;width:66px;padding:9px 0;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;font-size:13px;font-weight:700}
-.tog button.on{background:var(--mint);border-color:var(--mint);color:var(--ink)}
+.tog .tl small{display:block;color:var(--dim);font-size:13px;font-weight:400;margin-top:2px}
+.tog button{flex:none;width:66px;padding:9px 0;border-radius:999px;background:var(--edge);color:var(--dim);text-align:center;font-size:13px;font-weight:700}
+.tog button.on{background:var(--bone);color:var(--ink)}
 .scale{display:flex;gap:5px;margin-top:10px}
-.scale button{flex:1;padding:9px 0;border-radius:8px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;font-size:14px}
-.scale button.on{background:var(--lav);color:var(--ink);font-weight:700;border-color:var(--lav)}
-nav{position:fixed;left:0;right:0;bottom:0;background:#0B211D;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
-nav button{flex:1;color:var(--muted);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;border-radius:10px}
+.scale button{flex:1;padding:9px 0;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);text-align:center;font-size:14px}
+.scale button.on{background:var(--bone);color:var(--ink);font-weight:700}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--ink);border-top:1px solid var(--edge);display:flex;justify-content:space-around;padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
+nav button{flex:1;color:var(--ghost);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0}
 nav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-nav button.on{color:var(--saffron)}
+nav button.on{color:var(--bone)}
 .hidden{display:none}
-.warnbar{background:var(--ember);color:#22100B;padding:12px 18px;font-size:14px;line-height:1.35}
+.warnbar{background:var(--flag);color:var(--ink);padding:12px 18px;font-size:14px;line-height:1.35}
 .warnbar b{display:block;font-size:15px;margin-bottom:2px}
-.warnbar button{background:#22100B;color:var(--bone);font-weight:700;font-size:14px;padding:8px 12px;border-radius:8px;margin-top:8px}
-.toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--bone);color:var(--ink);padding:10px 16px;border-radius:10px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
+.warnbar button{background:var(--ink);color:var(--bone);font-weight:700;font-size:14px;padding:8px 12px;border-radius:var(--r-ctl);margin-top:8px}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--bone);color:var(--ink);padding:10px 16px;border-radius:var(--r-ctl);font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
 .toast.show{opacity:1}
-#rest{position:fixed;left:0;right:0;bottom:calc(76px + env(safe-area-inset-bottom));z-index:4;background:var(--saffron);color:#14100A;border-top:2px solid #FFD79A;box-shadow:0 -10px 26px rgba(0,0,0,.45);padding:10px 16px 12px}
-#rest.hidden{display:none}
-#rest .rt-top{display:flex;align-items:center;gap:10px}
-#rest .rt-grow{flex:1;min-width:0}
-#rest .rt-lab{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.72}
-#rest .rt-num{font-size:56px;line-height:.95;font-weight:800;letter-spacing:-0.04em;font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
-#rest .rt-sub{font-size:13px;font-weight:700;opacity:.72;margin-top:3px}
-#rest button{flex:none;background:rgba(20,16,10,.14);color:#14100A;border:1px solid rgba(20,16,10,.28);font-weight:800;font-size:15px;padding:13px 14px;border-radius:11px;text-align:center}
-#rest .rt-bar{height:6px;border-radius:3px;background:rgba(20,16,10,.18);margin-top:10px;overflow:hidden}
-#rest .rt-bar i{display:block;height:100%;border-radius:3px;background:#14100A}
-#rest.over{background:var(--ember);color:#2A0D05;border-top-color:#FFC6B6}
-#rest.over button{background:rgba(42,13,5,.16);color:#2A0D05;border-color:rgba(42,13,5,.32)}
-#rest.over .rt-bar{background:rgba(42,13,5,.2)}
-#rest.over .rt-bar i{background:#2A0D05}
-body.resting{padding-bottom:calc(212px + env(safe-area-inset-bottom))}
-body.resting .toast{bottom:calc(224px + env(safe-area-inset-bottom))}
-.rest-hero p{font-size:17px;margin:8px 0 0}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---- rest timer: owns the bottom of the screen, above the nav ---- */
+#rest{position:fixed;left:0;right:0;bottom:calc(76px + env(safe-area-inset-bottom));z-index:4;background:var(--raise);border-top:1px solid var(--edge);padding:14px 18px 14px;transform:translateY(calc(100% + 80px + env(safe-area-inset-bottom)));transition:transform .22s ease;pointer-events:none}
+#rest.up{transform:none;pointer-events:auto}
+#rest .drain{height:4px;border-radius:999px;background:var(--edge);overflow:hidden;margin-bottom:12px}
+#rest .drain span{display:block;height:100%;background:var(--flare);border-radius:999px}
+#rest .line{display:flex;align-items:center;gap:12px}
+#rest .clock{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-0.04em;line-height:1}
+#rest .of{color:var(--dim);font-size:14px;flex:1}
+#rest button{padding:12px 14px;border-radius:var(--r-ctl);background:var(--edge);color:var(--bone);font-size:15px;font-weight:600}
+#rest.over .clock{color:var(--flare);animation:pulse 1s ease-in-out 3}
+#rest.over .drain span{background:var(--flag);width:100%!important}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+body.resting{padding-bottom:calc(190px + env(safe-area-inset-bottom))}
+body.resting .toast{bottom:calc(210px + env(safe-area-inset-bottom))}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div id="app" class="wrap"></div>
-<div id="rest" class="hidden" role="timer" aria-label="Rest timer"></div>
+<div id="rest" role="timer" aria-label="Rest timer"></div>
 <nav id="nav"></nav>
 <div id="toast" class="toast"></div>
 
@@ -191,7 +262,7 @@ body.resting .toast{bottom:calc(224px + env(safe-area-inset-bottom))}
  *
  * Every value we keep in localStorage is written inside an envelope:
  *
- *   { "schemaVersion": 4, "data": <the value the app actually uses> }
+ *   { "schemaVersion": 5, "data": <the value the app actually uses> }
  *
  * Saves written before this layer existed are bare values with no envelope.
  * Those are version 1 by definition — a missing version means 1, never 0 and
@@ -224,7 +295,7 @@ body.resting .toast{bottom:calc(224px + env(safe-area-inset-bottom))}
 var CampCore = (function () {
   'use strict';
 
-  var CURRENT_VERSION = 4;
+  var CURRENT_VERSION = 5;
 
   /* Every localStorage key the app owns. Order is the write order. */
   var KEYS = ['logs', 'weight', 'waist', 'hip', 'macros', 'quick', 'settings'];
@@ -364,6 +435,53 @@ var CampCore = (function () {
               }
               if (read.reason) note({ date: dateKey, slot: slot, set: i, name: ex.name, reason: read.reason });
               nextArr[i] = Object.assign({}, set, { m: read.metric });
+            }
+            nextSets[slot] = nextArr;
+          }
+          nextLogs[dateKey] = Object.assign({}, day, { sets: nextSets });
+        }
+
+        out.logs = nextLogs;
+        return out;
+      }
+    },
+    {
+      from: 4,
+      to: 5,
+      name: 'stamp-skip-levels',
+      /* Every skipped set gains level, the level it was skipped at. Until now
+       * the only skip a set could carry was the Skip button's {skip:1}, one set
+       * at a time, so every skip already stored is level "set". From v5 the
+       * Skip exercise button writes {skip:1, level:"exercise"} against every
+       * remaining set of a movement, and Undo skip takes back exactly those.
+       *
+       * A session skip is not a set and is not touched: it lives on the day as
+       * skipped:{reason, at} and already says what it is. Everything that is
+       * not a {skip:1} entry is left exactly as it is, including the old
+       * logger's empty entries, which the app already reads as skips. */
+      up: function (snapshot) {
+        var out = Object.assign({}, snapshot);
+        var logs = snapshot.logs;
+        if (!isPlainObject(logs)) return out;
+
+        var nextLogs = {};
+        for (var dateKey in logs) {
+          if (!Object.prototype.hasOwnProperty.call(logs, dateKey)) continue;
+          var day = logs[dateKey];
+          if (!isPlainObject(day) || !isPlainObject(day.sets)) { nextLogs[dateKey] = day; continue; }
+
+          var nextSets = {};
+          for (var slot in day.sets) {
+            if (!Object.prototype.hasOwnProperty.call(day.sets, slot)) continue;
+            var arr = day.sets[slot];
+            if (!Array.isArray(arr)) { nextSets[slot] = arr; continue; }
+            var nextArr = [];
+            for (var i = 0; i < arr.length; i++) {
+              var set = arr[i];
+              nextArr.push(set);
+              if (!isPlainObject(set) || !set.skip) continue;
+              if (typeof set.level === 'string') continue;          /* already stamped */
+              nextArr[i] = Object.assign({}, set, { level: 'set' });
             }
             nextSets[slot] = nextArr;
           }
@@ -628,6 +746,13 @@ const phaseOf=w=>w<1||w>WEEKS?null:w<=4?'Build':w===5?'Deload':'Peak';
 
 /* Exercise library: how = form cues, why = purpose, hip = FAI / labrum / APT guidance, yt = search
  *
+ * cue — one line, always on screen above the entry fields, for a movement with a
+ *   real constraint. "Label: instruction" — the label is bolded by the app. Sourced
+ *   from the hip rules in CLAUDE.md. A movement with no constraint has no cue.
+ * guide — the "How to" disclosure: {setup, execute, watch}. Expands in place under
+ *   the active exercise and never navigates away. Empty strings mean not written
+ *   yet; the app falls back to how/why until they are.
+ *
  * metric — how a set of this movement is measured. Exactly one of:
  *   weight_reps          external load x reps          e.g. barbell bench press
  *   bodyweight_reps      reps, no external load        e.g. glute bridge
@@ -653,49 +778,49 @@ const phaseOf=w=>w<1||w>WEEKS?null:w<=4?'Build':w===5?'Deload':'Peak';
  * A met gate only ever prompts. Nothing advances a rung without the user saying so.
  */
 const LIB={
- 'Banded lateral walk':{metric:'reps_only',how:['Band above knees, quarter-squat, chest up','Step sideways leading with the heel, never let knees cave','Constant tension — feet never touch'],why:'Wakes up glute med so it fires during the lifts instead of your hip flexors and low back.',yt:'banded lateral walk glute activation'},
- 'Glute bridge':{metric:'bodyweight_reps',how:['Heels close to glutes, ribs down, tuck the pelvis first','Drive through heels, squeeze glutes at the top for 3 s','Stop when hips are level — do not arch the low back'],why:'Teaches posterior pelvic tilt and glute drive before you load the hips.',hip:'This is the anti-pelvic-tilt movement. Own it.',yt:'glute bridge posterior pelvic tilt form'},
- 'Hip CARs':{metric:'reps_only',how:['Stand tall, hold something. One knee up to hip height','Sweep the knee out to the side, rotate the thigh, bring it back behind','Slow — 10 s per circle. Zero pain, shrink the circle if it pinches'],why:'Controlled articular rotations keep the labrum and capsule moving through every range you own.',hip:'Only the pain-free range. Smaller and cleaner beats bigger.',yt:'hip CARs controlled articular rotations'},
- 'Couch stretch':{metric:'hold_each_side',how:['Rear knee on a pad, rear foot up on a bench','Tuck the pelvis under (posterior tilt) BEFORE you lean','Squeeze the rear glute, breathe. 60 s each side'],why:'Long hip flexors and rectus femoris pull you into anterior tilt. This is the direct fix.',hip:'Tuck first. If you feel it in the low back you skipped the tuck.',yt:'couch stretch hip flexor posterior pelvic tilt'},
- '90/90 hip switch':{metric:'reps_only',how:['Sit with front shin and back shin each at 90°','Stay tall, rotate the hips to switch sides without hands','Pause 2 s at each end. Pain-free range only'],why:'Trains hip internal and external rotation — the ranges a cam hip loses first.',hip:'If internal rotation pinches, keep the range short and lean back slightly.',yt:'90 90 hip switch mobility'},
- 'Clamshell':{metric:'reps_only',how:['Side-lying, hips stacked, band above knees, heels together','Open the top knee like a clam, no hip roll backward','2 s up, 2 s down. 15 each side'],why:'Isolates glute med and deep rotators — the muscles that hold the femoral head centered in the socket.',yt:'clamshell exercise glute medius form'},
- 'Dead bug':{metric:'reps_only',how:['On your back, arms up, knees over hips at 90°','Press low back into the floor and keep it there the whole set','Extend opposite arm and leg slowly. Exhale on the reach'],why:'Anterior core stability with a neutral pelvis. Fights tilt without loading the hip flexors.',yt:'dead bug exercise core form'},
- 'Bird dog':{metric:'reps_only',how:['Hands under shoulders, knees under hips','Reach opposite arm and leg to parallel, hips stay square','Hold 2 s, return slow. Do not let the low back sag'],why:'Glute max + spinal stability in one move. Reinforces hip extension without rib flare.',yt:'bird dog exercise proper form'},
- 'Side plank with leg raise':{metric:'reps_only',how:['Elbow under shoulder, body straight, hips stacked','Lift top leg 12 in and lower, keeping the toes forward','10 reps then hold the plank 15 s'],why:'Obliques and glute med together — lateral pelvic control for kicks and clinch.',yt:'side plank hip abduction leg raise'},
- 'Reverse crunch':{metric:'reps_only',how:['On your back, knees bent, hands by hips','Curl the pelvis up toward the ribs — tailbone leaves the floor','Lower slow. Small range, no leg swing'],why:'Lower abs pull the pelvis into posterior tilt. Replaces hanging knee raises, which overwork the hip flexors.',hip:'Chosen over hanging knee raises to spare your hip flexors and labrum.',yt:'reverse crunch proper form lower abs'},
- 'RKC plank':{metric:'hold',how:['Forearm plank, then squeeze glutes hard and tuck the pelvis','Pull elbows toward toes and toes toward elbows','20–30 s of maximal tension beats 2 min of hanging out'],why:'Plank with a posterior tilt built in — the exact position your pelvis needs to learn.',yt:'RKC plank technique'},
- 'Pallof press':{metric:'weight_reps',std:{u:'lb on the stack',s:15,n:25,i:35,a:50},how:['Cable at chest height, stand sideways to the stack, feet hip width','Press the handle straight out and back, hips do not rotate','Breathe out on the press. 12 each side'],why:'Anti-rotation core. Directly transfers to not leaking power on kicks.',yt:'pallof press form'},
- 'Trap bar deadlift':{metric:'weight_reps',std:{u:'lb',s:135,n:185,i:275,a:365},how:['Feet hip width, shins to the handles, grip the high handles','Hips back, chest up, brace, then push the floor away','Stand tall, glutes finish the rep. Lower under control — no bouncing'],why:'The heaviest, safest hip-hinge for a cam hip: upright torso, moderate hip flexion, huge glute and hamstring load.',hip:'Use the high handles. Depth is set by the bar, so no pinch.',yt:'trap bar deadlift high handles form'},
- 'Bulgarian split squat':{metric:'weight_reps',std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Rear foot on a low bench, front foot far enough forward that the knee stays over the ankle','Torso tall, sit straight down — stop when the thigh is parallel','Drive through the front heel. Dumbbells in both hands'],why:'Single-leg strength and stability. Best carryover to kicking off one leg.',hip:'Parallel is deep enough. Deeper flexion is where the cam meets the socket.',yt:'bulgarian split squat form dumbbells'},
- 'Romanian deadlift':{metric:'weight_reps',std:{u:'lb',s:95,n:135,i:185,a:245},how:['Bar at hips, soft knees, shoulders back','Push hips straight back, bar slides down the thighs','Stop at mid-shin or when the hamstrings bite — then drive hips forward'],why:'Hamstring and glute length under load. Builds the posterior chain that pulls the pelvis back to neutral.',hip:'Hinge, do not squat it. Neutral spine start to finish.',yt:'romanian deadlift barbell form'},
- 'Sliding leg curl':{metric:'bodyweight_reps',std:{u:'level',s:'Two-leg 3×8',n:'Two-leg 3×12',i:'Single-leg 3×8',a:'Hips never touch'},how:['On your back, heels on a towel or sliders, hips bridged up','Slide heels away slowly, then curl them back toward the glutes','Hips stay high the whole time. Progress two-leg → single-leg'],why:'Eccentric hamstring strength on the way to a Nordic curl.',yt:'sliding leg curl hamstring exercise'},
- 'Standing calf raise':{metric:'weight_reps',std:{u:'lb on the stack',s:90,n:150,i:220,a:300},how:['Full stretch at the bottom, 2 s pause','Drive up onto the big toe, 1 s squeeze at the top','Controlled — no bouncing'],why:'Ankle stiffness for teeps and switching stance.',yt:'standing calf raise machine form'},
- 'Barbell bench press':{metric:'weight_reps',std:{u:'lb',s:95,n:135,i:185,a:245},how:['Shoulder blades pinned down and back, feet planted, slight arch','Bar to lower chest, elbows about 45°','Press up and slightly back. Full lockout every rep'],why:'Your heaviest push. Chest, front delt, tricep — and the strength benchmark for the upper body.',yt:'barbell bench press form Jeff Nippard'},
- 'Pull-up':{metric:'assisted_bodyweight',ladder:{modes:['assisted','bodyweight','added'],toBodyweight:{sets:3,reps:8,maxAssist:20},toAdded:{sets:3,reps:8},step:5,topReps:8},std:{u:'level',s:'Assisted / pulldown',n:'Bodyweight × 5',i:'Bodyweight × 10',a:'+45 lb × 5'},how:['Dead hang, shoulders down away from ears','Pull chest to the bar, elbows drive down and back','Control the descent. Add weight with a belt or dumbbell between the feet'],why:'Back width and grip strength. If under 5 clean reps, use the lat pulldown heavy instead.',yt:'weighted pull up form'},
- 'Lat pulldown':{metric:'weight_reps',std:{u:'lb on the stack',s:100,n:140,i:180,a:230},how:['Wide or neutral grip, thighs pinned under the pads','Chest tall, pull the bar to the collarbone, elbows down and back','Control the bar back up to a full stretch — no leaning away'],why:'The pull-up pattern with a load you can dial in. Under 5 clean pull-ups this is the better driver of back width.',yt:'lat pulldown proper form'},
- 'Incline dumbbell press':{metric:'weight_reps',std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Bench 30°, dumbbells at shoulder level, elbows slightly tucked','Press up and in, touch at the top without clanking','Lower for 2 s'],why:'Upper chest is what makes a T-shirt fit differently.',yt:'incline dumbbell press form'},
- 'Dumbbell lateral raise':{metric:'weight_reps',std:{u:'lb per hand',s:8,n:12,i:20,a:30},how:['Slight forward lean, elbows soft','Raise to shoulder height leading with the elbows, pinkies slightly up','Lower for 2 s. Light weight, perfect reps'],why:'Side delt width — the single fastest aesthetic change in the upper body.',yt:'dumbbell lateral raise proper form'},
- 'Seated cable row':{metric:'weight_reps',std:{u:'lb on the stack',s:70,n:100,i:140,a:180},how:['Neutral grip, chest tall, slight forward reach at the start','Pull to the belly button, elbows drive back','Squeeze 1 s, reach forward under control'],why:'Horizontal pull for mid-back thickness and posture.',yt:'seated cable row neutral grip form'},
- 'Cable face pull':{metric:'weight_reps',std:{u:'lb on the stack',s:20,n:35,i:50,a:70},how:['Rope at face height, step back, palms facing you','Pull to the face, elbows high, then rotate hands so knuckles face the ceiling','Squeeze the rear delts 1 s'],why:'Rear delts and rotator cuff. Protects the shoulder from years of punching.',yt:'face pull form rope'},
- 'Cable bar curl':{metric:'weight_reps',std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Straight bar on the low pulley, elbows pinned to your sides','Curl to the chin, squeeze, lower for 2 s','No swinging'],why:'Direct bicep work on the same stack as the pushdown — one station, zero walking.',yt:'cable bar curl form'},
- 'Rope tricep pushdown':{metric:'weight_reps',std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Elbows pinned, lean slightly forward','Push down and split the rope at the bottom','Let it come back only to 90° at the elbow'],why:'Tricep size. Two-thirds of your arm.',yt:'rope tricep pushdown form'},
- 'Box jump':{metric:'reps_only',std:{u:'box height',s:'Step-up',n:'12 in',i:'18 in',a:'24 in'},how:['Low box — 12 to 18 in. Land soft, hips above knees','Swing arms, jump, land tall like a quarter squat','Step down every rep, never jump down'],why:'Explosive hip extension without heavy loading.',hip:'Land tall. A crashing deep landing is the position we avoid.',yt:'box jump proper landing technique'},
- 'Barbell hip thrust':{metric:'weight_reps',std:{u:'lb',s:95,n:155,i:225,a:315},how:['Upper back on a bench, bar in the hip crease with a pad','Tuck the chin, ribs down, drive through heels','Full hip extension, squeeze 1 s, do not arch the low back'],why:'The single best glute builder. Glutes are what pull your pelvis out of anterior tilt.',hip:'Your priority lift on Friday. Load it.',yt:'barbell hip thrust form Bret Contreras'},
- 'Leg press':{metric:'weight_reps',std:{u:'lb of plates, not counting the sled',s:90,n:180,i:320,a:450},how:['Feet high and wide on the plate','Lower only to 90° at the hip — stop before any pinch','Drive through heels, do not lock knees hard'],why:'Quad and glute volume with the spine unloaded.',hip:'Depth stops at 90°. Deeper is where the cam impinges.',yt:'leg press form feet high wide'},
- 'Reverse lunge':{metric:'weight_reps',std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Dumbbells at the sides, step back long','Drop straight down until the front thigh is parallel, torso tall','Drive through the front heel to stand'],why:'More glute, less hip flexion than a forward lunge. Kinder to the labrum.',hip:'Chosen over walking lunges for a shorter, controlled hip range.',yt:'reverse lunge dumbbells form'},
- 'Single-leg RDL':{metric:'weight_reps',std:{u:'lb, one dumbbell',s:15,n:30,i:45,a:65},how:['Dumbbell in the opposite hand of the working leg','Hinge, reach the free leg back, hips stay square','Stop at mid-shin or when balance breaks. Drive up through the heel'],why:'Glute max and med together, with balance. Fixes the side-to-side pelvic wobble.',yt:'single leg romanian deadlift dumbbell form'},
- 'Lateral step-down':{metric:'bodyweight_reps',std:{u:'box height',s:'4 in',n:'6 in',i:'9 in',a:'12 in'},how:['Stand on a 6–12 in box sideways, free leg off the edge','Lower the free heel toward the floor by bending the standing knee, hips level','Tap and drive back up. Knee tracks over the second toe'],why:'Glute med and quad control in a shallow, safe range. Replaces pistol squats.',hip:'Pistols demand deep hip flexion plus rotation — the worst combination for a labrum. This gives you the single-leg strength without it.',yt:'lateral step down exercise glute medius'},
- 'Single-leg calf raise':{metric:'bodyweight_reps',ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:20},step:5,topReps:15},std:{u:'level',s:'BW × 8',n:'BW × 12',i:'BW × 20',a:'+25 lb × 15'},how:['Ball of foot on a step, hold the rail lightly','Full stretch, then up to the big toe','15–20 slow reps each side'],why:'Unilateral ankle strength for footwork.',yt:'single leg calf raise form'},
- 'Seated dumbbell overhead press':{metric:'weight_reps',std:{u:'lb per hand',s:25,n:40,i:55,a:75},how:['Bench at 85°, dumbbells at shoulder height, forearms vertical','Press up and slightly in, ribs down — do not arch','Lower to ear height'],why:'Shoulder strength and the cap on the delts.',yt:'seated dumbbell shoulder press form'},
- 'Chest-supported dumbbell row':{metric:'weight_reps',std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Chest on a 30–45° incline bench, dumbbells hanging','Row to the hips, elbows back, squeeze the shoulder blades','Lower for 2 s'],why:'Back thickness with zero low-back involvement.',yt:'chest supported dumbbell row incline bench'},
- 'Prone rear delt fly':{metric:'weight_reps',std:{u:'lb per hand',s:8,n:12,i:18,a:25},how:['Same bench, lighter dumbbells, slight elbow bend','Raise out to the sides to shoulder height, thumbs down','Lower slow. Pure rear delt — no rowing'],why:'Rear delts round out the shoulder from behind. Pairs with the row on the same bench.',yt:'incline prone rear delt fly dumbbell'},
- 'Dips':{metric:'assisted_bodyweight',ladder:{modes:['assisted','bodyweight','added'],toBodyweight:{sets:3,reps:8,maxAssist:20},toAdded:{sets:3,reps:12},step:5,topReps:12},std:{u:'level',s:'Assisted machine',n:'Bodyweight × 8',i:'Bodyweight × 12',a:'+45 lb × 8'},how:['Slight forward lean, shoulders down','Lower until the upper arm is parallel — no deeper','Press to lockout. Add a belt at 12 clean reps'],why:'Lower chest and triceps. Heavy bodyweight pressing.',yt:'weighted dips form chest triceps'},
- 'Straight-arm pulldown':{metric:'weight_reps',std:{u:'lb on the stack',s:30,n:50,i:70,a:100},how:['Straight bar or rope on the high pulley, slight hinge','Arms nearly straight, pull the bar to the thighs in an arc','Feel the lats, not the triceps. 2 s back up'],why:'Lat isolation for width. Same stack as the tricep extension.',yt:'straight arm cable pulldown lats form'},
- 'Overhead rope tricep extension':{metric:'weight_reps',std:{u:'lb on the stack',s:30,n:45,i:60,a:85},how:['Face away from the stack, rope behind the head','Elbows stay by the ears, extend fully','Stretch at the bottom, squeeze at the top'],why:'Long head of the tricep — the part that adds arm size from the back.',yt:'overhead rope tricep extension form'},
- 'Incline dumbbell curl':{metric:'weight_reps',std:{u:'lb per hand',s:10,n:17.5,i:25,a:35},how:['Bench at 45°, arms hanging straight down','Curl without moving the shoulder, squeeze at the top','Lower for 3 s — the stretch is the point'],why:'Bicep long head under stretch. Arms look bigger from the front.',yt:'incline dumbbell curl form'},
- 'HIIT bike or rower':{metric:'duration',how:['30 s hard: standing out of the saddle or pulling max watts','30 s easy spin','Rounds 15–20 should be ugly. If they are not, the hard was not hard'],why:'Interval work preferentially strips visceral fat and builds the top end of your gas tank.',yt:'assault bike interval workout 30 30'},
- 'Incline walk':{metric:'duration',how:['Treadmill 12% at 3.0 mph, or hills outside','Hands off the rails, natural stride','Heart rate 120–135. You can talk'],why:'Calorie burn with almost no recovery cost and no appetite spike.',yt:'12 3 30 incline walk'},
- 'Full-body stretch':{metric:'duration',how:['Couch stretch 60 s per side first','Then hamstrings, adductors, pecs, lats — 45 s each','Breathe slow. Nothing sharp'],why:'Ten quiet minutes that make Monday feel better.',yt:'full body stretch routine 10 minutes'}
+ 'Banded lateral walk':{metric:'reps_only',cue:'Hip: stay in the quarter squat with the knees pushed out against the band. Standing tall switches the glutes off.',guide:{setup:'',execute:'',watch:''},how:['Band above knees, quarter-squat, chest up','Step sideways leading with the heel, never let knees cave','Constant tension — feet never touch'],why:'Wakes up glute med so it fires during the lifts instead of your hip flexors and low back.',yt:'banded lateral walk glute activation'},
+ 'Glute bridge':{metric:'bodyweight_reps',cue:'Hip: tuck the pelvis first, then drive. Stop when the hips are level — never arch the low back to get higher.',guide:{setup:'',execute:'',watch:''},how:['Heels close to glutes, ribs down, tuck the pelvis first','Drive through heels, squeeze glutes at the top for 3 s','Stop when hips are level — do not arch the low back'],why:'Teaches posterior pelvic tilt and glute drive before you load the hips.',hip:'This is the anti-pelvic-tilt movement. Own it.',yt:'glute bridge posterior pelvic tilt form'},
+ 'Hip CARs':{metric:'reps_only',cue:'Hip: pain-free range only. If the front of the hip pinches, shrink the circle.',guide:{setup:'',execute:'',watch:''},how:['Stand tall, hold something. One knee up to hip height','Sweep the knee out to the side, rotate the thigh, bring it back behind','Slow — 10 s per circle. Zero pain, shrink the circle if it pinches'],why:'Controlled articular rotations keep the labrum and capsule moving through every range you own.',hip:'Only the pain-free range. Smaller and cleaner beats bigger.',yt:'hip CARs controlled articular rotations'},
+ 'Couch stretch':{metric:'hold_each_side',cue:'Hip: tuck the pelvis and squeeze the glute before you lean. Stop at the first stretch — never push into a pinch at the front of the hip.',guide:{setup:'',execute:'',watch:''},how:['Rear knee on a pad, rear foot up on a bench','Tuck the pelvis under (posterior tilt) BEFORE you lean','Squeeze the rear glute, breathe. 60 s each side'],why:'Long hip flexors and rectus femoris pull you into anterior tilt. This is the direct fix.',hip:'Tuck first. If you feel it in the low back you skipped the tuck.',yt:'couch stretch hip flexor posterior pelvic tilt'},
+ '90/90 hip switch':{metric:'reps_only',cue:'Hip: pain-free range only. If internal rotation pinches, keep the switch short and lean back a little.',guide:{setup:'',execute:'',watch:''},how:['Sit with front shin and back shin each at 90°','Stay tall, rotate the hips to switch sides without hands','Pause 2 s at each end. Pain-free range only'],why:'Trains hip internal and external rotation — the ranges a cam hip loses first.',hip:'If internal rotation pinches, keep the range short and lean back slightly.',yt:'90 90 hip switch mobility'},
+ 'Clamshell':{metric:'reps_only',cue:'Hip: open the knee without rolling the pelvis back. Pain-free range only.',guide:{setup:'',execute:'',watch:''},how:['Side-lying, hips stacked, band above knees, heels together','Open the top knee like a clam, no hip roll backward','2 s up, 2 s down. 15 each side'],why:'Isolates glute med and deep rotators — the muscles that hold the femoral head centered in the socket.',yt:'clamshell exercise glute medius form'},
+ 'Dead bug':{metric:'reps_only',cue:'Hip: low back pressed into the floor for the whole set. If it lifts, the rep is over.',guide:{setup:'',execute:'',watch:''},how:['On your back, arms up, knees over hips at 90°','Press low back into the floor and keep it there the whole set','Extend opposite arm and leg slowly. Exhale on the reach'],why:'Anterior core stability with a neutral pelvis. Fights tilt without loading the hip flexors.',yt:'dead bug exercise core form'},
+ 'Bird dog':{metric:'reps_only',cue:'Hip: hips square and level. Reach to parallel, never let the low back sag into an arch.',guide:{setup:'',execute:'',watch:''},how:['Hands under shoulders, knees under hips','Reach opposite arm and leg to parallel, hips stay square','Hold 2 s, return slow. Do not let the low back sag'],why:'Glute max + spinal stability in one move. Reinforces hip extension without rib flare.',yt:'bird dog exercise proper form'},
+ 'Side plank with leg raise':{metric:'reps_only',cue:'Hip: hips stacked and level. Lift the leg without letting the pelvis tip back.',guide:{setup:'',execute:'',watch:''},how:['Elbow under shoulder, body straight, hips stacked','Lift top leg 12 in and lower, keeping the toes forward','10 reps then hold the plank 15 s'],why:'Obliques and glute med together — lateral pelvic control for kicks and clinch.',yt:'side plank hip abduction leg raise'},
+ 'Reverse crunch':{metric:'reps_only',cue:'Hip: curl the pelvis, do not lift the legs. This is posterior-tilt work, not a hip-flexor raise.',guide:{setup:'',execute:'',watch:''},how:['On your back, knees bent, hands by hips','Curl the pelvis up toward the ribs — tailbone leaves the floor','Lower slow. Small range, no leg swing'],why:'Lower abs pull the pelvis into posterior tilt. Replaces hanging knee raises, which overwork the hip flexors.',hip:'Chosen over hanging knee raises to spare your hip flexors and labrum.',yt:'reverse crunch proper form lower abs'},
+ 'RKC plank':{metric:'hold',cue:'Hip: tuck the pelvis and squeeze the glutes before anything else. The tuck is the exercise.',guide:{setup:'',execute:'',watch:''},how:['Forearm plank, then squeeze glutes hard and tuck the pelvis','Pull elbows toward toes and toes toward elbows','20–30 s of maximal tension beats 2 min of hanging out'],why:'Plank with a posterior tilt built in — the exact position your pelvis needs to learn.',yt:'RKC plank technique'},
+ 'Pallof press':{metric:'weight_reps',cue:'Hip: hips square and pelvis tucked. Nothing rotates but the arms.',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:15,n:25,i:35,a:50},how:['Cable at chest height, stand sideways to the stack, feet hip width','Press the handle straight out and back, hips do not rotate','Breathe out on the press. 12 each side'],why:'Anti-rotation core. Directly transfers to not leaking power on kicks.',yt:'pallof press form'},
+ 'Trap bar deadlift':{metric:'weight_reps',cue:'Hip: high handles only. The bar sets the depth, so there is no pinch to push into.',guide:{setup:'',execute:'',watch:''},std:{u:'lb',s:135,n:185,i:275,a:365},how:['Feet hip width, shins to the handles, grip the high handles','Hips back, chest up, brace, then push the floor away','Stand tall, glutes finish the rep. Lower under control — no bouncing'],why:'The heaviest, safest hip-hinge for a cam hip: upright torso, moderate hip flexion, huge glute and hamstring load.',hip:'Use the high handles. Depth is set by the bar, so no pinch.',yt:'trap bar deadlift high handles form'},
+ 'Bulgarian split squat':{metric:'weight_reps',cue:'Hip: front thigh to parallel and no lower. Torso tall, front knee over the ankle.',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Rear foot on a low bench, front foot far enough forward that the knee stays over the ankle','Torso tall, sit straight down — stop when the thigh is parallel','Drive through the front heel. Dumbbells in both hands'],why:'Single-leg strength and stability. Best carryover to kicking off one leg.',hip:'Parallel is deep enough. Deeper flexion is where the cam meets the socket.',yt:'bulgarian split squat form dumbbells'},
+ 'Romanian deadlift':{metric:'weight_reps',cue:'Hip: hinge, do not squat. Stop at mid-shin or when the hamstrings bite — no deeper.',guide:{setup:'',execute:'',watch:''},std:{u:'lb',s:95,n:135,i:185,a:245},how:['Bar at hips, soft knees, shoulders back','Push hips straight back, bar slides down the thighs','Stop at mid-shin or when the hamstrings bite — then drive hips forward'],why:'Hamstring and glute length under load. Builds the posterior chain that pulls the pelvis back to neutral.',hip:'Hinge, do not squat it. Neutral spine start to finish.',yt:'romanian deadlift barbell form'},
+ 'Sliding leg curl':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'level',s:'Two-leg 3×8',n:'Two-leg 3×12',i:'Single-leg 3×8',a:'Hips never touch'},how:['On your back, heels on a towel or sliders, hips bridged up','Slide heels away slowly, then curl them back toward the glutes','Hips stay high the whole time. Progress two-leg → single-leg'],why:'Eccentric hamstring strength on the way to a Nordic curl.',yt:'sliding leg curl hamstring exercise'},
+ 'Standing calf raise':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:90,n:150,i:220,a:300},how:['Full stretch at the bottom, 2 s pause','Drive up onto the big toe, 1 s squeeze at the top','Controlled — no bouncing'],why:'Ankle stiffness for teeps and switching stance.',yt:'standing calf raise machine form'},
+ 'Barbell bench press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb',s:95,n:135,i:185,a:245},how:['Shoulder blades pinned down and back, feet planted, slight arch','Bar to lower chest, elbows about 45°','Press up and slightly back. Full lockout every rep'],why:'Your heaviest push. Chest, front delt, tricep — and the strength benchmark for the upper body.',yt:'barbell bench press form Jeff Nippard'},
+ 'Pull-up':{metric:'assisted_bodyweight',guide:{setup:'',execute:'',watch:''},ladder:{modes:['assisted','bodyweight','added'],toBodyweight:{sets:3,reps:8,maxAssist:20},toAdded:{sets:3,reps:8},step:5,topReps:8},std:{u:'level',s:'Assisted / pulldown',n:'Bodyweight × 5',i:'Bodyweight × 10',a:'+45 lb × 5'},how:['Dead hang, shoulders down away from ears','Pull chest to the bar, elbows drive down and back','Control the descent. Add weight with a belt or dumbbell between the feet'],why:'Back width and grip strength. If under 5 clean reps, use the lat pulldown heavy instead.',yt:'weighted pull up form'},
+ 'Lat pulldown':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:100,n:140,i:180,a:230},how:['Wide or neutral grip, thighs pinned under the pads','Chest tall, pull the bar to the collarbone, elbows down and back','Control the bar back up to a full stretch — no leaning away'],why:'The pull-up pattern with a load you can dial in. Under 5 clean pull-ups this is the better driver of back width.',yt:'lat pulldown proper form'},
+ 'Incline dumbbell press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Bench 30°, dumbbells at shoulder level, elbows slightly tucked','Press up and in, touch at the top without clanking','Lower for 2 s'],why:'Upper chest is what makes a T-shirt fit differently.',yt:'incline dumbbell press form'},
+ 'Dumbbell lateral raise':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:8,n:12,i:20,a:30},how:['Slight forward lean, elbows soft','Raise to shoulder height leading with the elbows, pinkies slightly up','Lower for 2 s. Light weight, perfect reps'],why:'Side delt width — the single fastest aesthetic change in the upper body.',yt:'dumbbell lateral raise proper form'},
+ 'Seated cable row':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:70,n:100,i:140,a:180},how:['Neutral grip, chest tall, slight forward reach at the start','Pull to the belly button, elbows drive back','Squeeze 1 s, reach forward under control'],why:'Horizontal pull for mid-back thickness and posture.',yt:'seated cable row neutral grip form'},
+ 'Cable face pull':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:20,n:35,i:50,a:70},how:['Rope at face height, step back, palms facing you','Pull to the face, elbows high, then rotate hands so knuckles face the ceiling','Squeeze the rear delts 1 s'],why:'Rear delts and rotator cuff. Protects the shoulder from years of punching.',yt:'face pull form rope'},
+ 'Cable bar curl':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Straight bar on the low pulley, elbows pinned to your sides','Curl to the chin, squeeze, lower for 2 s','No swinging'],why:'Direct bicep work on the same stack as the pushdown — one station, zero walking.',yt:'cable bar curl form'},
+ 'Rope tricep pushdown':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Elbows pinned, lean slightly forward','Push down and split the rope at the bottom','Let it come back only to 90° at the elbow'],why:'Tricep size. Two-thirds of your arm.',yt:'rope tricep pushdown form'},
+ 'Box jump':{metric:'reps_only',cue:'Hip: low box, land tall in a quarter squat. Step down every rep — never jump down.',guide:{setup:'',execute:'',watch:''},std:{u:'box height',s:'Step-up',n:'12 in',i:'18 in',a:'24 in'},how:['Low box — 12 to 18 in. Land soft, hips above knees','Swing arms, jump, land tall like a quarter squat','Step down every rep, never jump down'],why:'Explosive hip extension without heavy loading.',hip:'Land tall. A crashing deep landing is the position we avoid.',yt:'box jump proper landing technique'},
+ 'Barbell hip thrust':{metric:'weight_reps',cue:'Hip: ribs down, chin tucked, glutes finish the rep. Full extension — never an arched low back.',guide:{setup:'',execute:'',watch:''},std:{u:'lb',s:95,n:155,i:225,a:315},how:['Upper back on a bench, bar in the hip crease with a pad','Tuck the chin, ribs down, drive through heels','Full hip extension, squeeze 1 s, do not arch the low back'],why:'The single best glute builder. Glutes are what pull your pelvis out of anterior tilt.',hip:'Your priority lift on Friday. Load it.',yt:'barbell hip thrust form Bret Contreras'},
+ 'Leg press':{metric:'weight_reps',cue:'Hip: stop at 90° at the hip. Deeper is where the cam meets the socket.',guide:{setup:'',execute:'',watch:''},std:{u:'lb of plates, not counting the sled',s:90,n:180,i:320,a:450},how:['Feet high and wide on the plate','Lower only to 90° at the hip — stop before any pinch','Drive through heels, do not lock knees hard'],why:'Quad and glute volume with the spine unloaded.',hip:'Depth stops at 90°. Deeper is where the cam impinges.',yt:'leg press form feet high wide'},
+ 'Reverse lunge':{metric:'weight_reps',cue:'Hip: step back, never forward. Front thigh to parallel, torso tall.',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Dumbbells at the sides, step back long','Drop straight down until the front thigh is parallel, torso tall','Drive through the front heel to stand'],why:'More glute, less hip flexion than a forward lunge. Kinder to the labrum.',hip:'Chosen over walking lunges for a shorter, controlled hip range.',yt:'reverse lunge dumbbells form'},
+ 'Single-leg RDL':{metric:'weight_reps',cue:'Hip: hips stay square. Stop at mid-shin or when balance goes — no deeper, no twisting.',guide:{setup:'',execute:'',watch:''},std:{u:'lb, one dumbbell',s:15,n:30,i:45,a:65},how:['Dumbbell in the opposite hand of the working leg','Hinge, reach the free leg back, hips stay square','Stop at mid-shin or when balance breaks. Drive up through the heel'],why:'Glute max and med together, with balance. Fixes the side-to-side pelvic wobble.',yt:'single leg romanian deadlift dumbbell form'},
+ 'Lateral step-down':{metric:'bodyweight_reps',cue:'Hip: hips level, knee over the second toe. Shallow and controlled — this replaces the pistol squat.',guide:{setup:'',execute:'',watch:''},std:{u:'box height',s:'4 in',n:'6 in',i:'9 in',a:'12 in'},how:['Stand on a 6–12 in box sideways, free leg off the edge','Lower the free heel toward the floor by bending the standing knee, hips level','Tap and drive back up. Knee tracks over the second toe'],why:'Glute med and quad control in a shallow, safe range. Replaces pistol squats.',hip:'Pistols demand deep hip flexion plus rotation — the worst combination for a labrum. This gives you the single-leg strength without it.',yt:'lateral step down exercise glute medius'},
+ 'Single-leg calf raise':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:20},step:5,topReps:15},std:{u:'level',s:'BW × 8',n:'BW × 12',i:'BW × 20',a:'+25 lb × 15'},how:['Ball of foot on a step, hold the rail lightly','Full stretch, then up to the big toe','15–20 slow reps each side'],why:'Unilateral ankle strength for footwork.',yt:'single leg calf raise form'},
+ 'Seated dumbbell overhead press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:25,n:40,i:55,a:75},how:['Bench at 85°, dumbbells at shoulder height, forearms vertical','Press up and slightly in, ribs down — do not arch','Lower to ear height'],why:'Shoulder strength and the cap on the delts.',yt:'seated dumbbell shoulder press form'},
+ 'Chest-supported dumbbell row':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Chest on a 30–45° incline bench, dumbbells hanging','Row to the hips, elbows back, squeeze the shoulder blades','Lower for 2 s'],why:'Back thickness with zero low-back involvement.',yt:'chest supported dumbbell row incline bench'},
+ 'Prone rear delt fly':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:8,n:12,i:18,a:25},how:['Same bench, lighter dumbbells, slight elbow bend','Raise out to the sides to shoulder height, thumbs down','Lower slow. Pure rear delt — no rowing'],why:'Rear delts round out the shoulder from behind. Pairs with the row on the same bench.',yt:'incline prone rear delt fly dumbbell'},
+ 'Dips':{metric:'assisted_bodyweight',guide:{setup:'',execute:'',watch:''},ladder:{modes:['assisted','bodyweight','added'],toBodyweight:{sets:3,reps:8,maxAssist:20},toAdded:{sets:3,reps:12},step:5,topReps:12},std:{u:'level',s:'Assisted machine',n:'Bodyweight × 8',i:'Bodyweight × 12',a:'+45 lb × 8'},how:['Slight forward lean, shoulders down','Lower until the upper arm is parallel — no deeper','Press to lockout. Add a belt at 12 clean reps'],why:'Lower chest and triceps. Heavy bodyweight pressing.',yt:'weighted dips form chest triceps'},
+ 'Straight-arm pulldown':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:30,n:50,i:70,a:100},how:['Straight bar or rope on the high pulley, slight hinge','Arms nearly straight, pull the bar to the thighs in an arc','Feel the lats, not the triceps. 2 s back up'],why:'Lat isolation for width. Same stack as the tricep extension.',yt:'straight arm cable pulldown lats form'},
+ 'Overhead rope tricep extension':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:30,n:45,i:60,a:85},how:['Face away from the stack, rope behind the head','Elbows stay by the ears, extend fully','Stretch at the bottom, squeeze at the top'],why:'Long head of the tricep — the part that adds arm size from the back.',yt:'overhead rope tricep extension form'},
+ 'Incline dumbbell curl':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:10,n:17.5,i:25,a:35},how:['Bench at 45°, arms hanging straight down','Curl without moving the shoulder, squeeze at the top','Lower for 3 s — the stretch is the point'],why:'Bicep long head under stretch. Arms look bigger from the front.',yt:'incline dumbbell curl form'},
+ 'HIIT bike or rower':{metric:'duration',guide:{setup:'',execute:'',watch:''},how:['30 s hard: standing out of the saddle or pulling max watts','30 s easy spin','Rounds 15–20 should be ugly. If they are not, the hard was not hard'],why:'Interval work preferentially strips visceral fat and builds the top end of your gas tank.',yt:'assault bike interval workout 30 30'},
+ 'Incline walk':{metric:'duration',guide:{setup:'',execute:'',watch:''},how:['Treadmill 12% at 3.0 mph, or hills outside','Hands off the rails, natural stride','Heart rate 120–135. You can talk'],why:'Calorie burn with almost no recovery cost and no appetite spike.',yt:'12 3 30 incline walk'},
+ 'Full-body stretch':{metric:'duration',guide:{setup:'',execute:'',watch:''},how:['Couch stretch 60 s per side first','Then hamstrings, adductors, pecs, lats — 45 s each','Breathe slow. Nothing sharp'],why:'Ten quiet minutes that make Monday feel better.',yt:'full body stretch routine 10 minutes'}
 };
 
 /* Day templates. ss = superset group letter (same-station pairs). warm = activation. t: S strength, H hypertrophy, A accessory, C cardio/core/mobility
@@ -852,8 +977,14 @@ function setPhrase(v){
   }
 }
 /* An entry that exists but measures nothing is a skip — that is how the old
- * logger recorded one before the Skip button wrote {skip:1}. */
+ * logger recorded one before the Skip button wrote {skip:1}. A skip is a
+ * recorded fact, never an absence, and every one says the level it was taken
+ * at: {skip:1, level:'set'} from Skip set, {skip:1, level:'exercise'} from Skip
+ * exercise. A session skip is not a set at all — it is skipped:{reason, at} on
+ * the day. None of them measures anything, so none can reach a best lift, the
+ * strength board or a ladder gate: setRank and gateFor both drop them. */
 const isSkipped=v=>!!v&&(!!v.skip||setText(v)===null);
+const isExSkip=v=>!!v&&!!v.skip&&v.level==='exercise';
 /* How two sets of one movement compare: rung, then load, then reps, in that
  * order. Bodyweight beats assisted whatever the numbers say, and less
  * assistance beats more. null means the set measures nothing, so it can never
@@ -971,7 +1102,11 @@ const restSec=s=>{ if(s==='0')return 0; if(!s)return DB.settings.restDefault; co
 /* ---------------- state ---------------- */
 let view='today'; let cur=new Date(); cur.setHours(0,0,0,0);
 let weekView=new Date(cur), monthView=new Date(cur.getFullYear(),cur.getMonth(),1);
-let editing=null; const openEx=new Set(); let editQuick=false; let skipPicker=false;
+/* editing is the set the form is on. activeEx is the exercise the user tapped
+ * open; with neither, the first exercise with sets still to log is the surface.
+ * guideState is the user's own open/closed choice per exercise for this day —
+ * without one, a movement never logged opens its guide, a logged one does not. */
+let editing=null, activeEx=null; const guideState=new Map(); let editQuick=false; let skipPicker=false;
 const $=s=>document.querySelector(s); const app=$('#app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1600);}
@@ -1006,7 +1141,7 @@ function beep(){
 }
 function buzz(){ if(!DB.settings.restVibrate)return; try{ if(navigator.vibrate)navigator.vibrate([140,90,140]); }catch(e){} }
 function restAlert(){ buzz(); beep(); }
-function showRest(on){ $('#rest').classList.toggle('hidden',!on); document.body.classList.toggle('resting',on); }
+function showRest(on){ $('#rest').classList.toggle('up',on); document.body.classList.toggle('resting',on); }
 function clock(n){ return `${Math.floor(n/60)}:${pad(n%60)}`; }
 function startRest(sec){
   if(!sec)return;
@@ -1026,23 +1161,16 @@ function tickRest(){
   const n=over?Math.floor(-ms/1000):Math.ceil(ms/1000);
   const pct=over?100:Math.max(0,Math.min(100,(1-ms/(restSpan*1000))*100));
   el.classList.toggle('over',over);
-  el.innerHTML=`<div class="rt-top"><div class="rt-grow"><div class="rt-lab">${over?'Rest over':'Rest'}</div>`+
-    `<div class="rt-num">${over?'+':''}${clock(n)}</div>`+
-    `<div class="rt-sub">${over?'Next set now':`of ${clock(restSpan)}`}</div></div>`+
-    `<button data-restadd="30">+30s</button><button data-restdone="1">Done</button></div>`+
-    `<div class="rt-bar"><i style="width:${pct.toFixed(1)}%"></i></div>`;
+  el.innerHTML=`<div class="drain"><span style="width:${(100-pct).toFixed(1)}%"></span></div>`+
+    `<div class="line"><div class="clock num">${over?'+':''}${clock(n)}</div>`+
+    `<div class="of">${over?'Rest is up — next set now':`Rest · of ${clock(restSpan)}`}</div>`+
+    `<button data-restadd="30">+30s</button><button data-restdone="1">Done</button></div>`;
   showRest(true);
   if(over&&n>=OVER_CAP){ clearInterval(restT); restT=null; }
 }
 
 /* ---------------- helpers ---------------- */
 function logFor(d){const k=key(d);if(!DB.logs[k])DB.logs[k]={done:false,sets:{},mt:null,skipped:null};return DB.logs[k];}
-function lastSets(exName,before){
-  const keys=Object.keys(DB.logs).filter(k=>k<key(before)).sort().reverse();
-  for(const k of keys){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];if(!day)continue;const i=day.ex.findIndex(e=>e.n===exName);
-    if(i>=0&&DB.logs[k].sets[i]&&DB.logs[k].sets[i].length){const best=bestOf(DB.logs[k].sets[i]);if(!best)continue;return setPhrase(best);}}
-  return null;
-}
 function bestFor(exName){let best=null,bestR=null;for(const k in DB.logs){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];if(!day)continue;const i=day.ex.findIndex(e=>e.n===exName);if(i<0)continue;for(const v of(DB.logs[k].sets[i]||[])){const r=setRank(v);if(!r)continue;if(!bestR||rankGt(r,bestR)){best={...v,date:k};bestR=r;}}}return best;}
 function plannedDone(d){const day=DAYS[d.getDay()];const l=DB.logs[key(d)];return !!(l&&l.done);}
 
@@ -1097,65 +1225,158 @@ function render(top){const y=window.scrollY;app.innerHTML=view==='today'?vToday(
 function renderNav(){const items=[['today','Today','<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'],['week','Week','<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>'],['month','Month','<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'],['track','Track','<svg viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 7-9"/></svg>'],['fuel','Fuel','<svg viewBox="0 0 24 24"><path d="M6 3h9v18H6zM15 8h2l2 2v8a2 2 0 0 1-2 2M6 10h9"/></svg>'],['settings','Settings','<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.4v2.1M12 18.5v2.1M5.1 7.6l1.8 1.05M17.1 15.35l1.8 1.05M5.1 16.4l1.8-1.05M17.1 8.65l1.8-1.05"/></svg>']];
   $('#nav').innerHTML=items.map(([id,l,ic])=>`<button class="${view===id||(['export','data'].includes(view)&&id==='track')?'on':''}" data-v="${id}">${ic}<span>${l}</span></button>`).join('');}
 
-function exBlock(e,i,ph,l){
-  const r=rx(e,ph);const sets=l.sets[i]||[];const last=lastSets(e.n,cur);const lib=LIB[e.n]||{};const open=openEx.has(i);
-  let h=`<div class="ex"><button class="ex-head" data-info="${i}"><div>
-    <div class="ex-name">${esc(e.n)}${e.alt?` <span class="alt">— ${esc(e.alt)}</span>`:''}</div>
-    <div class="ex-rx">${rxLabel(e,r)}${e.rest&&e.rest!=='0'?` · rest ${esc(e.rest)}`:''}</div>
-    ${r.note?`<div class="ex-note">${esc(r.note)}</div>`:''}
-    ${lib.hip&&!open?`<div class="ex-hip">Hip: ${esc(lib.hip)}</div>`:''}
-    ${last&&e.t!=='C'&&!e.warm?`<div class="ex-last">Last time: ${esc(last)}</div>`:''}
-    </div><span class="info ${open?'on':''}">${open?'×':'?'}</span></button>`;
-  if(open){h+=`<div class="how"><b>Form</b><ul>${(lib.how||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
-    ${lib.why?`<div class="why">${esc(lib.why)}</div>`:''}
-    ${lib.hip?`<div class="ex-hip" style="margin-top:8px">Hip: ${esc(lib.hip)}</div>`:''}
-    ${stdHtml(e)}
-    <a href="${yt(lib.yt||e.n+' proper form')}" target="_blank" rel="noopener">Watch a demo</a></div>`;}
-  if(r.sets>0){h+=`<div class="sets">`;
-    for(let s=0;s<r.sets;s++){const v=sets[s];const ed=editing&&editing.ex===i&&editing.set===s;const skipped=isSkipped(v);h+=`<button class="set ${v?(skipped?'skip':'done'):''} ${ed?'editing':''}" data-set="${i}:${s}">${v?(skipped?'skipped':esc(setText(v))):`Set ${s+1}`}</button>`;}
+/* ---------------- today ---------------- */
+/* Every set of the most recent earlier session that logged this movement, in
+ * order, so the previous outing can ghost under the name. */
+function lastSession(exName,before){
+  const keys=Object.keys(DB.logs).filter(k=>k<key(before)).sort().reverse();
+  for(const k of keys){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];if(!day)continue;const i=day.ex.findIndex(e=>e.n===exName);
+    if(i>=0&&DB.logs[k].sets[i]&&DB.logs[k].sets[i].some(v=>v))return DB.logs[k].sets[i].filter(v=>v);}
+  return null;
+}
+/* Has this movement ever been logged, today included? The first time it
+ * appears the guide opens on its own and the name carries a "new" tag; once
+ * anything has been logged against it, the guide collapses by default. */
+function everLogged(exName){
+  for(const k in DB.logs){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];if(!day)continue;const i=day.ex.findIndex(e=>e.n===exName);
+    if(i>=0&&(DB.logs[k].sets[i]||[]).some(v=>v))return true;}
+  return false;
+}
+/* The load the weight box opens on: what this session already logged for this
+ * rung, else the last session's best at it. The prescription itself carries no
+ * load, and a set from a different rung is a different number. */
+function prescribedLoad(e,sets){
+  const m=metricOf(e.n);const same=v=>v&&!v.skip&&(v.m===m||(!v.m&&m==='weight_reps'))&&v.w>0;
+  const today=(sets||[]).filter(same);
+  if(today.length)return today[today.length-1].w;
+  const prev=lastSession(e.n,cur);
+  if(prev){const best=bestOf(prev.filter(same));if(best)return best.w;}
+  return null;
+}
+/* The counted box opens on the prescription's first number — 8 for "8 / leg",
+ * 10 for "10–12", tgt where the day template sets one. "max" opens empty. */
+function repsTarget(r){ if(r.tgt!=null)return r.tgt; const n=String(r.reps||'').match(/^\d+/); return n?+n[0]:null; }
+/* The set the form is on for this exercise: the one being edited, else the
+ * first not yet logged. null means every set is in. */
+function setIndex(i,r,sets){ if(editing&&editing.ex===i)return editing.set; for(let s=0;s<r.sets;s++)if(!sets[s])return s; return null; }
+/* The exercise the session is on: the one being edited, else the one the user
+ * tapped, else the first with sets still to log. Only this one is a surface. */
+function activeIndex(day,l,ph){
+  if(editing)return editing.ex;
+  if(activeEx!=null&&day.ex[activeEx])return activeEx;
+  for(let i=0;i<day.ex.length;i++){const r=rx(day.ex[i],ph);if(setIndex(i,r,l.sets[i]||[])!=null)return i;}
+  return null;
+}
+function guideOpen(i,name){ return guideState.has(i)?guideState.get(i):!everLogged(name); }
+
+/* The ladder, in a sentence: what the current rung has to do to clear its
+ * gate. Every number comes from the library. */
+function ladderLine(name){
+  const lad=ladderOf(name);if(!lad)return'';const rung=rungOf(name);let t='';
+  if(rung==='assisted'&&lad.toBodyweight){const g=lad.toBodyweight;t=`${g.sets} sets of ${g.reps} on ${g.maxAssist} lb of assistance or less unlocks <b>bodyweight</b>.`;}
+  else if(rung==='bodyweight'&&lad.toAdded){const g=lad.toAdded;t=`${g.sets} sets of ${g.reps} at bodyweight unlocks <b>added weight</b>.`;}
+  else if(rung==='added'&&lad.topReps)t=`A top set of ${lad.topReps} adds <b>${lad.step} lb</b> next time.`;
+  const b=bestFor(name);
+  return t?`<p class="ladder">${t}${b?` Best so far: ${esc(setPhrase(b))}.`:''}</p>`:'';
+}
+
+/* A collapsed exercise: one quiet line. Done shows the top set, upcoming shows
+ * the prescription, skipped is struck through. */
+function rowHtml(e,i,r,sets){
+  const logged=[];let skipped=0;
+  for(let s=0;s<r.sets;s++){const v=sets[s];if(!v)continue;if(isSkipped(v))skipped++;else logged.push(v);}
+  const n=logged.length+skipped,done=r.sets>0&&n>=r.sets;
+  let cls='',mark='○',val=rxLabel(e,r);
+  if(done&&logged.length){cls='done';mark='✓';val=esc(setText(bestOf(logged))).replace('×',' × ');}
+  else if(done){cls='skipped';mark='—';val='skipped';}
+  else if(n>0){val=`${n} of ${r.sets}`;}
+  return `<button class="row ${cls}" data-row="${i}"><span class="mark">${mark}</span><span class="name">${esc(e.n)}${e.alt?`<small>${esc(e.alt)}</small>`:''}</span><span class="val num">${val}</span></button>`;
+}
+
+/* The entry fields, built from the metric. A movement with no external load
+ * never gets a weight box — there is nothing true to put in it. A hold is
+ * timed, a count is stepped, a walk is minutes. */
+function entryHtml(e,v,r,sets){
+  const m=metricOf(e.n),rungs=rungsOf(e.n),tgt=r.tgt;
+  const field=(id,label,val,mode)=>`<div class="field"><label for="${id}">${label}</label><input type="number" inputmode="${mode||'numeric'}" id="${id}" value="${val??''}"></div>`;
+  const tick=(id,label)=>`<button class="tick" data-hold="${id}">${label}</button>`;
+  let h='',hint='';
+  if(rungs.length>1)h+=`<div class="modes">${rungs.map(x=>`<button class="${rungOf(e.n)===x?'on':''}" data-rung="${x}" data-ex="${esc(e.n)}">${RUNG_LABEL[x]}</button>`).join('')}</div>`;
+  h+=`<div class="entry">`;
+  if(m==='hold'){
+    h+=field('sf-sec','Seconds',v.sec??tgt)+tick('sf-sec','Start');
+    hint='Start times the hold and leaves the seconds in the box.';
+  }else if(m==='hold_each_side'){
+    h+=field('sf-l','Left, s',v.left??tgt)+tick('sf-l','L')+field('sf-rt','Right, s',v.right??tgt)+tick('sf-rt','R');
+    hint='Tap L or R to time that side.';
+  }else if(m==='duration'){
+    h+=field('sf-min','Minutes',v.min??tgt)+`<span class="unit">min</span>`;
+  }else if(m==='reps_only'||m==='bodyweight_reps'){
+    h+=`<button class="step" data-repstep="-1">−</button>`+field('sf-r','Reps',v.r??repsTarget(r))+`<button class="step" data-repstep="1">+</button>`;
+    if(m==='bodyweight_reps'&&rungs.length>1)hint='Bodyweight — reps only. Nothing added, nothing taken off.';
+  }else if(m==='assisted_bodyweight'){
+    h+=field('sf-w','Assist, lb',v.w??prescribedLoad(e,sets),'decimal')+`<span class="times">×</span>`+field('sf-r','Reps',v.r??repsTarget(r));
+    hint='Log the assistance the machine or band is taking off.';
+  }else if(m==='loaded_bodyweight'){
+    h+=field('sf-w','Added, lb',v.w??prescribedLoad(e,sets),'decimal')+`<span class="times">×</span>`+field('sf-r','Reps',v.r??repsTarget(r));
+    hint='Log what is hanging off the belt, not your bodyweight.';
+  }else{
+    h+=field('sf-w','Weight, lb',v.w??prescribedLoad(e,sets),'decimal')+`<span class="times">×</span>`+field('sf-r','Reps',v.r??repsTarget(r));
+  }
+  return h+`</div>`+(hint?`<div class="hint">${hint}</div>`:'');
+}
+
+/* The "How to" disclosure. It expands in place under the exercise and never
+ * leaves the session; the demo link is the one thing here that does, and says
+ * so. Until a guide is written the form cues stand in for it. */
+function guideHtml(e,lib){
+  const g=lib.guide||{};const parts=[];
+  if(g.setup||g.execute||g.watch){
+    if(g.setup)parts.push(['Set up',esc(g.setup)]);
+    if(g.execute)parts.push(['Execute',esc(g.execute)]);
+    if(g.watch)parts.push(['Watch for',esc(g.watch)]);
+  }else if(lib.how&&lib.how.length)parts.push(['Form',`<ul>${lib.how.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`]);
+  if(lib.why)parts.push(['Why',esc(lib.why)]);
+  if(lib.hip)parts.push(['Hip',esc(lib.hip)]);
+  return `<div class="guide"><dl>${parts.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join('')}</dl>${stdHtml(e)}
+    <a class="watch" href="${yt(lib.yt||e.n+' proper form')}" target="_blank" rel="noopener"><span class="tri">▶</span><span>Watch the demo</span><span class="away">leaves Camp</span></a></div>`;
+}
+
+/* The active exercise — the only heavy thing on screen. */
+function activeHtml(e,i,r,sets){
+  const lib=LIB[e.n]||{};const s=setIndex(i,r,sets);const v=(s!=null&&sets[s])||{};
+  const isNew=!everLogged(e.n);const open=guideOpen(i,e.n);
+  const prev=lastSession(e.n,cur);
+  const sub=[e.alt,e.rest&&e.rest!=='0'?`rest ${e.rest}`:''].filter(Boolean).join(' · ');
+  const today=[];for(let k=0;k<r.sets;k++){const x=sets[k];if(x)today.push(isSkipped(x)?'skip':esc(setText(x)));}
+  let h=`<section class="active"><div class="top"><h2>${esc(e.n)}${isNew?`<span class="newtag">new</span>`:''}</h2><span class="rx num">${rxLabel(e,r)}</span></div>`;
+  if(sub)h+=`<div class="alt">${esc(sub)}</div>`;
+  h+=`<p class="prev">${prev?`Last time ${prev.map(x=>`<b class="num">${esc(setText(x))}</b>`).join(' · ')}`:'First time in this program'}</p>`;
+  if(today.length)h+=`<p class="sofar">Today ${today.map(x=>`<b class="num">${x}</b>`).join(' · ')}</p>`;
+  if(r.note)h+=`<p class="note">${esc(r.note)}</p>`;
+  if(lib.cue){const c=String(lib.cue);const k=c.indexOf(': ');h+=`<p class="cue"><span>${k>0?`<b>${esc(c.slice(0,k+1))}</b> ${esc(c.slice(k+2))}`:esc(c)}</span></p>`;}
+  if(r.sets>0){
+    h+=`<div class="pips">`;
+    for(let k=0;k<r.sets;k++){const x=sets[k];const cls=k===s?'here':x?(isSkipped(x)?'miss':'hit'):'';h+=`<button class="${cls}" data-set="${i}:${k}" aria-label="Set ${k+1}${x?': '+(isSkipped(x)?'skipped':esc(setText(x))):''}"></button>`;}
     h+=`</div>`;
-    if(editing&&editing.ex===i)h+=setForm(e,sets[editing.set]||{},r);
-    h+=gateHtml(e,sets);
+    if(s!=null){
+      h+=entryHtml(e,v,r,sets);
+      h+=`<button class="log" data-savesets="${i}:${s}">Log set ${s+1}</button>`;
+    }
+    /* Skip set takes the one set the form is on; Skip exercise takes every set
+     * still to log. Undo skip appears while a Skip exercise stands and the
+     * session is still open, and takes back exactly the sets it wrote. */
+    const closed=!!(DB.logs[key(cur)]||{}).done;const exSkipped=sets.some(isExSkip);
+    h+=`<div class="aux">${s!=null?`<button data-skipset="${i}:${s}">Skip set</button><button data-skipex="${i}">Skip exercise</button>`:''}${exSkipped&&!closed?`<button data-unskipex="${i}">Undo skip</button>`:''}<button class="${open?'on':''}" data-how="${i}" aria-expanded="${open?'true':'false'}">How to</button></div>`;
+    h+=ladderLine(e.n)+gateHtml(e,sets);
     /* With auto-start off the timer still has to be reachable, so the rest this
      * lift asks for gets its own button. A movement with no rest between rounds
      * — a walk, a warm-up, a mobility sequence — has none to offer. */
     if(!DB.settings.restAuto&&!e.warm&&e.t!=='C'){const rs=restSec(e.rest);
-      if(rs)h+=`<button class="secondary" style="margin-top:8px;padding:9px" data-startrest="${rs}">Start rest ${clock(rs)}</button>`;}
+      if(rs)h+=`<div class="aux"><button data-startrest="${rs}">Start rest ${clock(rs)}</button></div>`;}
   }
-  return h+`</div>`;
-}
-
-/* The log form, built from the metric. A movement with no external load never
- * gets a weight box — there is nothing true to put in it. */
-function setForm(e,v,r){
-  const m=metricOf(e.n),rungs=rungsOf(e.n),tgt=r.tgt;
-  const num=(id,ph,val,mode)=>`<input type="number" inputmode="${mode||'numeric'}" id="${id}" placeholder="${ph}" value="${val??''}">`;
-  let h='';
-  if(rungs.length>1)h+=`<div class="rungs">${rungs.map(x=>`<button class="${rungOf(e.n)===x?'on':''}" data-rung="${x}" data-ex="${esc(e.n)}">${RUNG_LABEL[x]}</button>`).join('')}</div>`;
-  h+=`<div class="setform">`;
-  let hint='';
-  if(m==='hold'){
-    h+=num('sf-sec','seconds',v.sec??tgt)+`<button class="ghost" data-hold="sf-sec">Timer</button>`;
-  }else if(m==='hold_each_side'){
-    h+=num('sf-l','left s',v.left??tgt)+`<button class="ghost" data-hold="sf-l">L</button>`+
-       num('sf-rt','right s',v.right??tgt)+`<button class="ghost" data-hold="sf-rt">R</button>`;
-    hint='Tap L or R to time that side.';
-  }else if(m==='duration'){
-    h+=num('sf-min','minutes',v.min??tgt)+`<span class="x">min</span>`;
-  }else if(m==='reps_only'||m==='bodyweight_reps'){
-    h+=`<button class="ghost" data-repstep="-1">−</button>`+num('sf-r','reps',v.r??tgt)+`<button class="ghost" data-repstep="1">+</button>`;
-    if(m==='bodyweight_reps'&&rungs.length>1)hint='Bodyweight — reps only. Nothing added, nothing taken off.';
-  }else if(m==='assisted_bodyweight'){
-    h+=num('sf-w','assist lb',v.w,'decimal')+`<span class="x">×</span>`+num('sf-r','reps',v.r);
-    hint='Log the assistance the machine or band is taking off.';
-  }else if(m==='loaded_bodyweight'){
-    h+=num('sf-w','added lb',v.w,'decimal')+`<span class="x">×</span>`+num('sf-r','reps',v.r);
-    hint='Log what is hanging off the belt, not your bodyweight.';
-  }else{
-    h+=num('sf-w','lb',v.w,'decimal')+`<span class="x">×</span>`+num('sf-r','reps',v.r);
-  }
-  h+=`<button data-savesets="1">Log</button><button class="ghost" data-skipset="1">Skip</button><button class="ghost" data-cancel="1">✕</button></div>`;
-  return h+(hint?`<div class="sf-hint">${hint}</div>`:'');
+  if(open)h+=guideHtml(e,lib);
+  return h+`</section>`;
 }
 
 /* A met gate asks. It never moves anybody up on its own. */
@@ -1169,23 +1390,31 @@ function gateHtml(e,sets){
 
 function vToday(){
   const w=weekOf(cur),ph=phaseOf(w);const day=DAYS[cur.getDay()];const l=logFor(cur);const isToday=sameDay(cur,new Date());const inProg=w>=1&&w<=WEEKS;
+  const end=addDays(START,WEEKS*7-1);const left=Math.round((end-cur)/864e5);
   let h=`<div class="today-nav"><button data-nav="-1">‹ Prev</button>${isToday?`<span class="meta">Today</span>`:`<button class="jump" data-jump="1">Back to today</button>`}<button data-nav="1">Next ›</button></div>`;
-  h+=`<div class="meta">${fmt(cur)}${inProg?`, week ${w} of ${WEEKS} <span class="pill ${ph.toLowerCase()}" style="margin-left:6px">${ph}</span>`:''}</div>`;
-  h+=`<h1>${day.title}</h1><div class="sub">${day.tag} — ${day.when}</div>`;
-  if(!inProg){return h+`<div class="card"><h3>${cur<START?'Program starts Monday, Aug 31':'Program complete'}</h3><p class="note">${cur<START?'Week 1 begins with Lower A.':'Nine weeks done. Re-test the heavy lifts, take photos, and start the next block.'}</p></div>`;}
-  h+=`<p class="note" style="margin-top:0">${day.intro}</p>`;
-  // group: warm-ups, then main with superset groups
-  const warm=day.ex.map((e,i)=>[e,i]).filter(([e])=>e.warm);
-  const main=day.ex.map((e,i)=>[e,i]).filter(([e])=>!e.warm);
-  if(warm.length){h+=`<h4>Activation — 5 minutes, light</h4><div class="card" style="margin-top:6px">${warm.map(([e,i])=>exBlock(e,i,ph,l)).join('')}</div>`;}
-  h+=`<h4>${day.kind==='lift'?'Session':day.kind==='mobility'?'Sequence — flow straight through':'Sequence'}</h4><div class="card" style="margin-top:6px">`;
-  let k=0;
-  while(k<main.length){
-    const [e,i]=main[k];
-    if(e.ss){ const grp=[];while(k<main.length&&main[k][0].ss===e.ss){grp.push(main[k]);k++;}
-      h+=`<div class="ss"><div class="ss-lab"><span>Superset ${e.ss}</span><span>${esc(grp[0][0].where||'')}</span></div>${grp.map(([g,gi])=>exBlock(g,gi,ph,l)).join('')}<div class="meta" style="padding:0 0 10px">Do one set of each back to back, then rest ${esc(grp[grp.length-1][0].rest)}.</div></div>`;
-    } else { h+=exBlock(e,i,ph,l); k++; }
-  }
+  /* Campaign header: where this day sits in a finite nine weeks. */
+  h+=`<div class="arc">${inProg?`<span class="phase">${ph}</span><span>Week ${w} of ${WEEKS}</span><span class="right">${left>0?`${left} day${left===1?'':'s'} to ${MON[end.getMonth()]} ${end.getDate()}`:'Last day'}</span>`:`<span class="phase">${cur<START?'Before camp':'After camp'}</span><span class="right">${MON[START.getMonth()]} ${START.getDate()} – ${MON[end.getMonth()]} ${end.getDate()}</span>`}</div>`;
+  h+=`<h1>${day.title}</h1><p class="date">${fmt(cur)} · ${day.when}</p>`;
+  let track='';for(let k=1;k<=WEEKS;k++)track+=`<i class="${inProg&&k<w?'past':inProg&&k===w?'now':''}"></i>`;
+  const labs=[];for(let k=1;k<=WEEKS;k++){const p=phaseOf(k);if(p&&labs[labs.length-1]!==p)labs.push(p);}
+  h+=`<div class="track" aria-label="${inProg?`Week ${w} of ${WEEKS}`:'Nine weeks'}">${track}</div><div class="track-lab">${labs.map(p=>`<span>${p}</span>`).join('')}</div>`;
+  if(!inProg){return h+`<div class="card"><h3>${cur<START?`Program starts Monday, ${MON[START.getMonth()]} ${START.getDate()}`:'Program complete'}</h3><p class="note">${cur<START?'Week 1 begins with Lower A.':'Nine weeks done. Re-test the heavy lifts, take photos, and start the next block.'}</p></div>`;}
+  h+=`<p class="intro">${esc(day.tag)}. ${day.intro}</p>`;
+  /* The session: one surface, everything else a row. Activation and each
+   * superset keep a quiet label so the pairing and the station stay visible. */
+  const act=activeIndex(day,l,ph);
+  h+=`<div class="list">`;let grp=null;
+  day.ex.forEach((e,i)=>{
+    const g=e.warm?'warm':e.ss?'ss'+e.ss:'main';
+    if(g!==grp){
+      if(g==='warm')h+=`<div class="grp"><b>Activation</b><span>5 minutes, light</span></div>`;
+      else if(e.ss)h+=`<div class="grp"><b>Superset ${esc(e.ss)}</b><span>${esc(e.where||'')}${e.where?' — ':''}back to back, then rest ${esc(day.ex.filter(x=>x.ss===e.ss).slice(-1)[0].rest||'')}</span></div>`;
+      else if(grp==='warm')h+=`<div class="grp"><b>${day.kind==='lift'?'Session':'Sequence'}</b><span>${day.kind==='mobility'?'flow straight through':''}</span></div>`;
+      grp=g;
+    }
+    const r=rx(e,ph);const sets=l.sets[i]||[];
+    h+=i===act?activeHtml(e,i,r,sets):rowHtml(e,i,r,sets);
+  });
   h+=`</div>`;
   const logged=Object.values(l.sets||{}).some(a=>a&&a.some(v=>v));
   if(l.skipped){
@@ -1206,7 +1435,7 @@ function vToday(){
 
 function vWeek(){
   const mon=addDays(weekView,-((weekView.getDay()+6)%7));const w=weekOf(mon),ph=phaseOf(w);
-  let h=`<div class="wk"><button data-wk="-1">‹</button><div style="text-align:center"><h3>${w>=1&&w<=WEEKS?`Week ${w} of ${WEEKS}`:'Off program'}</h3><div class="meta">${MON[mon.getMonth()]} ${mon.getDate()} – ${MON[addDays(mon,6).getMonth()]} ${addDays(mon,6).getDate()}${ph?` <span class="pill ${ph.toLowerCase()}">${ph}</span>`:''}</div></div><button data-wk="1">›</button></div>`;
+  let h=`<div class="wk"><button data-wk="-1">‹</button><div style="text-align:center"><h3>${w>=1&&w<=WEEKS?`Week ${w} of ${WEEKS}`:'Off program'}</h3><div class="meta">${MON[mon.getMonth()]} ${mon.getDate()} – ${MON[addDays(mon,6).getMonth()]} ${addDays(mon,6).getDate()}${ph?` <span class="pill">${ph}</span>`:''}</div></div><button data-wk="1">›</button></div>`;
   for(let i=0;i<7;i++){const d=addDays(mon,i);const day=DAYS[d.getDay()];const l=DB.logs[key(d)];const done=l&&l.done;const sk=l&&l.skipped;const mtTxt=day.mt?`${day.mt} 7 pm`:'No class';
     const status=sk?'Skipped':done?'Done':(d<cur?'Missed':'');
     h+=`<button class="dayrow ${sameDay(d,new Date())?'isToday':''} ${sk?'isSkipped':''}" data-open="${key(d)}"><div class="d">${DOW[d.getDay()].slice(0,3)}<small>${MON[d.getMonth()]} ${d.getDate()}</small></div><div class="t">${day.title}<small>${day.tag} · ${mtTxt}</small></div><div class="s ${done?'ok':''} ${sk?'skip':''}">${status}${sk?`<small>${esc(skipLabel(sk.reason))}</small>`:''}</div></button>`;}
@@ -1216,16 +1445,19 @@ function vWeek(){
   return h;
 }
 
-const KIND_COLOR={lift:'#F0A63A',core:'#7FD1B9',mobility:'#8FA6D9',recovery:'#4A6C65'};
+/* Kinds are told apart by four neutral steps, not by colours that would compete
+ * with the three that mean something. */
+const KIND_COLOR={lift:'var(--bone)',core:'var(--dim)',mobility:'var(--ghost)',recovery:'var(--edge)'};
 function vMonth(){
   const m=monthView;const first=new Date(m.getFullYear(),m.getMonth(),1);const days=new Date(m.getFullYear(),m.getMonth()+1,0).getDate();const lead=(first.getDay()+6)%7;
   let h=`<div class="wk"><button data-mo="-1">‹</button><h3>${first.toLocaleString('en-US',{month:'long'})} ${first.getFullYear()}</h3><button data-mo="1">›</button></div>`;
   h+=`<div class="cal"><div class="cal-h"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div><div class="cal-g">`;
   for(let i=0;i<lead;i++)h+=`<div class="cell out"></div>`;
   for(let d=1;d<=days;d++){const dt=new Date(m.getFullYear(),m.getMonth(),d);const w=weekOf(dt);const inP=w>=1&&w<=WEEKS;const day=DAYS[dt.getDay()];const l=DB.logs[key(dt)];const done=l&&l.done;const sk=l&&l.skipped;
-    h+=`<button class="cell ${sameDay(dt,new Date())?'isToday':''} ${sk?'skipped':done?'done':''} ${inP?'':'pre'}" data-open="${key(dt)}" title="${sk?'Skipped — '+esc(skipLabel(sk.reason)):''}"><span>${d}</span>${inP?`<span class="bar" style="background:${sk?'#8FA6D9':KIND_COLOR[day.kind]}"></span>`:''}</button>`;}
-  h+=`</div></div><div class="legend"><span style="--c:#F0A63A">Lift</span><span style="--c:#7FD1B9">Core + walk</span><span style="--c:#8FA6D9">Hip reset</span><span style="--c:#4A6C65">Recovery</span><span class="skip">Skipped</span></div>`;
-  h+=`<h2>The nine weeks</h2><div class="rows"><div class="row"><span class="pill build">Build</span> <b>Weeks 1–4</b>, Aug 31 – Sep 27<div class="meta">Heavy 5s, learn the movements, add weight every week. Protein locked in.</div></div><div class="row"><span class="pill deload">Deload</span> <b>Week 5</b>, Sep 28 – Oct 4<div class="meta">Fewer sets, 70% loads, no HIIT. Joints recover, strength rebounds.</div></div><div class="row"><span class="pill peak">Peak</span> <b>Weeks 6–9</b>, Oct 5 – Nov 1<div class="meta">Heavy triples, an extra hypertrophy set, longer HIIT and walks. This is where the look arrives.</div></div></div>`;
+    h+=`<button class="cell ${sameDay(dt,new Date())?'isToday':''} ${sk?'skipped':done?'done':''} ${inP?'':'pre'}" data-open="${key(dt)}" title="${sk?'Skipped — '+esc(skipLabel(sk.reason)):''}"><span>${d}</span>${inP&&!sk?`<span class="bar" style="--c:${KIND_COLOR[day.kind]}"></span>`:''}</button>`;}
+  h+=`</div></div><div class="legend"><span style="--c:${KIND_COLOR.lift}">Lift</span><span style="--c:${KIND_COLOR.core}">Core + walk</span><span style="--c:${KIND_COLOR.mobility}">Hip reset</span><span style="--c:${KIND_COLOR.recovery}">Recovery</span><span class="skip">Skipped</span></div>`;
+  const nowPh=phaseOf(weekOf(new Date()));const pill=p=>`<span class="pill ${nowPh===p?'now':''}">${p}</span>`;
+  h+=`<h2>The nine weeks</h2><div class="rows"><div class="row">${pill('Build')} <b>Weeks 1–4</b>, Aug 31 – Sep 27<div class="meta">Heavy 5s, learn the movements, add weight every week. Protein locked in.</div></div><div class="row">${pill('Deload')} <b>Week 5</b>, Sep 28 – Oct 4<div class="meta">Fewer sets, 70% loads, no HIIT. Joints recover, strength rebounds.</div></div><div class="row">${pill('Peak')} <b>Weeks 6–9</b>, Oct 5 – Nov 1<div class="meta">Heavy triples, an extra hypertrophy set, longer HIIT and walks. This is where the look arrives.</div></div></div>`;
   h+=`<h2>Checkpoints</h2><div class="rows"><div class="row"><b>Oct 1, day 30</b><div class="meta">Roughly 6–9 lb down, waist 1.5–2 in smaller, 10–15% more on the heavy lifts. Face and shoulders visibly leaner.</div></div><div class="row"><b>Nov 1, day 60</b><div class="meta">12–18 lb down, shoulder and arm definition, upper abs showing, noticeably better gas in rounds.</div></div></div>`;
   return h;
 }
@@ -1304,7 +1536,7 @@ function vData(){
   <div class="card"><h3>Restore</h3><div class="meta">Merge keeps what's already here and fills in gaps. Replace overwrites with the backup.</div>
     ${AND?`<button class="primary" style="margin-top:12px" data-pickbackup="1">Load from a file</button>`:''}
     <label class="meta" style="display:block;margin-top:12px">Or paste backup text</label>
-    <textarea id="imp" rows="5" placeholder='{"app":"camp"...' style="width:100%;margin-top:6px;font-family:ui-monospace,monospace;font-size:12px;background:var(--panel2);color:var(--bone);border:1px solid var(--line);border-radius:10px;padding:10px"></textarea>
+    <textarea id="imp" rows="5" placeholder='{"app":"camp"...' style="margin-top:6px;font-family:ui-monospace,monospace;font-size:12px"></textarea>
     <div style="display:flex;gap:8px;margin-top:8px"><button class="primary" style="margin:0;flex:1;padding:12px" data-import="merge">Merge</button><button class="secondary" style="margin:0;flex:1;padding:12px" data-import="replace">Replace</button></div></div>
   <div class="card"><h3>For review</h3><div class="meta">Plain-text summary to paste into a chat.</div>
     <button class="primary" style="margin-top:12px" data-v="export">Open review export</button></div>
@@ -1322,7 +1554,7 @@ function vTrack(){
   const s=DB.settings;const lw=latestWeight();const w0=weeklyAvg(0),w1=weeklyAvg(1);const delta=lw?(lw.v-s.startWeight):null;const rate=(w0&&w1)?(w0-w1):null;const ad=adherence();
   let h=`<div class="meta">Progress</div><h1>Track</h1><div class="sub">Weight, waist, hip, strength. The scale is one signal of four.</div>`;
   h+=`<div class="card"><div class="big">${lw?lw.v.toFixed(1):'—'}<small>lb${lw?`, ${lw.k===key(new Date())?'today':lw.k.slice(5).replace('-','/')}`:''}</small></div><div class="inline"><input type="number" inputmode="decimal" id="tw" placeholder="Today's weight" step="0.1"><button data-addw="1">Save</button></div>${svgChart()}</div>`;
-  h+=`<div class="grid2" style="margin-top:12px"><div class="stat"><div class="l">Since start (${s.startWeight})</div><div class="v" style="color:${delta!=null&&delta<0?'var(--mint)':'var(--bone)'}">${delta!=null?(delta>0?'+':'')+delta.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">This week vs last</div><div class="v" style="color:${rate!=null&&rate<-2.5?'var(--ember)':'var(--bone)'}">${rate!=null?(rate>0?'+':'')+rate.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">Session streak</div><div class="v">${streak()}</div></div><div class="stat"><div class="l">To goal (${s.goalWeight})</div><div class="v">${lw?Math.max(0,lw.v-s.goalWeight).toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">Adherence</div><div class="v">${ad.pct==null?'—':ad.pct+'%'}<span style="font-size:13px;color:var(--muted);font-weight:400"> ${ad.scheduled?ad.done+'/'+ad.scheduled:''}</span></div></div><div class="stat"><div class="l">Skipped days</div><div class="v">${ad.skipped}<span style="font-size:13px;color:var(--muted);font-weight:400"> not counted</span></div></div></div>`;
+  h+=`<div class="grid2" style="margin-top:12px"><div class="stat"><div class="l">Since start (${s.startWeight})</div><div class="v">${delta!=null?(delta>0?'+':'')+delta.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">This week vs last</div><div class="v ${rate!=null&&rate<-2.5?'over':''}">${rate!=null?(rate>0?'+':'')+rate.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">Session streak</div><div class="v">${streak()}</div></div><div class="stat"><div class="l">To goal (${s.goalWeight})</div><div class="v">${lw?Math.max(0,lw.v-s.goalWeight).toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">Adherence</div><div class="v">${ad.pct==null?'—':ad.pct+'%'}<span style="font-size:13px;color:var(--dim);font-weight:400"> ${ad.scheduled?ad.done+'/'+ad.scheduled:''}</span></div></div><div class="stat"><div class="l">Skipped days</div><div class="v">${ad.skipped}<span style="font-size:13px;color:var(--dim);font-weight:400"> not counted</span></div></div></div>`;
   if(rate!=null&&rate<-2.5)h+=`<p class="note"><b>Losing faster than 2.5 lb a week.</b> That's past the muscle-safe zone. Add ~200 kcal a day (carbs around training) and hold protein.</p>`;
   const wk=Object.keys(DB.waist).sort();
   h+=`<div class="card"><h3>Waist</h3><div class="inline"><input type="number" inputmode="decimal" id="tws" placeholder="Inches at navel" step="0.25"><button data-addwaist="1">Save</button></div>${wk.length?`<div class="note">${wk.slice(-4).map(k=>`${k.slice(5).replace('-','/')}: <b>${DB.waist[k]}"</b>`).join(' &nbsp; ')}</div>`:'<div class="note">Measure Sundays at the navel, relaxed.</div>'}</div>`;
@@ -1365,10 +1597,11 @@ function svgChart(){
   const sx=x=>P+(x-minX)/(maxX-minX)*(W-2*P),sy=y=>H-P+(y-minY)/(maxY-minY)*-(H-2*P);
   const path=pts.map((p,i)=>`${i?'L':'M'}${sx(p.x).toFixed(1)},${sy(p.y).toFixed(1)}`).join(' ');const g=DB.settings.goalWeight;
   let h=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend">`;
-  h+=`<rect x="${sx(0)}" y="${P/2}" width="${sx(28)-sx(0)}" height="${H-P-P/2}" fill="#7FD1B9" opacity=".06"/><rect x="${sx(28)}" y="${P/2}" width="${sx(35)-sx(28)}" height="${H-P-P/2}" fill="#F0A63A" opacity=".08"/><rect x="${sx(35)}" y="${P/2}" width="${sx(63)-sx(35)}" height="${H-P-P/2}" fill="#E4694A" opacity=".07"/>`;
-  h+=`<line x1="${P}" y1="${sy(g)}" x2="${W-P}" y2="${sy(g)}" stroke="#7FD1B9" stroke-dasharray="4 4" stroke-width="1"/><text x="${W-P}" y="${sy(g)-4}" fill="#7FD1B9" font-size="10" text-anchor="end">goal ${g}</text>`;
-  h+=`<path d="${path}" fill="none" stroke="#EFE7D3" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>`;pts.forEach(p=>{h+=`<circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="3" fill="#F0A63A"/>`;});
-  h+=`<text x="${P}" y="${H-6}" fill="#9DB3AB" font-size="10">Aug 31</text><text x="${sx(31)}" y="${H-6}" fill="#9DB3AB" font-size="10" text-anchor="middle">Oct 1</text><text x="${W-P}" y="${H-6}" fill="#9DB3AB" font-size="10" text-anchor="end">Nov 1</text><text x="4" y="${sy(maxY)+4}" fill="#9DB3AB" font-size="10">${maxY}</text><text x="4" y="${sy(minY)}" fill="#9DB3AB" font-size="10">${minY}</text>`;
+  /* SVG attributes take the tokens as hex: bone, dim, edge. */
+  h+=`<rect x="${sx(28)}" y="${P/2}" width="${sx(35)-sx(28)}" height="${H-P-P/2}" fill="#1D423B" opacity=".6"/>`;
+  h+=`<line x1="${P}" y1="${sy(g)}" x2="${W-P}" y2="${sy(g)}" stroke="#88A199" stroke-dasharray="4 4" stroke-width="1"/><text x="${W-P}" y="${sy(g)-4}" fill="#88A199" font-size="10" text-anchor="end">goal ${g}</text>`;
+  h+=`<path d="${path}" fill="none" stroke="#ECE5D5" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>`;pts.forEach(p=>{h+=`<circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="3" fill="#ECE5D5"/>`;});
+  h+=`<text x="${P}" y="${H-6}" fill="#88A199" font-size="10">Aug 31</text><text x="${sx(31)}" y="${H-6}" fill="#88A199" font-size="10" text-anchor="middle">Oct 1</text><text x="${W-P}" y="${H-6}" fill="#88A199" font-size="10" text-anchor="end">Nov 1</text><text x="4" y="${sy(maxY)+4}" fill="#88A199" font-size="10">${maxY}</text><text x="4" y="${sy(minY)}" fill="#88A199" font-size="10">${minY}</text>`;
   return h+`</svg>`;
 }
 
@@ -1377,14 +1610,14 @@ function vFuel(){
   const s=DB.settings;const k=key(cur);const list=DB.macros[k]||[];const tot=list.reduce((a,e)=>({p:a.p+e.p,c:a.c+e.c,f:a.f+e.f}),{p:0,c:0,f:0});const kcal=tot.p*4+tot.c*4+tot.f*9;const isToday=sameDay(cur,new Date());
   let h=`<div class="today-nav"><button data-nav="-1">‹ Prev</button>${isToday?`<span class="meta">Today</span>`:`<button class="jump" data-jump="1">Back to today</button>`}<button data-nav="1">Next ›</button></div>`;
   h+=`<div class="meta">${fmt(cur)}</div><h1>Fuel</h1><div class="sub">Protein first. Calories are a floor, not a ceiling, on tirzepatide.</div>`;
-  const bar=(l,v,t,cls='')=>`<div class="macro"><div class="lab"><span>${l}</span><span><b>${Math.round(v)}</b> / ${t}${l==='Calories'?'':' g'}</span></div><div class="bar-bg"><div class="bar-fg ${cls} ${v>t*1.15?'over':''}" style="width:${Math.min(100,v/t*100)}%"></div></div></div>`;
-  h+=`<div class="card">${bar('Protein',tot.p,s.p,'p')}${bar('Calories',kcal,s.kcal)}${bar('Carbs',tot.c,s.c)}${bar('Fat',tot.f,s.f)}${tot.p<s.p*0.6&&new Date().getHours()>=18&&isToday?`<p class="note"><b>Protein is behind.</b> A shake and a cup of Greek yogurt tonight closes 50 g of the gap.</p>`:''}</div>`;
+  const bar=(l,v,t)=>`<div class="macro"><div class="lab"><span>${l}</span><span><b>${Math.round(v)}</b> / ${t}${l==='Calories'?'':' g'}</span></div><div class="bar-bg"><div class="bar-fg ${v>t*1.15?'over':v>=t?'met':''}" style="width:${Math.min(100,v/t*100)}%"></div></div></div>`;
+  h+=`<div class="card">${bar('Protein',tot.p,s.p)}${bar('Calories',kcal,s.kcal)}${bar('Carbs',tot.c,s.c)}${bar('Fat',tot.f,s.f)}${tot.p<s.p*0.6&&new Date().getHours()>=18&&isToday?`<p class="note"><b>Protein is behind.</b> A shake and a cup of Greek yogurt tonight closes 50 g of the gap.</p>`:''}</div>`;
   h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3>My meals</h3><button class="meta" data-editquick="1" style="padding:4px 8px">${editQuick?'Done':DB.quick.length?'Edit':''}</button></div>`;
   h+=DB.quick.length?`<div class="quick">${DB.quick.map((q,i)=>`<button class="mine ${editQuick?'del':''}" data-${editQuick?'delq':'mq'}="${i}">${editQuick?'× ':''}${esc(q.n)} <small>${q.p}p</small></button>`).join('')}</div>`:`<div class="meta" style="margin-top:6px">Save the meals you actually eat below and they show up here as one-tap buttons.</div>`;
   h+=`<h4>Starter foods</h4><div class="quick" style="margin-top:4px">${QUICK.map((q,i)=>`<button data-q="${i}">${q.n} <small>${q.p}p</small></button>`).join('')}</div></div>`;
   h+=`<div class="card"><h3>New meal</h3><div class="form4"><div style="grid-column:span 4"><label>Name</label><input id="m-n" placeholder="e.g. Post-lift shake + banana"></div><div><label>Protein g</label><input type="number" inputmode="numeric" id="m-p"></div><div><label>Carbs g</label><input type="number" inputmode="numeric" id="m-c"></div><div><label>Fat g</label><input type="number" inputmode="numeric" id="m-f"></div><div><label>kcal</label><input id="m-k" disabled placeholder="auto"></div></div>
     <button class="primary" style="margin-top:12px;padding:12px" data-addm="1">Add to ${isToday?'today':MON[cur.getMonth()]+' '+cur.getDate()}</button><button class="secondary" data-saveq="1">Save as a My meal</button></div>`;
-  if(list.length){h+=`<div class="card"><h3>Logged</h3>${list.map((e,i)=>`<div class="entry"><div>${esc(e.n)}<div class="m">${e.p}p · ${e.c}c · ${e.f}f · ${e.p*4+e.c*4+e.f*9} kcal</div></div><button data-delm="${i}">Remove</button></div>`).join('')}</div>`;}
+  if(list.length){h+=`<div class="card"><h3>Logged</h3>${list.map((e,i)=>`<div class="meal"><div>${esc(e.n)}<div class="m">${e.p}p · ${e.c}c · ${e.f}f · ${e.p*4+e.c*4+e.f*9} kcal</div></div><button data-delm="${i}">Remove</button></div>`).join('')}</div>`;}
   h+=`<h2>Your targets and why</h2><div class="card rows"><div class="row"><b>Protein ${s.p} g</b><div class="meta">About 2 g per kg of your 180 lb goal weight — the top of the range recommended on a GLP-1. Four hits of ~40 g. The single most important number in the app.</div></div><div class="row"><b>Calories ${s.kcal}</b><div class="meta">A moderate deficit for a 205 lb man training 8–10 times a week. Never below 2,000 on a lifting day. If the weekly average drops more than 2.5 lb a week two weeks running, add 200.</div></div><div class="row"><b>Carbs ${s.c} g, fat ${s.f} g</b><div class="meta">Carbs around training — before the morning lift, before class. Fat fills the rest. Protein and total calories are the two that need to be exact.</div></div><div class="row"><b>Also daily</b><div class="meta">Creatine monohydrate 5 g (clear it with your prescriber). Water ~1 gallon. Fiber 30 g+. Electrolytes after class.</div></div><div class="row"><b>Eating with no appetite</b><div class="meta">Liquid and dense: shakes, Greek yogurt, cottage cheese, eggs, deli meat. Eat by the clock — 8 am, 12 pm, 4 pm, 9 pm.</div></div></div>`;
   h+=`<button class="secondary" data-edittargets="1">Edit targets</button><div id="targets" class="hidden card"><div class="form4"><div><label>kcal</label><input type="number" id="t-k" value="${s.kcal}"></div><div><label>P</label><input type="number" id="t-p" value="${s.p}"></div><div><label>C</label><input type="number" id="t-c" value="${s.c}"></div><div><label>F</label><input type="number" id="t-f" value="${s.f}"></div></div><button class="primary" style="margin-top:12px;padding:12px" data-savetargets="1">Save targets</button></div>`;
   return h;
@@ -1410,13 +1643,13 @@ function readSet(name){
 
 /* A hold is timed, not counted. The stopwatch counts up into the box it was
  * started from and leaves the number there, editable like any other. */
-const HOLD_LABEL={'sf-sec':'Timer','sf-l':'L','sf-rt':'R'};
+const HOLD_LABEL={'sf-sec':'Start','sf-l':'L','sf-rt':'R'};
 let holdT=null,holdStart=0,holdField=null;
 function stopHold(){clearInterval(holdT);holdT=null;
-  if(holdField){const b=$('[data-hold="'+holdField+'"]');if(b)b.textContent=HOLD_LABEL[holdField]||'Timer';holdField=null;}}
+  if(holdField){const b=$('[data-hold="'+holdField+'"]');if(b){b.textContent=HOLD_LABEL[holdField]||'Start';b.classList.remove('on');}holdField=null;}}
 function tickHold(){const el=$('#'+holdField);if(!el){stopHold();return;}
   const n=Math.round((Date.now()-holdStart)/1000);el.value=n;
-  const b=$('[data-hold="'+holdField+'"]');if(b)b.textContent=clock(n);}
+  const b=$('[data-hold="'+holdField+'"]');if(b){b.textContent=clock(n);b.classList.add('on');}}
 function toggleHold(id){
   if(holdField===id){stopHold();return;}
   stopHold();holdField=id;holdStart=Date.now();tickHold();holdT=setInterval(tickHold,250);
@@ -1442,27 +1675,39 @@ document.addEventListener('click',e=>{
     render();return;}
   if(d.gateno){gateSeen.add(d.gateno);render();toast('Stay where you are');return;}
   if(d.v){view=d.v;editing=null;skipPicker=false;if(view==='week')weekView=new Date(cur);if(view==='month')monthView=new Date(cur.getFullYear(),cur.getMonth(),1);render(true);return;}
-  if(d.nav){cur=addDays(cur,+d.nav);editing=null;skipPicker=false;openEx.clear();render(true);return;}
-  if(d.jump){cur=new Date();cur.setHours(0,0,0,0);editing=null;skipPicker=false;openEx.clear();render(true);return;}
+  if(d.nav){cur=addDays(cur,+d.nav);editing=null;activeEx=null;guideState.clear();skipPicker=false;render(true);return;}
+  if(d.jump){cur=new Date();cur.setHours(0,0,0,0);editing=null;activeEx=null;guideState.clear();skipPicker=false;render(true);return;}
   if(d.wk){weekView=addDays(weekView,7*+d.wk);render(true);return;}
   if(d.mo){monthView=new Date(monthView.getFullYear(),monthView.getMonth()+ +d.mo,1);render(true);return;}
-  if(d.open){cur=new Date(d.open+'T00:00:00');view='today';editing=null;skipPicker=false;openEx.clear();render(true);return;}
-  if(d.info){const i=+d.info;openEx.has(i)?openEx.delete(i):openEx.add(i);render();return;}
-  if(d.set){const [i,s]=d.set.split(':').map(Number);editing=(editing&&editing.ex===i&&editing.set===s)?null:{ex:i,set:s};render();focusForm();return;}
-  if(d.cancel){editing=null;render();return;}
+  if(d.open){cur=new Date(d.open+'T00:00:00');view='today';editing=null;activeEx=null;guideState.clear();skipPicker=false;render(true);return;}
+  if(d.row){activeEx=+d.row;editing=null;render();focusForm();return;}
+  if(d.how){const i=+d.how;const day=DAYS[cur.getDay()];guideState.set(i,!guideOpen(i,day.ex[i].n));render();return;}
+  if(d.set){const [i,s]=d.set.split(':').map(Number);activeEx=i;editing={ex:i,set:s};render();focusForm();return;}
   if(d.restadd){addRest(+d.restadd);return;}
   if(d.restdone){stopRest();return;}
   if(d.startrest){startRest(+d.startrest);return;}
-  if(d.skipset){const l=logFor(cur);l.sets[editing.ex]=l.sets[editing.ex]||[];l.sets[editing.ex][editing.set]={skip:1};
-    const day=DAYS[cur.getDay()];const total=rx(day.ex[editing.ex],phaseOf(weekOf(cur))).sets;
-    editing=editing.set+1<total?{ex:editing.ex,set:editing.set+1}:null;save();render();toast('Skipped');return;}
-  if(d.savesets){const l=logFor(cur);const day=DAYS[cur.getDay()];const ex=day.ex[editing.ex];
+  /* The button says which set it is for, so neither handler depends on the
+   * form having been opened by a tap. After the last set the surface moves on
+   * to the next exercise with sets still to log. */
+  if(d.skipset){const [i,s]=d.skipset.split(':').map(Number);const l=logFor(cur);l.sets[i]=l.sets[i]||[];l.sets[i][s]={skip:1,level:'set'};
+    const day=DAYS[cur.getDay()];const total=rx(day.ex[i],phaseOf(weekOf(cur))).sets;
+    editing=s+1<total?{ex:i,set:s+1}:null;if(!editing)activeEx=null;save();render();toast('Skipped');return;}
+  /* Skip exercise marks every set not yet logged, in one action, and moves the
+   * surface on. Sets already logged or already skipped one at a time are left
+   * alone, which is what lets Undo skip take back only what this wrote. */
+  if(d.skipex){const i=+d.skipex;const l=logFor(cur);const day=DAYS[cur.getDay()];const total=rx(day.ex[i],phaseOf(weekOf(cur))).sets;
+    l.sets[i]=l.sets[i]||[];for(let k=0;k<total;k++)if(!l.sets[i][k])l.sets[i][k]={skip:1,level:'exercise'};
+    editing=null;activeEx=null;save();render();toast(day.ex[i].n+' skipped');return;}
+  if(d.unskipex){const i=+d.unskipex;const l=logFor(cur);if(l.done){toast('Session is closed');return;}
+    l.sets[i]=(l.sets[i]||[]).map(v=>isExSkip(v)?null:v);
+    editing=null;activeEx=i;save();render();focusForm();toast('Skip removed');return;}
+  if(d.savesets){const [i,s]=d.savesets.split(':').map(Number);const l=logFor(cur);const day=DAYS[cur.getDay()];const ex=day.ex[i];
     const built=readSet(ex.n);if(built.err){toast(built.err);return;}
-    l.sets[editing.ex]=l.sets[editing.ex]||[];l.sets[editing.ex][editing.set]=built.set;
+    l.sets[i]=l.sets[i]||[];l.sets[i][s]=built.set;
     const total=rx(ex,phaseOf(weekOf(cur))).sets;
     // rest: if in a superset and this is the first of the pair, no rest; else exercise rest
     let rest=restSec(ex.rest);
-    editing=editing.set+1<total?{ex:editing.ex,set:editing.set+1}:null;
+    editing=s+1<total?{ex:i,set:s+1}:null;if(!editing)activeEx=null;
     save();render();if(rest&&!ex.warm&&ex.t!=='C'&&DB.settings.restAuto)startRest(rest);
     if(editing)focusForm();return;}
   if(d.done){const l=logFor(cur);l.done=!l.done;if(l.done)l.skipped=null;save();render();toast(l.done?'Session logged':'Unmarked');return;}
@@ -1503,7 +1748,7 @@ document.addEventListener('click',e=>{
     return;}
   if(d.savetargets){const s=DB.settings;s.kcal=+$('#t-k').value||s.kcal;s.p=+$('#t-p').value||s.p;s.c=+$('#t-c').value||s.c;s.f=+$('#t-f').value||s.f;save();render();toast('Targets saved');return;}
 });
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&editing&&/^sf-/.test(e.target.id||'')){e.preventDefault();$('[data-savesets]').click();}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&/^sf-/.test(e.target.id||'')){e.preventDefault();const b=$('[data-savesets]');b&&b.click();}});
 render(true);
 if(!MIGRATION.ok){
   const bar=document.createElement('div');
