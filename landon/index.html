@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <meta name="theme-color" content="#081916">
 <meta name="mobile-web-app-capable" content="yes">
+<!-- iPhone: open from the home screen as its own app, not a Safari tab. Standalone
+     is also what exempts the data from Safari's 7-day storage cap. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Camp">
+<meta name="format-detection" content="telephone=no">
 <title>Camp — Nov 1</title>
 <style>
 /* ---- tokens ----
@@ -17,8 +23,8 @@
   --raise:#102A25;      /* surface */
   --edge:#1D423B;       /* border, input fill */
   --bone:#ECE5D5;       /* text */
-  --dim:#88A199;        /* secondary text */
-  --ghost:#4E6B63;      /* tertiary / previous-session numbers */
+  --dim:#95ABA4;        /* secondary text — 4.5:1 even on --edge */
+  --ghost:#6C9489;      /* tertiary — 4.5:1 on --ink and --raise; not for text on --edge */
   --flare:#F5A524;      /* the only "do this now" colour */
   --gain:#63CDAA;       /* completed state only */
   --flag:#E4694A;       /* over/alert only */
@@ -26,6 +32,10 @@
   --r-surf:16px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+button,input,a{touch-action:manipulation}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* iPhone notch / Dynamic Island: a solid band under the status bar so sticky content never shows through it */
+body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area-inset-top);background:var(--ink);z-index:7;pointer-events:none}
 html,body{margin:0;background:var(--ink);color:var(--bone);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
 body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
@@ -36,16 +46,16 @@ input[type=number]{-moz-appearance:textfield}
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 :focus-visible{outline:2px solid var(--flare);outline-offset:2px}
 .num{font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
-.wrap{max-width:480px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 18px 24px}
+.wrap{max-width:480px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) 24px max(18px,env(safe-area-inset-left))}
 .meta{color:var(--dim);font-size:14px}
-h1{font-size:38px;line-height:1;letter-spacing:-0.035em;font-weight:800;margin:10px 0 4px}
+h1{font-size:32px;line-height:1.05;letter-spacing:-0.035em;font-weight:800;margin:10px 0 4px}
 h2{font-size:21px;letter-spacing:-0.02em;font-weight:700;margin:26px 0 10px}
 h3{font-size:17px;font-weight:700;margin:0}
 h4{font-size:13px;font-weight:700;color:var(--dim);margin:18px 0 4px}
 .sub{color:var(--dim);font-size:15px;margin-bottom:16px}
 .date{color:var(--dim);font-size:15px;margin:0}
 .today-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.today-nav button{color:var(--dim);font-size:14px;padding:6px 10px;border-radius:var(--r-ctl);background:var(--raise)}
+.today-nav button{color:var(--dim);font-size:14px;min-height:44px;padding:6px 14px;border-radius:var(--r-ctl);background:var(--raise)}
 .today-nav .jump{color:var(--flare)}
 .card{background:var(--raise);border-radius:var(--r-surf);padding:16px 18px;margin-top:12px}
 .card h3+.meta{margin-top:2px}
@@ -54,18 +64,18 @@ h4{font-size:13px;font-weight:700;color:var(--dim);margin:18px 0 4px}
 .arc{display:flex;align-items:baseline;gap:10px;font-size:13px;color:var(--dim)}
 .arc .phase{color:var(--flare);font-weight:700}
 .arc .right{margin-left:auto;color:var(--ghost)}
-.track{display:flex;gap:3px;margin:18px 0 6px}
+.track{display:flex;gap:3px;margin:14px 0 6px}
 .track i{flex:1;height:5px;border-radius:999px;background:var(--edge)}
 .track i.past{background:var(--ghost)}
 .track i.now{background:var(--flare)}
 .track-lab{display:flex;justify-content:space-between;font-size:12px;color:var(--ghost)}
-.intro{color:var(--dim);font-size:14px;margin:16px 0 0}
+.intro{color:var(--dim);font-size:14px;margin:12px 0 0}
 
 /* ---- session list ---- */
-.list{margin-top:22px;border-top:1px solid var(--edge)}
+.list{margin-top:6px;border-top:1px solid var(--edge)}
 .grp{display:flex;justify-content:space-between;gap:10px;padding:12px 2px 0;font-size:12px;color:var(--ghost)}
 .grp b{font-weight:700;color:var(--dim)}
-.row{display:flex;align-items:center;gap:12px;width:100%;padding:15px 2px;border-bottom:1px solid var(--edge)}
+.row{display:flex;align-items:center;gap:12px;width:100%;padding:13px 2px;border-bottom:1px solid var(--edge)}
 .row .mark{width:18px;flex:none;color:var(--ghost);font-size:15px;text-align:center}
 .row.done .mark{color:var(--gain)}
 .row .name{flex:1;font-size:16px}
@@ -75,41 +85,73 @@ h4{font-size:13px;font-weight:700;color:var(--dim);margin:18px 0 4px}
 .row.done .val{color:var(--dim)}
 .row.skipped .name,.row.skipped .val{color:var(--ghost);text-decoration:line-through;text-decoration-color:var(--ghost)}
 
-/* ---- the active exercise: the only heavy thing on screen ---- */
-.active{background:var(--raise);border-radius:var(--r-surf);padding:20px 18px;margin:14px 0;box-shadow:0 1px 0 var(--edge) inset}
+/* ---- session strip: every exercise, always one tap away ---- */
+.strip{position:sticky;top:env(safe-area-inset-top);overscroll-behavior-x:contain;z-index:3;background:var(--ink);margin:14px -18px 0;padding:8px 18px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-bottom:1px solid var(--edge)}
+.strip::-webkit-scrollbar{display:none}
+.strip button{flex:none;display:flex;align-items:center;gap:6px;max-width:160px;min-height:44px;padding:0 14px;border-radius:999px;background:var(--raise);color:var(--dim);font-size:13px;white-space:nowrap}
+.strip button span{overflow:hidden;text-overflow:ellipsis}
+.strip button i{font-style:normal;font-size:12px;color:var(--ghost);flex:none}
+.strip button.done{color:var(--ghost)}.strip button.done i{color:var(--gain)}
+.strip button.skipped span{text-decoration:line-through}
+.strip button.on{background:var(--bone);color:var(--ink);font-weight:700}.strip button.on i{color:var(--ink)}
+.strip .sep{flex:none;width:1px;background:var(--edge);margin:4px 2px}
+/* ---- the active exercise: compact, everything inside one screen ---- */
+.active{background:var(--raise);border-radius:var(--r-surf);padding:14px 14px 12px;margin:10px 0;box-shadow:0 0 0 1px var(--edge) inset;scroll-margin-top:70px}
 .active .top{display:flex;align-items:baseline;gap:10px}
-.active h2{font-size:25px;letter-spacing:-0.025em;font-weight:800;margin:0;flex:1;line-height:1.1}
-.active .rx{color:var(--dim);font-size:14px;white-space:nowrap;text-align:right}
-.active .alt{color:var(--dim);font-size:14px;margin-top:2px}
-.active .note{color:var(--dim);font-size:14px;margin:8px 0 0}
-.prev{margin-top:6px;font-size:14px;color:var(--ghost)}
+.active h2{font-size:21px;letter-spacing:-0.02em;font-weight:800;margin:0;flex:1;line-height:1.15}
+.active .rx{color:var(--bone);font-size:15px;font-weight:700;white-space:nowrap;text-align:right}
+.active .alt{color:var(--dim);font-size:13px;margin-top:2px}
+.active .note{color:var(--dim);font-size:13px;margin:6px 0 0}
+.prev{margin-top:4px;font-size:13px;color:var(--ghost)}
 .prev b{font-weight:600;color:var(--dim)}
-.sofar{margin-top:6px;font-size:14px;color:var(--dim)}
-.sofar b{font-weight:600;color:var(--bone)}
-.newtag{font-size:11px;font-weight:700;color:var(--ink);background:var(--flare);border-radius:999px;padding:2px 7px;vertical-align:4px;letter-spacing:0;margin-left:4px}
-.pips{display:flex;gap:6px;margin-top:16px}
-.pips button{height:6px;flex:1;border-radius:999px;background:var(--edge);padding:0}
-.pips button.hit{background:var(--gain)}
-.pips button.here{background:var(--flare)}
-.pips button.miss{background:var(--ghost)}
-.entry{display:flex;align-items:flex-end;gap:10px;margin-top:16px}
+.newtag{font-size:11px;font-weight:700;color:var(--ink);background:var(--flare);border-radius:999px;padding:2px 7px;vertical-align:3px;letter-spacing:0;margin-left:6px}
+/* set chips: one per set, showing what was logged. Tap one to edit it. */
+.sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(58px,1fr));gap:8px;margin-top:12px}
+.sets button{min-height:48px;padding:6px 4px;border-radius:var(--r-ctl);background:var(--ink);color:var(--ghost);text-align:center;font-size:12px;line-height:1.25;box-shadow:inset 0 0 0 1px var(--edge)}
+.sets button b{display:block;font-size:14px;color:var(--dim);font-weight:700;font-variant-numeric:tabular-nums}
+.sets button.hit b{color:var(--gain)}
+.sets button.miss b{color:var(--ghost);text-decoration:line-through}
+.sets button.here{box-shadow:inset 0 0 0 2px var(--flare);color:var(--flare)}
+.sets button.here b{color:var(--bone)}
+.entry{display:flex;align-items:flex-end;gap:8px;margin-top:12px}
 .field{flex:1;min-width:0}
-.field label{display:block;font-size:12px;color:var(--dim);margin-bottom:6px}
-.field input{padding:14px 10px;text-align:center;font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
-.times{color:var(--ghost);font-size:20px;padding-bottom:16px}
-.unit{color:var(--dim);font-size:15px;padding-bottom:18px}
-.step{flex:none;width:52px;padding:14px 0;border-radius:var(--r-ctl);background:var(--edge);color:var(--bone);font-size:24px;text-align:center;line-height:29px}
-.tick{flex:none;min-width:64px;padding:14px 10px;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);font-size:15px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;line-height:29px}
+.field label{display:block;font-size:12px;color:var(--dim);margin-bottom:4px}
+.field input{padding:9px 8px;text-align:center;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+.times{color:var(--ghost);font-size:18px;padding-bottom:12px}
+.unit{color:var(--dim);font-size:15px;padding-bottom:13px}
+.step{flex:none;width:48px;padding:9px 0;border-radius:var(--r-ctl);background:var(--edge);color:var(--bone);font-size:22px;text-align:center;line-height:29px}
+.tick{flex:none;min-width:56px;padding:9px 8px;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);font-size:15px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;line-height:29px}
 .tick.on{background:var(--bone);color:var(--ink)}
-.log{display:block;width:100%;margin-top:14px;padding:17px;border-radius:var(--r-ctl);background:var(--flare);color:#122;font-weight:800;font-size:17px;text-align:center}
+.log{display:block;width:100%;margin-top:10px;padding:13px;border-radius:var(--r-ctl);background:var(--flare);color:#122;font-weight:800;font-size:16px;text-align:center}
 .log:active{transform:translateY(1px)}
-.aux{display:flex;gap:8px;margin-top:10px}
-.aux button{flex:1;padding:11px;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);font-size:14px;text-align:center}
+.aux{display:flex;gap:8px;margin-top:8px}
+.aux button{flex:1;min-height:48px;padding:0 4px;border-radius:var(--r-ctl);background:var(--edge);color:var(--bone);font-size:13px;font-weight:600;text-align:center;white-space:nowrap}
+.aux button.hl{box-shadow:inset 0 0 0 1px var(--flare);color:var(--flare)}
 .aux button.on{background:var(--bone);color:var(--ink);font-weight:700}
-.hint{color:var(--dim);font-size:13px;margin-top:8px}
-
+.hint{color:var(--dim);font-size:12px;margin-top:6px}
+/* ---- bottom sheet: How to, History, Skip. Opens over the session, never replaces it ---- */
+#sheet{position:fixed;inset:0;z-index:8;display:none}
+#sheet.up{display:block}
+#sheet .scrim{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+#sheet .panel{position:absolute;left:0;right:0;bottom:0;max-height:78vh;max-height:78dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--raise);border-radius:var(--r-surf) var(--r-surf) 0 0;padding:8px 18px calc(20px + env(safe-area-inset-bottom));max-width:520px;margin:0 auto}
+#sheet .grab{width:40px;height:4px;border-radius:999px;background:var(--dim);opacity:.5;margin:4px auto 10px}
+#sheet .panel{transition:transform .18s ease;touch-action:pan-y}
+#sheet .panel.drag{transition:none}
+/* while a number box has the keyboard up, the nav and rest bar get out of the way */
+body.typing nav,body.typing #rest{visibility:hidden}
+#sheet .sh-h{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+#sheet .sh-h h3{flex:1;font-size:18px}
+#sheet .sh-h button{min-height:44px;padding:0 16px;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);font-size:14px}
+#sheet .guide{margin-top:0;border-top:0;padding-top:0}
+.hist{margin:0;padding:0;list-style:none}
+.hist li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--edge);font-size:14px}
+.hist li:last-child{border-bottom:0}
+.hist .hd{flex:none;width:82px;color:var(--dim)}
+.hist .hs{flex:1;font-variant-numeric:tabular-nums}
+.sheet-btns button{display:block;width:100%;margin-top:8px;min-height:48px;padding:12px;border-radius:var(--r-ctl);background:var(--edge);color:var(--bone);font-weight:600;text-align:center}
+.sheet-btns button.warn{color:var(--flag)}
 /* ---- the standing cue: part of the prescription, never hidden ---- */
-.cue{display:flex;gap:10px;margin-top:12px;padding:9px 0 9px 12px;border-left:2px solid var(--flare);font-size:14px;line-height:1.4}
+.cue{display:flex;gap:10px;margin-top:8px;padding:4px 0 4px 10px;border-left:2px solid var(--flare);font-size:13px;line-height:1.4}
 .cue b{color:var(--flare);font-weight:700}
 
 /* ---- the guide: expands in place, never navigates away ---- */
@@ -122,13 +164,13 @@ h4{font-size:13px;font-weight:700;color:var(--dim);margin:18px 0 4px}
 .guide li{margin:3px 0}
 .guide .watch{display:flex;align-items:center;gap:10px;width:100%;margin-top:16px;padding:13px 14px;border-radius:var(--r-ctl);background:var(--edge);font-size:15px;color:var(--bone);text-decoration:none}
 .guide .watch .tri{color:var(--flare);font-size:13px}
-.guide .watch .away{margin-left:auto;color:var(--ghost);font-size:12px}
+.guide .watch .away{margin-left:auto;color:var(--dim);font-size:12px}
 
 /* bodyweight rung switch and its ladder */
-.modes{display:flex;gap:6px;margin-top:14px}
+.modes{display:flex;gap:6px;margin-top:10px}
 .modes button{flex:1;padding:10px 4px;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);font-size:13px;text-align:center}
 .modes button.on{background:var(--bone);color:var(--ink);font-weight:700}
-.ladder{margin-top:12px;font-size:13px;color:var(--dim)}
+.ladder{margin-top:8px;font-size:12px;color:var(--dim)}
 .ladder b{color:var(--flare)}
 .gate{margin-top:12px;padding:12px 14px;border:1px solid var(--flare);border-radius:var(--r-ctl)}
 .gate b{display:block;color:var(--flare);font-size:14px}
@@ -160,11 +202,11 @@ h4{font-size:13px;font-weight:700;color:var(--dim);margin:18px 0 4px}
 .altbox b{color:var(--flare)}
 .primary{display:block;width:100%;margin-top:16px;padding:16px;border-radius:var(--r-ctl);background:var(--flare);color:#122;font-weight:800;font-size:17px;text-align:center}
 .primary.done{background:var(--gain)}
-.secondary{display:block;width:100%;margin-top:10px;padding:12px;border-radius:var(--r-ctl);background:var(--edge);color:var(--bone);font-weight:700;text-align:center}
+.secondary{display:block;width:100%;margin-top:10px;min-height:48px;padding:12px;border-radius:var(--r-ctl);background:var(--edge);color:var(--bone);font-weight:700;text-align:center}
 .pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;background:var(--edge);color:var(--dim)}
 .pill.now{background:var(--flare);color:var(--ink)}
 .wk{display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px}
-.wk button{color:var(--dim);padding:6px 12px;background:var(--raise);border-radius:var(--r-ctl);font-size:18px}
+.wk button{color:var(--dim);min-width:44px;min-height:44px;padding:6px 12px;text-align:center;background:var(--raise);border-radius:var(--r-ctl);font-size:18px}
 .dayrow{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--edge);width:100%}
 .dayrow .d{font-weight:700}.dayrow .d small{display:block;color:var(--dim);font-weight:400;font-size:12px}
 .dayrow .t{font-weight:600}.dayrow .t small{display:block;color:var(--dim);font-weight:400;font-size:13px}
@@ -201,7 +243,7 @@ svg.chart{width:100%;height:190px;display:block;margin-top:8px}
 .bar-bg{height:10px;border-radius:999px;background:var(--edge);margin-top:6px;overflow:hidden}
 .bar-fg{height:100%;border-radius:999px;background:var(--dim);transition:width .25s}.bar-fg.met{background:var(--gain)}.bar-fg.over{background:var(--flag)}
 .quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.quick button{padding:8px 12px;border-radius:999px;background:var(--edge);font-size:14px}
+.quick button{min-height:44px;padding:8px 14px;border-radius:999px;background:var(--edge);font-size:14px}
 .quick button.mine{box-shadow:inset 0 0 0 1px var(--dim)}
 .quick button small{color:var(--dim)}
 .quick button.del{background:transparent;box-shadow:inset 0 0 0 1px var(--flag);color:var(--flag)}
@@ -217,7 +259,7 @@ svg.chart{width:100%;height:190px;display:block;margin-top:8px}
 .tog{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--edge)}
 .tog .tl{font-weight:650;font-size:15px}
 .tog .tl small{display:block;color:var(--dim);font-size:13px;font-weight:400;margin-top:2px}
-.tog button{flex:none;width:66px;padding:9px 0;border-radius:999px;background:var(--edge);color:var(--dim);text-align:center;font-size:13px;font-weight:700}
+.tog button{flex:none;width:66px;min-height:44px;padding:9px 0;border-radius:999px;background:var(--edge);color:var(--dim);text-align:center;font-size:13px;font-weight:700}
 .tog button.on{background:var(--bone);color:var(--ink)}
 .scale{display:flex;gap:5px;margin-top:10px}
 .scale button{flex:1;padding:9px 0;border-radius:var(--r-ctl);background:var(--edge);color:var(--dim);text-align:center;font-size:14px}
@@ -233,26 +275,27 @@ nav button.on{color:var(--bone)}
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--bone);color:var(--ink);padding:10px 16px;border-radius:var(--r-ctl);font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
 .toast.show{opacity:1}
 
-/* ---- rest timer: owns the bottom of the screen, above the nav ---- */
-#rest{position:fixed;left:0;right:0;bottom:calc(76px + env(safe-area-inset-bottom));z-index:4;background:var(--raise);border-top:1px solid var(--edge);padding:14px 18px 14px;transform:translateY(calc(100% + 80px + env(safe-area-inset-bottom)));transition:transform .22s ease;pointer-events:none}
+/* ---- rest timer: a slim bar above the nav, never over the work ---- */
+#rest{position:fixed;left:10px;right:10px;bottom:calc(72px + env(safe-area-inset-bottom));z-index:4;max-width:500px;margin:0 auto;background:var(--edge);border-radius:var(--r-ctl);overflow:hidden;transform:translateY(calc(100% + 90px + env(safe-area-inset-bottom)));transition:transform .2s ease;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.35)}
 #rest.up{transform:none;pointer-events:auto}
-#rest .drain{height:4px;border-radius:999px;background:var(--edge);overflow:hidden;margin-bottom:12px}
-#rest .drain span{display:block;height:100%;background:var(--flare);border-radius:999px}
-#rest .line{display:flex;align-items:center;gap:12px}
-#rest .clock{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-0.04em;line-height:1}
-#rest .of{color:var(--dim);font-size:14px;flex:1}
-#rest button{padding:12px 14px;border-radius:var(--r-ctl);background:var(--edge);color:var(--bone);font-size:15px;font-weight:600}
+#rest .drain{position:absolute;left:0;top:0;bottom:0;background:rgba(245,165,36,.16)}
+#rest .line{position:relative;display:flex;align-items:center;gap:8px;padding:6px 6px 6px 14px}
+#rest .clock{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-0.02em;line-height:1;min-width:58px}
+#rest .of{color:var(--bone);font-size:13px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#rest button{min-height:44px;min-width:56px;padding:0 12px;text-align:center;border-radius:8px;background:var(--raise);color:var(--bone);font-size:14px;font-weight:600}
+#rest.over{background:#3a2a12}
 #rest.over .clock{color:var(--flare);animation:pulse 1s ease-in-out 3}
-#rest.over .drain span{background:var(--flag);width:100%!important}
+#rest.over .of{color:var(--flare)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
-body.resting{padding-bottom:calc(190px + env(safe-area-inset-bottom))}
-body.resting .toast{bottom:calc(210px + env(safe-area-inset-bottom))}
+body.resting{padding-bottom:calc(140px + env(safe-area-inset-bottom))}
+body.resting .toast{bottom:calc(140px + env(safe-area-inset-bottom))}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div id="app" class="wrap"></div>
 <div id="rest" role="timer" aria-label="Rest timer"></div>
+<div id="sheet" aria-hidden="true"></div>
 <nav id="nav"></nav>
 <div id="toast" class="toast"></div>
 
@@ -1190,7 +1233,7 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
  * OVER_CAP stops the interval an hour past zero; the bar stays up until it is
  * dismissed or another set starts a new rest. */
 const OVER_CAP=3600;
-let restT=null, restEnd=0, restSpan=0, restFired=false, AC=null;
+let restT=null, restEnd=0, restSpan=0, restFired=false, restNext='', restEx=null, AC=null;
 function audioCtx(){
   try{ const C=window.AudioContext||window.webkitAudioContext; if(!C)return null;
     if(!AC)AC=new C(); if(AC.state==='suspended'&&AC.resume)AC.resume(); return AC; }
@@ -1214,8 +1257,8 @@ function buzz(){ if(!DB.settings.restVibrate)return; try{ if(navigator.vibrate)n
 function restAlert(){ buzz(); beep(); }
 function showRest(on){ $('#rest').classList.toggle('up',on); document.body.classList.toggle('resting',on); }
 function clock(n){ return `${Math.floor(n/60)}:${pad(n%60)}`; }
-function startRest(sec){
-  if(!sec)return;
+function startRest(sec,exIdx){
+  if(!sec)return;restEx=exIdx==null?null:exIdx;
   audioCtx();                       /* warm it up inside the tap that started us */
   restSpan=sec; restEnd=Date.now()+sec*1000; restFired=false;
   clearInterval(restT); tickRest(); restT=setInterval(tickRest,250);
@@ -1227,15 +1270,18 @@ function addRest(sec){
 }
 function stopRest(){ clearInterval(restT); restT=null; restEnd=0; showRest(false); }
 function tickRest(){
-  const el=$('#rest'); const ms=restEnd-Date.now(); const over=ms<=0;
+  const el=$('#rest'); const ms=restEnd-Date.now(); const over=ms<=0; restNext=nextLabel();
   if(over&&!restFired){ restFired=true; restAlert(); }
   const n=over?Math.floor(-ms/1000):Math.ceil(ms/1000);
   const pct=over?100:Math.max(0,Math.min(100,(1-ms/(restSpan*1000))*100));
   el.classList.toggle('over',over);
-  el.innerHTML=`<div class="drain"><span style="width:${(100-pct).toFixed(1)}%"></span></div>`+
-    `<div class="line"><div class="clock num">${over?'+':''}${clock(n)}</div>`+
-    `<div class="of">${over?'Rest is up — next set now':`Rest · of ${clock(restSpan)}`}</div>`+
-    `<button data-restadd="30">+30s</button><button data-restdone="1">Done</button></div>`;
+  /* Built once, then only text and width change: replacing the buttons four
+   * times a second would swallow taps that land mid-swap. */
+  if(!el.querySelector('.clock'))el.innerHTML=`<div class="drain"></div><div class="line"><div class="clock num"></div><div class="of"></div>`+
+    `<button data-restadd="30">+30s</button><button data-restdone="1" aria-label="End rest">End</button></div>`;
+  el.querySelector('.drain').style.width=(over?100:(100-pct)).toFixed(1)+'%';
+  el.querySelector('.clock').textContent=(over?'+':'')+clock(n);
+  el.querySelector('.of').textContent=over?(restNext?'Go — '+restNext:'Go — next set'):(restNext?'Next: '+restNext:`Rest of ${clock(restSpan)}`);
   showRest(true);
   if(over&&n>=OVER_CAP){ clearInterval(restT); restT=null; }
 }
@@ -1294,7 +1340,7 @@ function stdHtml(e){const lib=LIB[e.n]||{};const st=lib.std;if(!st)return'';cons
 const yt=q=>`https://www.youtube.com/results?search_query=${encodeURIComponent(q+' ')}`;
 
 /* ---------------- views ---------------- */
-function render(top){const y=window.scrollY;app.innerHTML=view==='today'?vToday():view==='week'?vWeek():view==='month'?vMonth():view==='track'?vTrack():view==='export'?vExport():view==='data'?vData():view==='settings'?vSettings():vFuel();renderNav();window.scrollTo(0,top?0:y);}
+function render(top){closeSheet();const y=window.scrollY;app.innerHTML=view==='today'?vToday():view==='week'?vWeek():view==='month'?vMonth():view==='track'?vTrack():view==='export'?vExport():view==='data'?vData():view==='settings'?vSettings():vFuel();renderNav();window.scrollTo(0,top?0:y);if(view==='today')centreChip();}
 function renderNav(){const items=[['today','Today','<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'],['week','Week','<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>'],['month','Month','<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'],['track','Track','<svg viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 7-9"/></svg>'],['fuel','Fuel','<svg viewBox="0 0 24 24"><path d="M6 3h9v18H6zM15 8h2l2 2v8a2 2 0 0 1-2 2M6 10h9"/></svg>'],['settings','Settings','<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.4v2.1M12 18.5v2.1M5.1 7.6l1.8 1.05M17.1 15.35l1.8 1.05M5.1 16.4l1.8-1.05M17.1 8.65l1.8-1.05"/></svg>']];
   $('#nav').innerHTML=items.map(([id,l,ic])=>`<button class="${view===id||(['export','data'].includes(view)&&id==='track')?'on':''}" data-v="${id}">${ic}<span>${l}</span></button>`).join('');}
 
@@ -1308,8 +1354,7 @@ function lastSession(exName,before){
   return null;
 }
 /* Has this movement ever been logged, today included? The first time it
- * appears the guide opens on its own and the name carries a "new" tag; once
- * anything has been logged against it, the guide collapses by default. */
+ * appears the name carries a "new" tag and How to is highlighted. */
 function everLogged(exName){
   for(const k in DB.logs){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];if(!day)continue;const i=day.ex.findIndex(e=>e.n===exName);
     if(i>=0&&(DB.logs[k].sets[i]||[]).some(v=>v))return true;}
@@ -1340,7 +1385,7 @@ function activeIndex(day,l,ph){
   for(let i=0;i<day.ex.length;i++){const r=rx(day.ex[i],ph);if(setIndex(i,r,l.sets[i]||[])!=null)return i;}
   return null;
 }
-function guideOpen(i,name){ return guideState.has(i)?guideState.get(i):!everLogged(name); }
+function guideOpen(i,name){ return false; }
 
 /* The ladder, in a sentence: what the current rung has to do to clear its
  * gate. Every number comes from the library. */
@@ -1415,42 +1460,107 @@ function guideHtml(e,lib){
     <a class="watch" href="${yt(lib.yt||e.n+' proper form')}" target="_blank" rel="noopener"><span class="tri">▶</span><span>Watch the demo</span><span class="away">leaves Camp</span></a></div>`;
 }
 
-/* The active exercise — the only heavy thing on screen. */
+/* The active exercise. Compact on purpose: name, prescription, last time, the
+ * set chips, the entry and Log fit in one phone screen. Everything longer —
+ * the guide, history, skipping — opens in a sheet over the session. */
 function activeHtml(e,i,r,sets){
   const lib=LIB[e.n]||{};const s=setIndex(i,r,sets);const v=(s!=null&&sets[s])||{};
-  const isNew=!everLogged(e.n);const open=guideOpen(i,e.n);
+  const isNew=!everLogged(e.n);
   const prev=lastSession(e.n,cur);
   const sub=[e.alt,e.rest&&e.rest!=='0'?`rest ${e.rest}`:''].filter(Boolean).join(' · ');
-  const today=[];for(let k=0;k<r.sets;k++){const x=sets[k];if(x)today.push(isSkipped(x)?'skip':esc(setText(x)));}
-  let h=`<section class="active"><div class="top"><h2>${esc(e.n)}${isNew?`<span class="newtag">new</span>`:''}</h2><span class="rx num">${rxLabel(e,r)}</span></div>`;
+  let h=`<section class="active" id="active"><div class="top"><h2>${esc(e.n)}${isNew?`<span class="newtag">new</span>`:''}</h2><span class="rx num">${rxLabel(e,r)}</span></div>`;
   if(sub)h+=`<div class="alt">${esc(sub)}</div>`;
-  h+=`<p class="prev">${prev?`Last time ${prev.map(x=>`<b class="num">${esc(setText(x))}</b>`).join(' · ')}`:'First time in this program'}</p>`;
-  if(today.length)h+=`<p class="sofar">Today ${today.map(x=>`<b class="num">${x}</b>`).join(' · ')}</p>`;
+  h+=`<p class="prev">${prev?`Last time ${prev.map(x=>`<b class="num">${esc(setText(x)||'skip')}</b>`).join(' · ')}`:'First time in this program'}</p>`;
   if(r.note)h+=`<p class="note">${esc(r.note)}</p>`;
   if(lib.cue){const c=String(lib.cue);const k=c.indexOf(': ');h+=`<p class="cue"><span>${k>0?`<b>${esc(c.slice(0,k+1))}</b> ${esc(c.slice(k+2))}`:esc(c)}</span></p>`;}
+  const closed=!!(DB.logs[key(cur)]||{}).done;const exSkipped=sets.some(isExSkip);
   if(r.sets>0){
-    h+=`<div class="pips">`;
-    for(let k=0;k<r.sets;k++){const x=sets[k];const cls=k===s?'here':x?(isSkipped(x)?'miss':'hit'):'';h+=`<button class="${cls}" data-set="${i}:${k}" aria-label="Set ${k+1}${x?': '+(isSkipped(x)?'skipped':esc(setText(x))):''}"></button>`;}
+    /* One chip per set: what was logged, or the set number. Tap to edit. */
+    h+=`<div class="sets">`;
+    for(let k=0;k<r.sets;k++){const x=sets[k];const cls=k===s?'here':x?(isSkipped(x)?'miss':'hit'):'';
+      const val=x?(isSkipped(x)?'skip':esc(setText(x))):'—';
+      h+=`<button class="${cls}" data-set="${i}:${k}" aria-label="Set ${k+1}${x?': '+val:''}">Set ${k+1}<b>${val}</b></button>`;}
     h+=`</div>`;
     if(s!=null){
       h+=entryHtml(e,v,r,sets);
       h+=`<button class="log" data-savesets="${i}:${s}">Log set ${s+1}</button>`;
     }
-    /* Skip set takes the one set the form is on; Skip exercise takes every set
-     * still to log. Undo skip appears while a Skip exercise stands and the
-     * session is still open, and takes back exactly the sets it wrote. */
-    const closed=!!(DB.logs[key(cur)]||{}).done;const exSkipped=sets.some(isExSkip);
-    h+=`<div class="aux">${s!=null?`<button data-skipset="${i}:${s}">Skip set</button><button data-skipex="${i}">Skip exercise</button>`:''}${exSkipped&&!closed?`<button data-unskipex="${i}">Undo skip</button>`:''}<button class="${open?'on':''}" data-how="${i}" aria-expanded="${open?'true':'false'}">How to</button></div>`;
     h+=ladderLine(e.n)+gateHtml(e,sets);
-    /* With auto-start off the timer still has to be reachable, so the rest this
-     * lift asks for gets its own button. A movement with no rest between rounds
-     * — a walk, a warm-up, a mobility sequence — has none to offer. */
-    if(!DB.settings.restAuto&&!e.warm&&e.t!=='C'){const rs=restSec(e.rest);
-      if(rs)h+=`<div class="aux"><button data-startrest="${rs}">Start rest ${clock(rs)}</button></div>`;}
   }
-  if(open)h+=guideHtml(e,lib);
+  /* Secondary actions: one row, always visible under Log. */
+  let aux=`<button class="${isNew?'hl':''}" data-how="${i}">How to</button><button data-hist="${i}">History</button>`;
+  if(exSkipped&&!closed)aux+=`<button data-unskipex="${i}">Undo skip</button>`;
+  else if(r.sets>0&&s!=null)aux+=`<button data-skipmenu="${i}:${s}">Skip…</button>`;
+  /* With auto-start off the timer still has to be reachable, so the rest this
+   * lift asks for gets its own button. A movement with no rest between rounds
+   * — a walk, a warm-up, a mobility sequence — has none to offer. */
+  if(r.sets>0&&!DB.settings.restAuto&&!e.warm&&e.t!=='C'){const rs=restSec(e.rest);if(rs)aux+=`<button data-startrest="${rs}">Rest ${clock(rs)}</button>`;}
+  h+=`<div class="aux">${aux}</div>`;
   return h+`</section>`;
 }
+
+/* The strip: every exercise in the session as a chip, pinned to the top while
+ * scrolling. Tap one to make it the active exercise. */
+function stripHtml(day,l,ph,act){
+  let h=`<div class="strip" id="strip" role="tablist">`;let wasWarm=null;
+  day.ex.forEach((e,i)=>{
+    const r=rx(e,ph);const sets=l.sets[i]||[];let n=0,sk=0;
+    for(let k=0;k<r.sets;k++){const v=sets[k];if(!v)continue;n++;if(isSkipped(v))sk++;}
+    const done=r.sets>0&&n>=r.sets;
+    let cls=i===act?'on':'',mark=r.sets>0&&n>0&&!done?`${n}/${r.sets}`:'○';
+    if(done&&sk===n){cls+=' skipped';mark='–';}else if(done){cls+=' done';mark='✓';}
+    if(wasWarm&&!e.warm)h+=`<span class="sep"></span>`;wasWarm=!!e.warm;
+    h+=`<button class="${cls}" data-row="${i}" role="tab" aria-selected="${i===act}"><i>${mark}</i><span>${esc(e.n)}</span></button>`;
+  });
+  return h+`</div>`;
+}
+
+/* What the rest bar points at: the set the form is on now. */
+/* Read live on every tick, so it follows the user to another exercise. The
+ * same exercise reads as just the set; a different one leads with its name. */
+function nextLabel(){if(view!=='today')return'';const day=DAYS[cur.getDay()];if(!day)return'';const l=DB.logs[key(cur)];if(!l)return'';const ph=phaseOf(weekOf(cur));const i=activeIndex(day,l,ph);if(i==null)return'';
+  const e=day.ex[i];const r=rx(e,ph);const s=setIndex(i,r,l.sets[i]||[]);if(s==null)return'';
+  return i===restEx?`set ${s+1} of ${r.sets}`:`set ${s+1}, ${e.n}`;}
+/* ---- the sheet ---- */
+function openSheet(title,body){
+  const el=$('#sheet');
+  el.innerHTML=`<button class="scrim" data-sheetclose="1" aria-label="Close"></button><div class="panel" role="dialog" aria-label="${esc(title)}"><div class="grab"></div><div class="sh-h"><h3>${esc(title)}</h3><button data-sheetclose="1">Close</button></div>${body}</div>`;
+  el.classList.add('up');el.setAttribute('aria-hidden','false');
+}
+/* Drag the panel down to dismiss, like any bottom sheet. Only from the top of its scroll. */
+(function(){let y0=null,dy=0,panel=null;
+  document.addEventListener('touchstart',e=>{const p=e.target.closest&&e.target.closest('#sheet .panel');if(!p||p.scrollTop>0){y0=null;return;}panel=p;y0=e.touches[0].clientY;dy=0;},{passive:true});
+  document.addEventListener('touchmove',e=>{if(y0==null)return;dy=Math.max(0,e.touches[0].clientY-y0);if(dy>0){panel.classList.add('drag');panel.style.transform=`translateY(${dy}px)`;}},{passive:true});
+  document.addEventListener('touchend',()=>{if(y0==null)return;panel.classList.remove('drag');if(dy>90)closeSheet();else panel.style.transform='';y0=null;});
+})();
+/* Android back closes an open sheet first. MainActivity asks before exiting. */
+window.campBack=function(){if($('#sheet').classList.contains('up')){closeSheet();return true;}return false;};
+document.addEventListener('focusin',e=>{if(e.target.matches&&e.target.matches('#app input'))document.body.classList.add('typing');});
+document.addEventListener('focusout',()=>document.body.classList.remove('typing'));
+function closeSheet(){const el=$('#sheet');el.classList.remove('up');el.setAttribute('aria-hidden','true');el.innerHTML='';}
+/* Every earlier session that logged this movement, newest first. */
+function historyOf(exName,before,max){
+  const out=[];const keys=Object.keys(DB.logs).filter(k=>k<key(before)).sort().reverse();
+  for(const k of keys){const d=new Date(k+'T00:00:00');const day=DAYS[d.getDay()];if(!day)continue;const i=day.ex.findIndex(e=>e.n===exName);
+    if(i>=0&&DB.logs[k].sets[i]&&DB.logs[k].sets[i].some(v=>v)){out.push({k,sets:DB.logs[k].sets[i].filter(v=>v)});if(out.length>=max)break;}}
+  return out;
+}
+function historySheet(e){
+  const rows=historyOf(e.n,cur,8);const best=bestFor(e.n);
+  let b='';
+  if(best)b+=`<p class="note" style="margin-top:0">Best so far: <b class="num">${esc(setPhrase(best))}</b></p>`;
+  b+=rows.length?`<ul class="hist">${rows.map(x=>{const d=new Date(x.k+'T00:00:00');return `<li><span class="hd">${DOW[d.getDay()].slice(0,3)} ${MON[d.getMonth()]} ${d.getDate()}</span><span class="hs">${x.sets.map(v=>isSkipped(v)?'<span style="color:var(--ghost)">skip</span>':esc(setText(v))).join(' · ')}</span></li>`;}).join('')}</ul>`
+    :`<p class="note" style="margin-top:0">Nothing logged before today.</p>`;
+  openSheet(e.n+' — history',b);
+}
+function skipSheet(i,s,e){
+  openSheet('Skip',`<p class="note" style="margin-top:0">A skip is recorded, never counted as 0 lb, and never reaches your best lifts.</p><div class="sheet-btns"><button data-skipset="${i}:${s}">Skip set ${s+1}</button><button class="warn" data-skipex="${i}">Skip the rest of ${esc(e.n)}</button></div>`);
+}
+/* Bring the active exercise to the top, under the strip, and centre its chip. */
+function showActive(){requestAnimationFrame(()=>{
+  const a=$('#active');if(a){const st=$('#strip');const off=(st?st.offsetHeight:0)+8;const top=a.getBoundingClientRect().top;if(top<off||top>innerHeight*0.4)window.scrollTo({top:scrollY+top-off,behavior:'smooth'});}
+});}
+function centreChip(){const st=$('#strip');if(!st)return;const on=st.querySelector('.on');if(!on)return;st.scrollLeft=on.offsetLeft-(st.clientWidth-on.offsetWidth)/2;}
 
 /* A met gate asks. It never moves anybody up on its own. */
 function gateHtml(e,sets){
@@ -1480,6 +1590,7 @@ function vToday(){
   /* The session: one surface, everything else a row. Activation and each
    * superset keep a quiet label so the pairing and the station stay visible. */
   const act=activeIndex(day,l,ph);
+  h+=stripHtml(day,l,ph,act);
   h+=`<div class="list">`;let grp=null;
   day.ex.forEach((e,i)=>{
     const g=e.warm?'warm':e.ss?'ss'+e.ss:'main';
@@ -1596,11 +1707,19 @@ function applyBackup(txt,mode){
     if(d.app&&typeof d.app==='object'){ for(const k in d.app){ if(DB.app[k]==null)DB.app[k]=d.app[k]; } } }
   applyStart(); applyNutrition(); save(); return{ok:1,msg:(mode==='replace'?'Restored ':'Merged ')+n+' records'};
 }
+document.addEventListener('change',e=>{if(e.target.id!=='pickfile'||!e.target.files||!e.target.files[0])return;const rd=new FileReader();rd.onload=()=>window.__campRestore(String(rd.result));rd.onerror=()=>toast('Could not read that file');rd.readAsText(e.target.files[0]);});
 window.__campRestore=function(txt){ const r=applyBackup(txt,'merge'); toast(r.msg); if(r.ok)render(true); };
 const AND = (typeof Camp!=='undefined' && Camp && Camp.saveBackup) ? Camp : null;
+/* iPhone/iPad (iPadOS reports itself as a Mac with touch). */
+const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+const CAN_VIBRATE = typeof navigator.vibrate==='function';
+/* A backup as a real file handed to the share sheet: Files, iCloud, Mail. */
+function backupFile(){const name='camp-backup-'+key(new Date())+'.json';try{return new File([backupJSON()],name,{type:'application/json'});}catch(e){return null;}}
+const CAN_SHARE_FILE = (()=>{try{const f=new File(['{}'],'t.json',{type:'application/json'});return !!(navigator.canShare&&navigator.canShare({files:[f]}));}catch(e){return false;}})();
 function downloadBackup(){
   const json=backupJSON(); const name='camp-backup-'+key(new Date())+'.json';
   if(AND){ try{ const r=Camp.saveBackup(json,name); toast(r||'Saved to Downloads'); return; }catch(e){} }
+  if(IOS&&CAN_SHARE_FILE){ const f=backupFile(); if(f){ navigator.share({files:[f],title:name}).then(()=>toast('Backup saved')).catch(err=>{ if(err&&err.name!=='AbortError')toast('Use Copy backup instead'); }); return; } }
   try{ const b=new Blob([json],{type:'application/json'}); const u=URL.createObjectURL(b); const a=document.createElement('a'); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),1000); toast('Backup downloaded'); }
   catch(e){ toast('Use Copy backup instead'); }
 }
@@ -1616,15 +1735,15 @@ function vData(){
     <button class="secondary" data-clearnotes="1">I have looked at these</button></div>`:''}
   <div class="card"><h3>Backup</h3><div class="meta">A full copy of everything, as a file you keep. Do this before any app update.</div>
     <button class="primary" style="margin-top:12px" data-savebackup="1">Save backup file</button>
-    <button class="secondary" data-copybackup="1">Copy backup to clipboard</button>${AND?`<button class="secondary" data-sharebackup="1">Share backup…</button>`:''}</div>
+    <button class="secondary" data-copybackup="1">Copy backup to clipboard</button>${AND||CAN_SHARE_FILE?`<button class="secondary" data-sharebackup="1">Share backup…</button>`:''}</div>
   <div class="card"><h3>Restore</h3><div class="meta">Merge keeps what's already here and fills in gaps. Replace overwrites with the backup.</div>
-    ${AND?`<button class="primary" style="margin-top:12px" data-pickbackup="1">Load from a file</button>`:''}
+    <button class="primary" style="margin-top:12px" data-pickbackup="1">Load from a file</button>${AND?'':`<input type="file" id="pickfile" accept="application/json,.json,text/plain" hidden>`}
     <label class="meta" style="display:block;margin-top:12px">Or paste backup text</label>
-    <textarea id="imp" rows="5" placeholder='{"app":"camp"...' style="margin-top:6px;font-family:ui-monospace,monospace;font-size:12px"></textarea>
+    <textarea id="imp" rows="5" placeholder='{"app":"camp"...' style="margin-top:6px;font-family:ui-monospace,monospace;font-size:16px"></textarea>
     <div style="display:flex;gap:8px;margin-top:8px"><button class="primary" style="margin:0;flex:1;padding:12px" data-import="merge">Merge</button><button class="secondary" style="margin:0;flex:1;padding:12px" data-import="replace">Replace</button></div></div>
   <div class="card"><h3>For review</h3><div class="meta">Plain-text summary to paste into a chat.</div>
     <button class="primary" style="margin-top:12px" data-v="export">Open review export</button></div>
-  <div class="card"><h3>Updating the app</h3><div class="meta">Install a new APK straight over the old one and your data carries across — it is an update, not a fresh install. Only uninstalling wipes it. Save a backup file first anyway.</div></div>`;
+  <div class="card"><h3>Updating the app</h3><div class="meta">${AND?'Install a new APK straight over the old one and your data carries across — it is an update, not a fresh install. Only uninstalling wipes it. Save a backup file first anyway.':IOS?'The app updates itself the next time you open it with a connection. Your data lives on this phone, inside the home-screen app — deleting that icon deletes it. Save a backup file every week.':'The app updates itself the next time you open it with a connection. Your data lives in this browser on this device. Save a backup file every week.'}</div></div>`;
 }
 function vExport(){
   const t=exportText();
@@ -1663,8 +1782,8 @@ function vSettings(){
   let h=`<div class="meta">App</div><h1>Settings</h1><div class="sub">The rest timer and your numbers. Everything here is stored on this device with the rest of your data, and rides along in a backup.</div>`;
   h+=`<div class="card"><h3>Rest timer</h3>
     ${tog('restAuto','Start automatically','The timer opens the moment you log a set.')}
-    ${tog('restSound','Sound at zero','A short two-note tone. Silent on a device that blocks audio.')}
-    ${tog('restVibrate','Vibrate at zero','Silent on a device with no vibrator.')}
+    ${tog('restSound','Sound at zero',IOS?'A short two-note tone. iPhone mutes it when the ring/silent switch is on silent.':'A short two-note tone. Silent on a device that blocks audio.')}
+    ${CAN_VIBRATE?tog('restVibrate','Vibrate at zero','Silent on a device with no vibrator.'):''}
     <label class="meta" style="display:block;margin-top:12px">Default rest, in seconds</label>
     <div class="inline"><input type="number" inputmode="numeric" id="s-rest" value="${s.restDefault}"><button data-saverest="1">Save</button></div>
     <div class="meta" style="margin-top:8px">Most lifts carry their own rest and the session page shows it. This is what a lift without one uses. Supersets and warm-ups still rest nothing between moves.</div>
@@ -1706,7 +1825,7 @@ function vFuel(){
   h+=`<div class="meta">${fmt(cur)}</div><h1>Fuel</h1><div class="sub">Protein first. Calories are a floor, not a ceiling, on tirzepatide.</div>`;
   const bar=(l,v,t)=>`<div class="macro"><div class="lab"><span>${l}</span><span><b>${Math.round(v)}</b> / ${t}${l==='Calories'?'':' g'}</span></div><div class="bar-bg"><div class="bar-fg ${v>t*1.15?'over':v>=t?'met':''}" style="width:${Math.min(100,v/t*100)}%"></div></div></div>`;
   h+=`<div class="card"><div class="meta" style="margin-bottom:12px">${DAYS[cur.getDay()].title} · <b style="color:var(--bone)">${rest?'rest day':'training day'}</b> — ${tgt} kcal, never below ${NUT.floorKcal}</div>${bar('Protein',tot.p,NUT.protein)}${bar('Calories',kcal,tgt)}${bar('Carbs',tot.c,NUT.carbs)}${bar('Fat',tot.f,NUT.fat)}${tot.p<NUT.protein*0.6&&new Date().getHours()>=18&&isToday?`<p class="note"><b>Protein is behind.</b> A shake and a cup of Greek yogurt tonight closes 50 g of the gap.</p>`:''}</div>`;
-  h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3>My meals</h3><button class="meta" data-editquick="1" style="padding:4px 8px">${editQuick?'Done':DB.quick.length?'Edit':''}</button></div>`;
+  h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3>My meals</h3><button class="meta" data-editquick="1" style="min-height:44px;padding:4px 12px">${editQuick?'Done':DB.quick.length?'Edit':''}</button></div>`;
   h+=DB.quick.length?`<div class="quick">${DB.quick.map((q,i)=>`<button class="mine ${editQuick?'del':''}" data-${editQuick?'delq':'mq'}="${i}">${editQuick?'× ':''}${esc(q.n)} <small>${q.p}p</small></button>`).join('')}</div>`:`<div class="meta" style="margin-top:6px">Save the meals you actually eat below and they show up here as one-tap buttons.</div>`;
   h+=`<h4>Starter foods</h4><div class="quick" style="margin-top:4px">${QUICK.map((q,i)=>`<button data-q="${i}">${q.n} <small>${q.p}p</small></button>`).join('')}</div></div>`;
   h+=`<div class="card"><h3>New meal</h3><div class="form4"><div style="grid-column:span 4"><label>Name</label><input id="m-n" placeholder="e.g. Post-lift shake + banana"></div><div><label>Protein g</label><input type="number" inputmode="numeric" id="m-p"></div><div><label>Carbs g</label><input type="number" inputmode="numeric" id="m-c"></div><div><label>Fat g</label><input type="number" inputmode="numeric" id="m-f"></div><div><label>kcal</label><input id="m-k" disabled placeholder="auto"></div></div>
@@ -1764,7 +1883,8 @@ document.addEventListener('click',e=>{
   if(!d.hold&&holdField)stopHold();
   if(d.hold){toggleHold(d.hold);return;}
   if(d.repstep){const el=$('#sf-r');if(el)el.value=Math.max(0,(parseFloat(el.value)||0)+ +d.repstep);return;}
-  if(d.rung){setRung(d.ex,d.rung);save();render();focusForm();return;}
+  if(d.sheetclose){closeSheet();return;}
+  if(d.rung){setRung(d.ex,d.rung);save();render();return;}
   /* A gate only ever asks. This is the confirmation, and it is the only thing
    * that moves anybody up a rung. */
   if(d.gateyes){const parts=d.gateyes.split('|');gateSeen.add(d.gateyes);
@@ -1778,27 +1898,29 @@ document.addEventListener('click',e=>{
   if(d.wk){weekView=addDays(weekView,7*+d.wk);render(true);return;}
   if(d.mo){monthView=new Date(monthView.getFullYear(),monthView.getMonth()+ +d.mo,1);render(true);return;}
   if(d.open){cur=new Date(d.open+'T00:00:00');view='today';editing=null;activeEx=null;guideState.clear();skipPicker=false;render(true);return;}
-  if(d.row){activeEx=+d.row;editing=null;render();focusForm();return;}
-  if(d.how){const i=+d.how;const day=DAYS[cur.getDay()];guideState.set(i,!guideOpen(i,day.ex[i].n));render();return;}
+  if(d.row){activeEx=+d.row;editing=null;render();showActive();return;}
+  if(d.how){const e=DAYS[cur.getDay()].ex[+d.how];const lib=LIB[e.n]||{};openSheet(e.n,guideHtml(e,lib));return;}
+  if(d.hist){historySheet(DAYS[cur.getDay()].ex[+d.hist]);return;}
+  if(d.skipmenu){const [i,k]=d.skipmenu.split(':').map(Number);skipSheet(i,k,DAYS[cur.getDay()].ex[i]);return;}
   if(d.set){const [i,s]=d.set.split(':').map(Number);activeEx=i;editing={ex:i,set:s};render();focusForm();return;}
   if(d.restadd){addRest(+d.restadd);return;}
   if(d.restdone){stopRest();return;}
-  if(d.startrest){startRest(+d.startrest);return;}
+  if(d.startrest){startRest(+d.startrest,activeEx);return;}
   /* The button says which set it is for, so neither handler depends on the
    * form having been opened by a tap. After the last set the surface moves on
    * to the next exercise with sets still to log. */
   if(d.skipset){const [i,s]=d.skipset.split(':').map(Number);const l=logFor(cur);l.sets[i]=l.sets[i]||[];l.sets[i][s]={skip:1,level:'set'};
     const day=DAYS[cur.getDay()];const total=rx(day.ex[i],phaseOf(weekOf(cur))).sets;
-    editing=s+1<total?{ex:i,set:s+1}:null;if(!editing)activeEx=null;save();render();toast('Skipped');return;}
+    editing=s+1<total?{ex:i,set:s+1}:null;if(!editing)activeEx=null;save();render();if(!editing)showActive();toast('Skipped');return;}
   /* Skip exercise marks every set not yet logged, in one action, and moves the
    * surface on. Sets already logged or already skipped one at a time are left
    * alone, which is what lets Undo skip take back only what this wrote. */
   if(d.skipex){const i=+d.skipex;const l=logFor(cur);const day=DAYS[cur.getDay()];const total=rx(day.ex[i],phaseOf(weekOf(cur))).sets;
     l.sets[i]=l.sets[i]||[];for(let k=0;k<total;k++)if(!l.sets[i][k])l.sets[i][k]={skip:1,level:'exercise'};
-    editing=null;activeEx=null;save();render();toast(day.ex[i].n+' skipped');return;}
+    editing=null;activeEx=null;save();render();showActive();toast(day.ex[i].n+' skipped');return;}
   if(d.unskipex){const i=+d.unskipex;const l=logFor(cur);if(l.done){toast('Session is closed');return;}
     l.sets[i]=(l.sets[i]||[]).map(v=>isExSkip(v)?null:v);
-    editing=null;activeEx=i;save();render();focusForm();toast('Skip removed');return;}
+    editing=null;activeEx=i;save();render();toast('Skip removed');return;}
   if(d.savesets){const [i,s]=d.savesets.split(':').map(Number);const l=logFor(cur);const day=DAYS[cur.getDay()];const ex=day.ex[i];
     const built=readSet(ex.n);if(built.err){toast(built.err);return;}
     l.sets[i]=l.sets[i]||[];l.sets[i][s]=built.set;
@@ -1806,8 +1928,8 @@ document.addEventListener('click',e=>{
     // rest: if in a superset and this is the first of the pair, no rest; else exercise rest
     let rest=restSec(ex.rest);
     editing=s+1<total?{ex:i,set:s+1}:null;if(!editing)activeEx=null;
-    save();render();if(rest&&!ex.warm&&ex.t!=='C'&&DB.settings.restAuto)startRest(rest);
-    if(editing)focusForm();return;}
+    save();render();if(rest&&!ex.warm&&ex.t!=='C'&&DB.settings.restAuto)startRest(rest,i);
+    if(!editing)showActive();return;}
   if(d.done){const l=logFor(cur);l.done=!l.done;if(l.done)l.skipped=null;save();render();toast(l.done?'Session logged':'Unmarked');return;}
   if(d.skipday){skipPicker=true;render();return;}
   if(d.skipcancel){skipPicker=false;render();return;}
@@ -1839,7 +1961,7 @@ document.addEventListener('click',e=>{
     if(!confirm(msg))return;
     DB.app.startDate=iso;applyStart();save();render(true);toast(moved?'Start date set: '+fmt(dt):'Start date set');return;}
   if(d.saverest){const v=Math.round(parseFloat($('#s-rest').value));if(isNaN(v)||v<10||v>900){toast('Between 10 and 900 seconds');return;}DB.settings.restDefault=v;save();render();toast('Default rest '+clock(v));return;}
-  if(d.testrest){restAlert();toast('Sound '+(DB.settings.restSound?'on':'off')+' · vibration '+(DB.settings.restVibrate?'on':'off'));return;}
+  if(d.testrest){restAlert();toast('Sound '+(DB.settings.restSound?'on':'off')+(CAN_VIBRATE?' · vibration '+(DB.settings.restVibrate?'on':'off'):''));return;}
   if(d.q){const q=QUICK[+d.q];(DB.macros[key(cur)]=DB.macros[key(cur)]||[]).push({...q});save();render();toast(`+${q.p} g protein`);return;}
   if(d.mq){const q=DB.quick[+d.mq];(DB.macros[key(cur)]=DB.macros[key(cur)]||[]).push({...q});save();render();toast(`+${q.p} g protein`);return;}
   if(d.editquick){editQuick=!editQuick;render();return;}
@@ -1851,7 +1973,9 @@ document.addEventListener('click',e=>{
   if(d.clearnotes){delete DB.settings.dataNotes;save();render();toast('Cleared');return;}
   if(d.savebackup){downloadBackup();return;}
   if(d.copybackup){const t=backupJSON();const done=()=>toast('Backup copied');if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));}else fallbackCopy(t,done);return;}
+  if(d.sharebackup&&!AND){const f=backupFile();if(f)navigator.share({files:[f],title:f.name}).catch(()=>{});return;}
   if(d.sharebackup){try{Camp.shareBackup(backupJSON(),'camp-backup-'+key(new Date())+'.json');}catch(e){toast('Share unavailable');}return;}
+  if(d.pickbackup&&!AND){const inp=$('#pickfile');if(inp){inp.value='';inp.click();}return;}
   if(d.pickbackup){try{Camp.pickBackup();}catch(e){toast('Use paste instead');}return;}
   if(d.import){const t=($('#imp').value||'').trim();if(!t){toast('Paste a backup first');return;}
     if(d.import==='replace'&&!confirm('Replace everything currently in the app with this backup?'))return;
@@ -1871,8 +1995,9 @@ document.addEventListener('click',e=>{
     DB.app.nutrition=o;applyNutrition();save();render();toast('Targets saved');return;}
   if(d.resettargets){delete DB.app.nutrition;applyNutrition();save();render();toast('Back to the program\'s targets');return;}
 });
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&/^sf-/.test(e.target.id||'')){e.preventDefault();const b=$('[data-savesets]');b&&b.click();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#sheet').classList.contains('up')){closeSheet();return;}if(e.key==='Enter'&&/^sf-/.test(e.target.id||'')){e.preventDefault();const b=$('[data-savesets]');b&&b.click();}});
 render(true);
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});}catch(e){}
 if(!MIGRATION.ok){
   const bar=document.createElement('div');
   bar.className='warnbar';
