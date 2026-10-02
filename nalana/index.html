@@ -9,9 +9,9 @@
      is also what exempts the data from Safari's 7-day storage cap. -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Camp">
+<meta name="apple-mobile-web-app-title" content="Camp · Nalana">
 <meta name="format-detection" content="telephone=no">
-<title>Camp — Nov 1</title>
+<title>Camp — Nalana</title>
 <style>
 /* ---- tokens ----
    Deep field green, widened steps for real separation.
@@ -824,7 +824,7 @@ const mem={};
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:CampCore.unwrap(JSON.parse(v));}catch(e){return k in mem?mem[k]:d;}},set(k,v){if(!MIGRATION.ok){mem[k]=v;return;}try{localStorage.setItem(k,JSON.stringify(CampCore.wrap(v)));}catch(e){mem[k]=v;}}};
 
 /* ---------------- program ---------------- */
-const PROFILE={"id":"landon","displayName":"Landon","schemaVersion":2,"startDate":"2026-08-31","startDateEditable":false,"programWeeks":9,"phases":[{"name":"Build","startWeek":1,"endWeek":5,"setScale":1},{"name":"Deload","startWeek":6,"endWeek":6,"setScale":0.6},{"name":"Peak","startWeek":7,"endWeek":9,"setScale":1}],"schedule":{"type":"fixed","days":{"mon":"lowerA","tue":"upperA","wed":"core","thu":"hipReset","fri":"lowerB","sat":"upperB","sun":"recovery"}},"nutrition":{"mode":"macros","trainingKcal":2500,"restKcal":2300,"floorKcal":2200,"protein":165,"carbs":280,"fat":80},"bodyweight":{"start":205,"goal":180},"features":{"flareTracking":false,"cardioLog":false,"hipScore":true,"notifications":true},"notifications":{"enabled":false}};
+const PROFILE={"id":"nalana","displayName":"Nalana","schemaVersion":2,"startDate":null,"startDateEditable":true,"programWeeks":52,"phases":[{"name":"Foundation 1","startWeek":1,"endWeek":2,"setScale":0.34,"repRange":{"lo":10,"hi":12}},{"name":"Foundation 2","startWeek":3,"endWeek":4,"setScale":0.67,"repRange":{"lo":10,"hi":12}},{"name":"Foundation 3","startWeek":5,"endWeek":6,"setScale":1,"repRange":{"lo":10,"hi":12}},{"name":"Build 1","startWeek":7,"endWeek":8,"setScale":1,"repRange":{"lo":8,"hi":12},"schedule":{"type":"rotating","days":{"mon":"@","tue":"cardio","wed":"@","thu":"rest","fri":"@","sat":"cardio","sun":"rest"},"rotation":["fullA","fullB"]}},{"name":"Build 2","startWeek":9,"endWeek":10,"setScale":1,"repRange":{"lo":8,"hi":12},"schedule":{"type":"rotating","days":{"mon":"@","tue":"cardio","wed":"@","thu":"rest","fri":"@","sat":"cardio","sun":"rest"},"rotation":["fullA","fullB"]}},{"name":"Build 3","startWeek":11,"endWeek":12,"setScale":1,"repRange":{"lo":8,"hi":12},"schedule":{"type":"rotating","days":{"mon":"@","tue":"cardio","wed":"@","thu":"rest","fri":"@","sat":"cardio","sun":"rest"},"rotation":["fullA","fullB"]}},{"name":"Build 4","startWeek":13,"endWeek":14,"setScale":1,"repRange":{"lo":8,"hi":12},"schedule":{"type":"rotating","days":{"mon":"@","tue":"cardio","wed":"@","thu":"rest","fri":"@","sat":"cardio","sun":"rest"},"rotation":["fullA","fullB"]}},{"name":"Build 5","startWeek":15,"endWeek":16,"setScale":1,"repRange":{"lo":8,"hi":12},"schedule":{"type":"rotating","days":{"mon":"@","tue":"cardio","wed":"@","thu":"rest","fri":"@","sat":"cardio","sun":"rest"},"rotation":["fullA","fullB"]}},{"name":"Progress","startWeek":17,"endWeek":34,"setScale":1,"repRange":{"lo":8,"hi":12},"schedule":{"type":"rotating","days":{"mon":"@","tue":"cardio","wed":"@","thu":"walk","fri":"@","sat":"intervals","sun":"rest"},"rotation":["fullA2","fullB2"]}},{"name":"Peak","startWeek":35,"endWeek":52,"setScale":1,"repRange":{"lo":8,"hi":12},"schedule":{"type":"rotating","days":{"mon":"@","tue":"cardio","wed":"@","thu":"walk","fri":"@","sat":"intervals","sun":"walk"},"rotation":["fullA2","fullB2"]}}],"schedule":{"type":"fixed","days":{"mon":"fullA","tue":"cardio","wed":"rest","thu":"fullB","fri":"rest","sat":"cardio","sun":"rest"}},"nutrition":{"mode":"simple","kcal":1500,"floorKcal":1200,"protein":110},"bodyweight":{"goalRange":{"low":50,"high":80}},"features":{"flareTracking":true,"cardioLog":true,"hipScore":false,"notifications":false,"dailyScore":true,"placement":true,"scaledGates":true,"weightPrivacy":true,"hideProjections":true},"notifications":{"enabled":false},"flareSession":"flare","cardioMax":55,"scoreLabel":"Joint pain 0–10","loadSteps":[3,5,8,10,13,15,18,20,23,25],"startLoads":{"Dumbbell Romanian deadlift":10,"Neutral-grip dumbbell bench press":10,"Seated neutral-grip dumbbell press":5,"Chest-supported dumbbell row":15},"chains":{"Box squat":{"variants":[{"n":"Box squat"},{"n":"Rear-foot-elevated split squat","gate":"cap"}]},"Dumbbell Romanian deadlift":{"variants":[{"n":"Dumbbell Romanian deadlift"},{"n":"B-stance RDL","gate":"cap"},{"n":"Single-leg RDL","gate":"cap"}]},"Band row":{"variants":[{"n":"Band row"},{"n":"Chest-supported dumbbell row","gate":{"reps":15}}],"extend":{"lo":12,"hi":20,"note":"Lower over 3 s"}},"Side plank from knees":{"variants":[{"n":"Side plank from knees"},{"n":"Forearm side plank","gate":{"sec":30}}]},"Glute bridge":{"variants":[{"n":"Glute bridge"},{"n":"Single-leg glute bridge","gate":{"reps":15}}]},"Neutral-grip dumbbell bench press":{"variants":[{"n":"Neutral-grip dumbbell bench press"}],"extend":{"lo":12,"hi":20,"note":"Lower over 3 s"}},"Seated neutral-grip dumbbell press":{"variants":[{"n":"Seated neutral-grip dumbbell press"}],"extend":{"lo":12,"hi":20,"note":"Lower over 3 s"}},"Split squat":{"variants":[{"n":"Split squat"}],"extend":{"lo":12,"hi":20,"note":"Lower over 3 s"}},"Dumbbell step-up":{"variants":[{"n":"Dumbbell step-up"}],"extend":{"lo":12,"hi":15,"note":"Lower over 3 s"}}},"trackingStartWeek":3,"weighEveryWeeks":2,"waistEveryWeeks":4,"startSnap":"next"};
 const BUILD={"version":"2.2","channel":"release","build":43,"commit":"36f6b11","built":"2026-10-02"};
 /* "1.10 · build 57 · a1b2c3d" — what this copy of the app is. */
 const BUILD_LABEL=[BUILD.channel==='local'?'Local build':BUILD.channel==='dev'?'Test build '+BUILD.version:'Version '+BUILD.version,BUILD.build!=null?'build '+BUILD.build:'',BUILD.commit||''].filter(Boolean).join(' · ');
@@ -946,46 +946,46 @@ function weekLabel(d,start){if(start===undefined)start=START;if(!start)return'no
  * A met gate only ever prompts. Nothing advances a rung without the user saying so.
  */
 const LIB={
- 'Banded lateral walk':{metric:'reps_only',cue:'Hip: stay in the quarter squat with the knees pushed out against the band. Standing tall switches the glutes off.',guide:{setup:'',execute:'',watch:''},how:['Band above knees, quarter-squat, chest up','Step sideways leading with the heel, never let knees cave','Constant tension — feet never touch'],why:'Wakes up glute med so it fires during the lifts instead of your hip flexors and low back.',yt:'banded lateral walk glute activation'},
- 'Glute bridge':{metric:'bodyweight_reps',cue:'Hip: tuck the pelvis first, then drive. Stop when the hips are level — never arch the low back to get higher.',guide:{setup:'',execute:'',watch:''},how:['Heels close to glutes, ribs down, tuck the pelvis first','Drive through heels, squeeze glutes at the top for 3 s','Stop when hips are level — do not arch the low back'],why:'Teaches posterior pelvic tilt and glute drive before you load the hips.',hip:'This is the anti-pelvic-tilt movement. Own it.',yt:'glute bridge posterior pelvic tilt form'},
- 'Hip CARs':{metric:'reps_only',cue:'Hip: pain-free range only. If the front of the hip pinches, shrink the circle.',guide:{setup:'',execute:'',watch:''},how:['Stand tall, hold something. One knee up to hip height','Sweep the knee out to the side, rotate the thigh, bring it back behind','Slow — 10 s per circle. Zero pain, shrink the circle if it pinches'],why:'Controlled articular rotations keep the labrum and capsule moving through every range you own.',hip:'Only the pain-free range. Smaller and cleaner beats bigger.',yt:'hip CARs controlled articular rotations'},
- 'Couch stretch':{metric:'hold_each_side',cue:'Hip: tuck the pelvis and squeeze the glute before you lean. Stop at the first stretch — never push into a pinch at the front of the hip.',guide:{setup:'',execute:'',watch:''},how:['Rear knee on a pad, rear foot up on a bench','Tuck the pelvis under (posterior tilt) BEFORE you lean','Squeeze the rear glute, breathe. 60 s each side'],why:'Long hip flexors and rectus femoris pull you into anterior tilt. This is the direct fix.',hip:'Tuck first. If you feel it in the low back you skipped the tuck.',yt:'couch stretch hip flexor posterior pelvic tilt'},
- '90/90 hip switch':{metric:'reps_only',cue:'Hip: pain-free range only. If internal rotation pinches, keep the switch short and lean back a little.',guide:{setup:'',execute:'',watch:''},how:['Sit with front shin and back shin each at 90°','Stay tall, rotate the hips to switch sides without hands','Pause 2 s at each end. Pain-free range only'],why:'Trains hip internal and external rotation — the ranges a cam hip loses first.',hip:'If internal rotation pinches, keep the range short and lean back slightly.',yt:'90 90 hip switch mobility'},
- 'Clamshell':{metric:'reps_only',cue:'Hip: open the knee without rolling the pelvis back. Pain-free range only.',guide:{setup:'',execute:'',watch:''},how:['Side-lying, hips stacked, band above knees, heels together','Open the top knee like a clam, no hip roll backward','2 s up, 2 s down. 15 each side'],why:'Isolates glute med and deep rotators — the muscles that hold the femoral head centered in the socket.',yt:'clamshell exercise glute medius form'},
- 'Dead bug':{metric:'reps_only',cue:'Hip: low back pressed into the floor for the whole set. If it lifts, the rep is over.',guide:{setup:'',execute:'',watch:''},how:['On your back, arms up, knees over hips at 90°','Press low back into the floor and keep it there the whole set','Extend opposite arm and leg slowly. Exhale on the reach'],why:'Anterior core stability with a neutral pelvis. Fights tilt without loading the hip flexors.',yt:'dead bug exercise core form'},
- 'Bird dog':{metric:'reps_only',cue:'Hip: hips square and level. Reach to parallel, never let the low back sag into an arch.',guide:{setup:'',execute:'',watch:''},how:['Hands under shoulders, knees under hips','Reach opposite arm and leg to parallel, hips stay square','Hold 2 s, return slow. Do not let the low back sag'],why:'Glute max + spinal stability in one move. Reinforces hip extension without rib flare.',yt:'bird dog exercise proper form'},
- 'Side plank with leg raise':{metric:'reps_only',cue:'Hip: hips stacked and level. Lift the leg without letting the pelvis tip back.',guide:{setup:'',execute:'',watch:''},how:['Elbow under shoulder, body straight, hips stacked','Lift top leg 12 in and lower, keeping the toes forward','10 reps then hold the plank 15 s'],why:'Obliques and glute med together — lateral pelvic control for kicks and clinch.',yt:'side plank hip abduction leg raise'},
- 'Reverse crunch':{metric:'reps_only',cue:'Hip: curl the pelvis, do not lift the legs. This is posterior-tilt work, not a hip-flexor raise.',guide:{setup:'',execute:'',watch:''},how:['On your back, knees bent, hands by hips','Curl the pelvis up toward the ribs — tailbone leaves the floor','Lower slow. Small range, no leg swing'],why:'Lower abs pull the pelvis into posterior tilt. Replaces hanging knee raises, which overwork the hip flexors.',hip:'Chosen over hanging knee raises to spare your hip flexors and labrum.',yt:'reverse crunch proper form lower abs'},
- 'RKC plank':{metric:'hold',cue:'Hip: tuck the pelvis and squeeze the glutes before anything else. The tuck is the exercise.',guide:{setup:'',execute:'',watch:''},how:['Forearm plank, then squeeze glutes hard and tuck the pelvis','Pull elbows toward toes and toes toward elbows','20–30 s of maximal tension beats 2 min of hanging out'],why:'Plank with a posterior tilt built in — the exact position your pelvis needs to learn.',yt:'RKC plank technique'},
- 'Pallof press':{metric:'weight_reps',cue:'Hip: hips square and pelvis tucked. Nothing rotates but the arms.',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:15,n:25,i:35,a:50},how:['Cable at chest height, stand sideways to the stack, feet hip width','Press the handle straight out and back, hips do not rotate','Breathe out on the press. 12 each side'],why:'Anti-rotation core. Directly transfers to not leaking power on kicks.',yt:'pallof press form'},
- 'Trap bar deadlift':{metric:'weight_reps',cue:'Hip: high handles only. The bar sets the depth, so there is no pinch to push into.',guide:{setup:'',execute:'',watch:''},std:{u:'lb',s:135,n:185,i:275,a:365},how:['Feet hip width, shins to the handles, grip the high handles','Hips back, chest up, brace, then push the floor away','Stand tall, glutes finish the rep. Lower under control — no bouncing'],why:'The heaviest, safest hip-hinge for a cam hip: upright torso, moderate hip flexion, huge glute and hamstring load.',hip:'Use the high handles. Depth is set by the bar, so no pinch.',yt:'trap bar deadlift high handles form'},
- 'Bulgarian split squat':{metric:'weight_reps',cue:'Hip: front thigh to parallel and no lower. Torso tall, front knee over the ankle.',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Rear foot on a low bench, front foot far enough forward that the knee stays over the ankle','Torso tall, sit straight down — stop when the thigh is parallel','Drive through the front heel. Dumbbells in both hands'],why:'Single-leg strength and stability. Best carryover to kicking off one leg.',hip:'Parallel is deep enough. Deeper flexion is where the cam meets the socket.',yt:'bulgarian split squat form dumbbells'},
- 'Romanian deadlift':{metric:'weight_reps',cue:'Hip: hinge, do not squat. Stop at mid-shin or when the hamstrings bite — no deeper.',guide:{setup:'',execute:'',watch:''},std:{u:'lb',s:95,n:135,i:185,a:245},how:['Bar at hips, soft knees, shoulders back','Push hips straight back, bar slides down the thighs','Stop at mid-shin or when the hamstrings bite — then drive hips forward'],why:'Hamstring and glute length under load. Builds the posterior chain that pulls the pelvis back to neutral.',hip:'Hinge, do not squat it. Neutral spine start to finish.',yt:'romanian deadlift barbell form'},
- 'Sliding leg curl':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'level',s:'Two-leg 3×8',n:'Two-leg 3×12',i:'Single-leg 3×8',a:'Hips never touch'},how:['On your back, heels on a towel or sliders, hips bridged up','Slide heels away slowly, then curl them back toward the glutes','Hips stay high the whole time. Progress two-leg → single-leg'],why:'Eccentric hamstring strength on the way to a Nordic curl.',yt:'sliding leg curl hamstring exercise'},
- 'Standing calf raise':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:90,n:150,i:220,a:300},how:['Full stretch at the bottom, 2 s pause','Drive up onto the big toe, 1 s squeeze at the top','Controlled — no bouncing'],why:'Ankle stiffness for teeps and switching stance.',yt:'standing calf raise machine form'},
- 'Barbell bench press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb',s:95,n:135,i:185,a:245},how:['Shoulder blades pinned down and back, feet planted, slight arch','Bar to lower chest, elbows about 45°','Press up and slightly back. Full lockout every rep'],why:'Your heaviest push. Chest, front delt, tricep — and the strength benchmark for the upper body.',yt:'barbell bench press form Jeff Nippard'},
- 'Pull-up':{metric:'assisted_bodyweight',guide:{setup:'',execute:'',watch:''},ladder:{modes:['assisted','bodyweight','added'],toBodyweight:{sets:3,reps:8,maxAssist:20},toAdded:{sets:3,reps:8},step:5,topReps:8},std:{u:'level',s:'Assisted / pulldown',n:'Bodyweight × 5',i:'Bodyweight × 10',a:'+45 lb × 5'},how:['Dead hang, shoulders down away from ears','Pull chest to the bar, elbows drive down and back','Control the descent. Add weight with a belt or dumbbell between the feet'],why:'Back width and grip strength. If under 5 clean reps, use the lat pulldown heavy instead.',yt:'weighted pull up form'},
- 'Lat pulldown':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:100,n:140,i:180,a:230},how:['Wide or neutral grip, thighs pinned under the pads','Chest tall, pull the bar to the collarbone, elbows down and back','Control the bar back up to a full stretch — no leaning away'],why:'The pull-up pattern with a load you can dial in. Under 5 clean pull-ups this is the better driver of back width.',yt:'lat pulldown proper form'},
- 'Incline dumbbell press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Bench 30°, dumbbells at shoulder level, elbows slightly tucked','Press up and in, touch at the top without clanking','Lower for 2 s'],why:'Upper chest is what makes a T-shirt fit differently.',yt:'incline dumbbell press form'},
- 'Dumbbell lateral raise':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:8,n:12,i:20,a:30},how:['Slight forward lean, elbows soft','Raise to shoulder height leading with the elbows, pinkies slightly up','Lower for 2 s. Light weight, perfect reps'],why:'Side delt width — the single fastest aesthetic change in the upper body.',yt:'dumbbell lateral raise proper form'},
- 'Seated cable row':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:70,n:100,i:140,a:180},how:['Neutral grip, chest tall, slight forward reach at the start','Pull to the belly button, elbows drive back','Squeeze 1 s, reach forward under control'],why:'Horizontal pull for mid-back thickness and posture.',yt:'seated cable row neutral grip form'},
- 'Cable face pull':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:20,n:35,i:50,a:70},how:['Rope at face height, step back, palms facing you','Pull to the face, elbows high, then rotate hands so knuckles face the ceiling','Squeeze the rear delts 1 s'],why:'Rear delts and rotator cuff. Protects the shoulder from years of punching.',yt:'face pull form rope'},
- 'Cable bar curl':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Straight bar on the low pulley, elbows pinned to your sides','Curl to the chin, squeeze, lower for 2 s','No swinging'],why:'Direct bicep work on the same stack as the pushdown — one station, zero walking.',yt:'cable bar curl form'},
- 'Rope tricep pushdown':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:40,n:60,i:80,a:110},how:['Elbows pinned, lean slightly forward','Push down and split the rope at the bottom','Let it come back only to 90° at the elbow'],why:'Tricep size. Two-thirds of your arm.',yt:'rope tricep pushdown form'},
- 'Box jump':{metric:'reps_only',cue:'Hip: low box, land tall in a quarter squat. Step down every rep — never jump down.',guide:{setup:'',execute:'',watch:''},std:{u:'box height',s:'Step-up',n:'12 in',i:'18 in',a:'24 in'},how:['Low box — 12 to 18 in. Land soft, hips above knees','Swing arms, jump, land tall like a quarter squat','Step down every rep, never jump down'],why:'Explosive hip extension without heavy loading.',hip:'Land tall. A crashing deep landing is the position we avoid.',yt:'box jump proper landing technique'},
- 'Barbell hip thrust':{metric:'weight_reps',cue:'Hip: ribs down, chin tucked, glutes finish the rep. Full extension — never an arched low back.',guide:{setup:'',execute:'',watch:''},std:{u:'lb',s:95,n:155,i:225,a:315},how:['Upper back on a bench, bar in the hip crease with a pad','Tuck the chin, ribs down, drive through heels','Full hip extension, squeeze 1 s, do not arch the low back'],why:'The single best glute builder. Glutes are what pull your pelvis out of anterior tilt.',hip:'Your priority lift on Friday. Load it.',yt:'barbell hip thrust form Bret Contreras'},
- 'Leg press':{metric:'weight_reps',cue:'Hip: stop at 90° at the hip. Deeper is where the cam meets the socket.',guide:{setup:'',execute:'',watch:''},std:{u:'lb of plates, not counting the sled',s:90,n:180,i:320,a:450},how:['Feet high and wide on the plate','Lower only to 90° at the hip — stop before any pinch','Drive through heels, do not lock knees hard'],why:'Quad and glute volume with the spine unloaded.',hip:'Depth stops at 90°. Deeper is where the cam impinges.',yt:'leg press form feet high wide'},
- 'Reverse lunge':{metric:'weight_reps',cue:'Hip: step back, never forward. Front thigh to parallel, torso tall.',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:'Bodyweight',n:20,i:35,a:50},how:['Dumbbells at the sides, step back long','Drop straight down until the front thigh is parallel, torso tall','Drive through the front heel to stand'],why:'More glute, less hip flexion than a forward lunge. Kinder to the labrum.',hip:'Chosen over walking lunges for a shorter, controlled hip range.',yt:'reverse lunge dumbbells form'},
- 'Single-leg RDL':{metric:'weight_reps',cue:'Hip: hips stay square. Stop at mid-shin or when balance goes — no deeper, no twisting.',guide:{setup:'',execute:'',watch:''},std:{u:'lb, one dumbbell',s:15,n:30,i:45,a:65},how:['Dumbbell in the opposite hand of the working leg','Hinge, reach the free leg back, hips stay square','Stop at mid-shin or when balance breaks. Drive up through the heel'],why:'Glute max and med together, with balance. Fixes the side-to-side pelvic wobble.',yt:'single leg romanian deadlift dumbbell form'},
- 'Lateral step-down':{metric:'bodyweight_reps',cue:'Hip: hips level, knee over the second toe. Shallow and controlled — this replaces the pistol squat.',guide:{setup:'',execute:'',watch:''},std:{u:'box height',s:'4 in',n:'6 in',i:'9 in',a:'12 in'},how:['Stand on a 6–12 in box sideways, free leg off the edge','Lower the free heel toward the floor by bending the standing knee, hips level','Tap and drive back up. Knee tracks over the second toe'],why:'Glute med and quad control in a shallow, safe range. Replaces pistol squats.',hip:'Pistols demand deep hip flexion plus rotation — the worst combination for a labrum. This gives you the single-leg strength without it.',yt:'lateral step down exercise glute medius'},
- 'Single-leg calf raise':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:20},step:5,topReps:15},std:{u:'level',s:'BW × 8',n:'BW × 12',i:'BW × 20',a:'+25 lb × 15'},how:['Ball of foot on a step, hold the rail lightly','Full stretch, then up to the big toe','15–20 slow reps each side'],why:'Unilateral ankle strength for footwork.',yt:'single leg calf raise form'},
- 'Seated dumbbell overhead press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:25,n:40,i:55,a:75},how:['Bench at 85°, dumbbells at shoulder height, forearms vertical','Press up and slightly in, ribs down — do not arch','Lower to ear height'],why:'Shoulder strength and the cap on the delts.',yt:'seated dumbbell shoulder press form'},
- 'Chest-supported dumbbell row':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:30,n:45,i:60,a:80},how:['Chest on a 30–45° incline bench, dumbbells hanging','Row to the hips, elbows back, squeeze the shoulder blades','Lower for 2 s'],why:'Back thickness with zero low-back involvement.',yt:'chest supported dumbbell row incline bench'},
- 'Prone rear delt fly':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:8,n:12,i:18,a:25},how:['Same bench, lighter dumbbells, slight elbow bend','Raise out to the sides to shoulder height, thumbs down','Lower slow. Pure rear delt — no rowing'],why:'Rear delts round out the shoulder from behind. Pairs with the row on the same bench.',yt:'incline prone rear delt fly dumbbell'},
- 'Dips':{metric:'assisted_bodyweight',guide:{setup:'',execute:'',watch:''},ladder:{modes:['assisted','bodyweight','added'],toBodyweight:{sets:3,reps:8,maxAssist:20},toAdded:{sets:3,reps:12},step:5,topReps:12},std:{u:'level',s:'Assisted machine',n:'Bodyweight × 8',i:'Bodyweight × 12',a:'+45 lb × 8'},how:['Slight forward lean, shoulders down','Lower until the upper arm is parallel — no deeper','Press to lockout. Add a belt at 12 clean reps'],why:'Lower chest and triceps. Heavy bodyweight pressing.',yt:'weighted dips form chest triceps'},
- 'Straight-arm pulldown':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:30,n:50,i:70,a:100},how:['Straight bar or rope on the high pulley, slight hinge','Arms nearly straight, pull the bar to the thighs in an arc','Feel the lats, not the triceps. 2 s back up'],why:'Lat isolation for width. Same stack as the tricep extension.',yt:'straight arm cable pulldown lats form'},
- 'Overhead rope tricep extension':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb on the stack',s:30,n:45,i:60,a:85},how:['Face away from the stack, rope behind the head','Elbows stay by the ears, extend fully','Stretch at the bottom, squeeze at the top'],why:'Long head of the tricep — the part that adds arm size from the back.',yt:'overhead rope tricep extension form'},
- 'Incline dumbbell curl':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per hand',s:10,n:17.5,i:25,a:35},how:['Bench at 45°, arms hanging straight down','Curl without moving the shoulder, squeeze at the top','Lower for 3 s — the stretch is the point'],why:'Bicep long head under stretch. Arms look bigger from the front.',yt:'incline dumbbell curl form'},
+ 'Banded lateral walk':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Band above knees, quarter-squat, chest up','Step sideways leading with the heel, never let knees cave','Constant tension — feet never touch'],why:'Wakes up glute med so it fires during the lifts instead of your hip flexors and low back.',yt:'banded lateral walk glute activation'},
+ 'Glute bridge':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},how:['Knees bent, feet flat, push through the heels','Hips to level, hold 2 s at the top','Use the bench as a hand-hold to get down and up: forearm pressure is fine, wrist extension isn\'t'],why:'Glute strength with no load on the wrists.',yt:'glute bridge posterior pelvic tilt form'},
+ 'Hip CARs':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Stand tall, hold something. One knee up to hip height','Sweep the knee out to the side, rotate the thigh, bring it back behind','Slow — 10 s per circle. Zero pain, shrink the circle if it pinches'],why:'Controlled articular rotations keep the labrum and capsule moving through every range you own.',yt:'hip CARs controlled articular rotations'},
+ 'Couch stretch':{metric:'hold_each_side',guide:{setup:'',execute:'',watch:''},how:['Rear knee on a pad, rear foot up on a bench','Tuck the pelvis under (posterior tilt) BEFORE you lean','Squeeze the rear glute, breathe. 60 s each side'],why:'Long hip flexors and rectus femoris pull you into anterior tilt. This is the direct fix.',yt:'couch stretch hip flexor posterior pelvic tilt'},
+ '90/90 hip switch':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Sit with front shin and back shin each at 90°','Stay tall, rotate the hips to switch sides without hands','Pause 2 s at each end. Pain-free range only'],why:'Trains hip internal and external rotation — the ranges a cam hip loses first.',yt:'90 90 hip switch mobility'},
+ 'Clamshell':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Side-lying, hips stacked, band above knees, heels together','Open the top knee like a clam, no hip roll backward','2 s up, 2 s down. 15 each side'],why:'Isolates glute med and deep rotators — the muscles that hold the femoral head centered in the socket.',yt:'clamshell exercise glute medius form'},
+ 'Dead bug':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['On your back, arms up, knees over hips','Low back stays pressed to the floor','Move opposite arm and leg slowly'],why:'Trunk control with no load on the wrists.',yt:'dead bug exercise core form'},
+ 'Bird dog':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Hands under shoulders, knees under hips','Reach opposite arm and leg to parallel, hips stay square','Hold 2 s, return slow. Do not let the low back sag'],why:'Glute max + spinal stability in one move. Reinforces hip extension without rib flare.',yt:'bird dog exercise proper form'},
+ 'Side plank with leg raise':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Elbow under shoulder, body straight, hips stacked','Lift top leg 12 in and lower, keeping the toes forward','10 reps then hold the plank 15 s'],why:'Obliques and glute med together — lateral pelvic control for kicks and clinch.',yt:'side plank hip abduction leg raise'},
+ 'Reverse crunch':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['On your back, knees bent, hands by hips','Curl the pelvis up toward the ribs — tailbone leaves the floor','Lower slow. Small range, no leg swing'],why:'Lower abs pull the pelvis into posterior tilt. Replaces hanging knee raises, which overwork the hip flexors.',yt:'reverse crunch proper form lower abs'},
+ 'RKC plank':{metric:'hold',guide:{setup:'',execute:'',watch:''},how:['Forearm plank, then squeeze glutes hard and tuck the pelvis','Pull elbows toward toes and toes toward elbows','20–30 s of maximal tension beats 2 min of hanging out'],why:'Plank with a posterior tilt built in — the exact position your pelvis needs to learn.',yt:'RKC plank technique'},
+ 'Pallof press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Cable at chest height, stand sideways to the stack, feet hip width','Press the handle straight out and back, hips do not rotate','Breathe out on the press. 12 each side'],why:'Anti-rotation core. Directly transfers to not leaking power on kicks.',yt:'pallof press form'},
+ 'Trap bar deadlift':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Feet hip width, shins to the handles, grip the high handles','Hips back, chest up, brace, then push the floor away','Stand tall, glutes finish the rep. Lower under control — no bouncing'],why:'The heaviest, safest hip-hinge for a cam hip: upright torso, moderate hip flexion, huge glute and hamstring load.',yt:'trap bar deadlift high handles form'},
+ 'Bulgarian split squat':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Rear foot on a low bench, front foot far enough forward that the knee stays over the ankle','Torso tall, sit straight down — stop when the thigh is parallel','Drive through the front heel. Dumbbells in both hands'],why:'Single-leg strength and stability. Best carryover to kicking off one leg.',yt:'bulgarian split squat form dumbbells'},
+ 'Romanian deadlift':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Bar at hips, soft knees, shoulders back','Push hips straight back, bar slides down the thighs','Stop at mid-shin or when the hamstrings bite — then drive hips forward'],why:'Hamstring and glute length under load. Builds the posterior chain that pulls the pelvis back to neutral.',yt:'romanian deadlift barbell form'},
+ 'Sliding leg curl':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},how:['On your back, heels on a towel or sliders, hips bridged up','Slide heels away slowly, then curl them back toward the glutes','Hips stay high the whole time. Progress two-leg → single-leg'],why:'Eccentric hamstring strength on the way to a Nordic curl.',yt:'sliding leg curl hamstring exercise'},
+ 'Standing calf raise':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Full stretch at the bottom, 2 s pause','Drive up onto the big toe, 1 s squeeze at the top','Controlled — no bouncing'],why:'Ankle stiffness for teeps and switching stance.',yt:'standing calf raise machine form'},
+ 'Barbell bench press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Shoulder blades pinned down and back, feet planted, slight arch','Bar to lower chest, elbows about 45°','Press up and slightly back. Full lockout every rep'],why:'Your heaviest push. Chest, front delt, tricep — and the strength benchmark for the upper body.',yt:'barbell bench press form Jeff Nippard'},
+ 'Pull-up':{metric:'assisted_bodyweight',guide:{setup:'',execute:'',watch:''},ladder:{modes:['assisted','bodyweight','added'],toBodyweight:{sets:3,reps:8,maxAssist:20},toAdded:{sets:3,reps:8},step:5,topReps:8},how:['Dead hang, shoulders down away from ears','Pull chest to the bar, elbows drive down and back','Control the descent. Add weight with a belt or dumbbell between the feet'],why:'Back width and grip strength. If under 5 clean reps, use the lat pulldown heavy instead.',yt:'weighted pull up form'},
+ 'Lat pulldown':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Wide or neutral grip, thighs pinned under the pads','Chest tall, pull the bar to the collarbone, elbows down and back','Control the bar back up to a full stretch — no leaning away'],why:'The pull-up pattern with a load you can dial in. Under 5 clean pull-ups this is the better driver of back width.',yt:'lat pulldown proper form'},
+ 'Incline dumbbell press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Bench 30°, dumbbells at shoulder level, elbows slightly tucked','Press up and in, touch at the top without clanking','Lower for 2 s'],why:'Upper chest is what makes a T-shirt fit differently.',yt:'incline dumbbell press form'},
+ 'Dumbbell lateral raise':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Slight forward lean, elbows soft','Raise to shoulder height leading with the elbows, pinkies slightly up','Lower for 2 s. Light weight, perfect reps'],why:'Side delt width — the single fastest aesthetic change in the upper body.',yt:'dumbbell lateral raise proper form'},
+ 'Seated cable row':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Neutral grip, chest tall, slight forward reach at the start','Pull to the belly button, elbows drive back','Squeeze 1 s, reach forward under control'],why:'Horizontal pull for mid-back thickness and posture.',yt:'seated cable row neutral grip form'},
+ 'Cable face pull':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Rope at face height, step back, palms facing you','Pull to the face, elbows high, then rotate hands so knuckles face the ceiling','Squeeze the rear delts 1 s'],why:'Rear delts and rotator cuff. Protects the shoulder from years of punching.',yt:'face pull form rope'},
+ 'Cable bar curl':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Straight bar on the low pulley, elbows pinned to your sides','Curl to the chin, squeeze, lower for 2 s','No swinging'],why:'Direct bicep work on the same stack as the pushdown — one station, zero walking.',yt:'cable bar curl form'},
+ 'Rope tricep pushdown':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Elbows pinned, lean slightly forward','Push down and split the rope at the bottom','Let it come back only to 90° at the elbow'],why:'Tricep size. Two-thirds of your arm.',yt:'rope tricep pushdown form'},
+ 'Box jump':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Low box — 12 to 18 in. Land soft, hips above knees','Swing arms, jump, land tall like a quarter squat','Step down every rep, never jump down'],why:'Explosive hip extension without heavy loading.',yt:'box jump proper landing technique'},
+ 'Barbell hip thrust':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Upper back on a bench, bar in the hip crease with a pad','Tuck the chin, ribs down, drive through heels','Full hip extension, squeeze 1 s, do not arch the low back'],why:'The single best glute builder. Glutes are what pull your pelvis out of anterior tilt.',yt:'barbell hip thrust form Bret Contreras'},
+ 'Leg press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Feet high and wide on the plate','Lower only to 90° at the hip — stop before any pinch','Drive through heels, do not lock knees hard'],why:'Quad and glute volume with the spine unloaded.',yt:'leg press form feet high wide'},
+ 'Reverse lunge':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Dumbbells at the sides, step back long','Drop straight down until the front thigh is parallel, torso tall','Drive through the front heel to stand'],why:'More glute, less hip flexion than a forward lunge. Kinder to the labrum.',yt:'reverse lunge dumbbells form'},
+ 'Single-leg RDL':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Reach the free leg back as the hips hinge','Hips square, stop at mid-shin','A fingertip on the wall is fine'],why:'One leg at a time, so 25 lb dumbbells keep working.',yt:'single leg romanian deadlift dumbbell form'},
+ 'Lateral step-down':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},how:['Stand on a 6–12 in box sideways, free leg off the edge','Lower the free heel toward the floor by bending the standing knee, hips level','Tap and drive back up. Knee tracks over the second toe'],why:'Glute med and quad control in a shallow, safe range. Replaces pistol squats.',yt:'lateral step down exercise glute medius'},
+ 'Single-leg calf raise':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:20},step:5,topReps:15},how:['Ball of foot on a step, hold the rail lightly','Full stretch, then up to the big toe','15–20 slow reps each side'],why:'Unilateral ankle strength for footwork.',yt:'single leg calf raise form'},
+ 'Seated dumbbell overhead press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Bench at 85°, dumbbells at shoulder height, forearms vertical','Press up and slightly in, ribs down — do not arch','Lower to ear height'],why:'Shoulder strength and the cap on the delts.',yt:'seated dumbbell shoulder press form'},
+ 'Chest-supported dumbbell row':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per dumbbell',s:22.5,n:32.5,i:47.5,a:62.5},how:['Chest on the inclined bench, feet planted','Neutral grip, row to the hips','Pad uncomfortable? Bent-over row: soft knees, hinge about 45°, flat back, no hand braced on anything'],why:'Upper back with the chest supported and the wrists neutral.',yt:'chest supported dumbbell row incline bench'},
+ 'Prone rear delt fly':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Same bench, lighter dumbbells, slight elbow bend','Raise out to the sides to shoulder height, thumbs down','Lower slow. Pure rear delt — no rowing'],why:'Rear delts round out the shoulder from behind. Pairs with the row on the same bench.',yt:'incline prone rear delt fly dumbbell'},
+ 'Dips':{metric:'assisted_bodyweight',guide:{setup:'',execute:'',watch:''},ladder:{modes:['assisted','bodyweight','added'],toBodyweight:{sets:3,reps:8,maxAssist:20},toAdded:{sets:3,reps:12},step:5,topReps:12},how:['Slight forward lean, shoulders down','Lower until the upper arm is parallel — no deeper','Press to lockout. Add a belt at 12 clean reps'],why:'Lower chest and triceps. Heavy bodyweight pressing.',yt:'weighted dips form chest triceps'},
+ 'Straight-arm pulldown':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Straight bar or rope on the high pulley, slight hinge','Arms nearly straight, pull the bar to the thighs in an arc','Feel the lats, not the triceps. 2 s back up'],why:'Lat isolation for width. Same stack as the tricep extension.',yt:'straight arm cable pulldown lats form'},
+ 'Overhead rope tricep extension':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Face away from the stack, rope behind the head','Elbows stay by the ears, extend fully','Stretch at the bottom, squeeze at the top'],why:'Long head of the tricep — the part that adds arm size from the back.',yt:'overhead rope tricep extension form'},
+ 'Incline dumbbell curl':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Bench at 45°, arms hanging straight down','Curl without moving the shoulder, squeeze at the top','Lower for 3 s — the stretch is the point'],why:'Bicep long head under stretch. Arms look bigger from the front.',yt:'incline dumbbell curl form'},
  'HIIT bike or rower':{metric:'duration',guide:{setup:'',execute:'',watch:''},how:['30 s hard: standing out of the saddle or pulling max watts','30 s easy spin','Rounds 15–20 should be ugly. If they are not, the hard was not hard'],why:'Interval work preferentially strips visceral fat and builds the top end of your gas tank.',yt:'assault bike interval workout 30 30'},
  'Incline walk':{metric:'duration',guide:{setup:'',execute:'',watch:''},how:['Treadmill 12% at 3.0 mph, or hills outside','Hands off the rails, natural stride','Heart rate 120–135. You can talk'],why:'Calorie burn with almost no recovery cost and no appetite spike.',yt:'12 3 30 incline walk'},
  'Full-body stretch':{metric:'duration',guide:{setup:'',execute:'',watch:''},how:['Couch stretch 60 s per side first','Then hamstrings, adductors, pecs, lats — 45 s each','Breathe slow. Nothing sharp'],why:'Ten quiet minutes that make Monday feel better.',yt:'full body stretch routine 10 minutes'},
@@ -995,183 +995,163 @@ const LIB={
  'Bike intervals':{metric:'duration',guide:{setup:'',execute:'',watch:''},how:['5 min easy to warm up','Hard for 1 min (a few words at most), then easy for 2 min, for the rounds on the plan','5 min easy to finish'],why:'More aerobic fitness in less time than steady cardio.',yt:'bike interval training beginner'},
  'Easy walk':{metric:'duration',guide:{setup:'',execute:'',watch:''},how:['Outdoors or a flat treadmill','Relaxed pace, easy breathing','Stop and walk slower if anything hurts'],why:'Easy movement on a lighter day.',yt:'easy walking pace'},
  'Gentle range of motion':{metric:'duration',guide:{setup:'',execute:'',watch:''},how:['Move each joint slowly through its pain-free range','No load, no stretching into pain','A few slow reps per joint'],why:'Keeps joints moving on a day that needs rest from loading.',yt:'gentle range of motion exercises'},
- 'Band row':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Anchor the band at chest height, stand tall','Pull the handles to the ribs, squeeze the shoulder blades','Grip the handles; never wrap the band around the hand'],why:'Upper-back strength with a light, joint-friendly load.',yt:'resistance band row door anchor'},
- 'Band Pallof press':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Stand side-on to the anchor, band at the chest','Press straight out and hold, without letting the trunk turn','Slow back in. Both sides'],why:'Trunk stability: resisting rotation instead of creating it.',yt:'pallof press resistance band'},
- 'Band lat pulldown':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Anchor the band high, half-kneel or sit facing it','Pull the elbows down to the ribs','Wrists straight, slow on the way up'],why:'Lats and upper back without a machine.',yt:'resistance band lat pulldown door anchor'},
- 'Band face pull':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Anchor the band at face height','Pull toward the forehead, elbows high and out','Squeeze the rear shoulders, slow return'],why:'Rear shoulders and upper back for posture.',yt:'band face pull'},
- 'Neutral-grip dumbbell bench press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Lie on the bench, feet flat and wide','Palms face each other, wrists straight over the elbows','Lower to the chest line, press up'],why:'Chest, shoulders and triceps with the wrists in a neutral line.',yt:'neutral grip dumbbell bench press'},
- 'Dumbbell Romanian deadlift':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Stand tall, dumbbells at the thighs, soft knees','Push the hips back and slide the dumbbells to mid-shin','Flat back throughout. Stand up by driving the hips forward'],why:'Hamstrings and glutes through a hip hinge.',yt:'dumbbell romanian deadlift form'},
- 'Seated neutral-grip dumbbell press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Sit tall on the bench, feet planted wide','Palms face each other at the shoulders','Press up and slightly in, ribs down'],why:'Shoulders and triceps, seated for stability.',yt:'seated neutral grip dumbbell shoulder press'},
- 'Bent-over dumbbell row':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Soft knees, hinge to about 45° with a flat back','Row the dumbbells to the hips, neutral grip','Nothing braced on the bench'],why:'Upper back when a chest-supported row is not an option.',yt:'bent over dumbbell row neutral grip'},
- 'B-stance RDL':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Back foot\'s toe on the floor beside the front heel, for balance only','Hinge on the front leg, dumbbells toward mid-shin','The front leg does the work'],why:'A step between the two-leg and single-leg RDL.',yt:'b stance rdl dumbbell'},
- 'Single-leg glute bridge':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},how:['On your back, one foot planted, the other leg up or bent in','Drive through the planted heel, hips level','Hold at the top, lower slowly. Both sides'],why:'Glute strength one side at a time.',yt:'single leg glute bridge'},
- 'Side plank from knees':{metric:'hold_each_side',guide:{setup:'',execute:'',watch:''},how:['On the forearm, elbow under the shoulder, knees bent','Lift the hips so the body is in a line from knees to head','Breathe, hold, switch sides'],why:'Side-trunk strength at an easier lever.',yt:'side plank from knees'},
- 'Forearm side plank':{metric:'hold_each_side',guide:{setup:'',execute:'',watch:''},how:['On the forearm, elbow under the shoulder, legs straight and stacked','Body in a straight line, hips up','Hold, then switch sides'],why:'Side-trunk strength, full lever.',yt:'forearm side plank'},
- 'Box squat':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:12},step:5,topReps:12},how:['Feet shoulder width in front of a bench or box','Sit back until you touch it without dropping, then stand','If loaded, dumbbells hang at the sides'],why:'Squat strength with a fixed depth and a seat behind you.',yt:'box squat to bench beginner'},
- 'Split squat':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:10},step:5,topReps:12},how:['Long stance, a hand on a wall for balance if needed','Drop the back knee straight down, front knee over the foot','Drive up through the front foot. Both legs'],why:'Single-leg strength with both feet on the floor.',yt:'split squat form beginner'},
- 'Dumbbell step-up':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:10},step:5,topReps:10},how:['Whole foot on the step','Drive through the heel to stand on the step','Step down with control. Both legs'],why:'Single-leg strength and balance.',yt:'dumbbell step up form'},
- 'Rear-foot-elevated split squat':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:10},step:5,topReps:12},how:['Rear foot\'s laces on a step or low box','Front foot far enough forward that the knee stays over the foot','Drop straight down, then drive up'],why:'More load on the front leg than a split squat.',yt:'rear foot elevated split squat form'},
+ 'Band row':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Tall stance, pull the handles to the ribs','Squeeze the shoulder blades, wrists straight','Grip the handles; never wrap the band around your hands'],why:'Upper-back strength with a light, joint-friendly load.',yt:'resistance band row door anchor'},
+ 'Band Pallof press':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Stand side-on to the anchor, band at the chest','Press straight out','Don\'t let the trunk rotate. Both sides'],why:'Trunk stability: resisting rotation.',yt:'pallof press resistance band'},
+ 'Band lat pulldown':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Anchor high, half-kneeling','Pull the elbows down to the ribs','Wrists straight, slow on the way up'],why:'Lats and upper back without a machine.',yt:'resistance band lat pulldown door anchor'},
+ 'Band face pull':{metric:'reps_only',guide:{setup:'',execute:'',watch:''},how:['Anchor at face height','Pull toward the forehead, elbows high and out','Slow return'],why:'Rear shoulders and upper back for posture.',yt:'band face pull'},
+ 'Neutral-grip dumbbell bench press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per dumbbell',s:22.5,n:32.5,i:47.5,a:65},how:['Feet flat and wide on the floor','Palms face each other, wrists straight over the elbows','Lower to the chest line, press up. Brace on if your wrists are sore'],why:'Chest, shoulders and triceps with the wrists in a neutral line.',yt:'neutral grip dumbbell bench press'},
+ 'Dumbbell Romanian deadlift':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per dumbbell',s:25,n:40,i:57.5,a:80},how:['Soft knees, push the hips back','Dumbbells slide down the thighs to mid-shin, then stand tall','Neutral grip, no rounding'],why:'Hamstrings and glutes through a hip hinge.',yt:'dumbbell romanian deadlift form'},
+ 'Seated neutral-grip dumbbell press':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per dumbbell',s:17.5,n:25,i:35,a:47.5},how:['Sit tall on the bench, feet planted wide','Palms face each other, press up and slightly in, ribs down','Skip it if your wrists are flaring'],why:'Shoulders and triceps, seated for stability.',yt:'seated neutral grip dumbbell shoulder press'},
+ 'Bent-over dumbbell row':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},std:{u:'lb per dumbbell',s:15,n:25,i:37.5,a:55},how:['Soft knees, hinge about 45° with a flat back','Row the dumbbells to the hips, neutral grip','No hand braced on anything'],why:'The row when the bench pad is uncomfortable.',yt:'bent over dumbbell row neutral grip'},
+ 'B-stance RDL':{metric:'weight_reps',guide:{setup:'',execute:'',watch:''},how:['Back foot\'s toe on the floor beside the front heel, for balance only','The front leg does the work','Hinge as in the RDL, dumbbells toward mid-shin'],why:'The step between the two-leg and single-leg RDL.',yt:'b stance rdl dumbbell'},
+ 'Single-leg glute bridge':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},how:['One foot planted, the other knee pulled in or leg straight','Drive through the planted heel, hips level','Hold at the top, lower slowly. Both sides'],why:'Glute strength one side at a time.',yt:'single leg glute bridge'},
+ 'Side plank from knees':{metric:'hold_each_side',guide:{setup:'',execute:'',watch:''},how:['Elbow under the shoulder, knees bent, body in a line','The forearm takes the load, never the hand','Breathe, hold, switch sides'],why:'Side-trunk strength at an easier lever.',yt:'side plank from knees'},
+ 'Forearm side plank':{metric:'hold_each_side',guide:{setup:'',execute:'',watch:''},how:['Elbow under the shoulder, legs straight, body in a line','The forearm takes the load, never the hand','Hold, then switch sides'],why:'Side-trunk strength, full lever.',yt:'forearm side plank'},
+ 'Box squat':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:12},step:5,topReps:12},std:{u:'lb per hand, added',s:15,n:27.5,i:42.5,a:60},how:['Feet shoulder width, sit back to the flat bench (straddling it is fine)','Touch it without dropping, stand by driving through the whole foot','Dumbbells hang at your sides, palms in. Never goblet-style'],why:'Squat strength with the depth set and a seat always under you.',yt:'box squat to bench beginner'},
+ 'Split squat':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:10},step:5,topReps:12},how:['Long stance, one hand on a wall or counter','Drop the back knee straight down, front knee over the foot','Short range until it feels stable. Both legs'],why:'Single-leg strength and balance.',yt:'split squat form beginner'},
+ 'Dumbbell step-up':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:10},step:5,topReps:10},how:['Whole foot on the step','Drive through the heel to stand up','Step down with control. A hand on the wall is fine'],why:'Single-leg strength and balance.',yt:'dumbbell step up form'},
+ 'Rear-foot-elevated split squat':{metric:'bodyweight_reps',guide:{setup:'',execute:'',watch:''},ladder:{modes:['bodyweight','added'],toAdded:{sets:3,reps:10},step:5,topReps:12},how:['Rear foot\'s laces on the bottom stair','Front foot far enough forward that the knee stays over the foot','Drop straight down, a hand on the wall for balance. Dumbbells at your sides'],why:'One leg at a time, so 25 lb dumbbells keep working.',yt:'rear foot elevated split squat form'},
 };
 
 /* Day templates. ss = superset group letter (same-station pairs). warm = activation. t: S strength, H hypertrophy, A accessory, C cardio/core/mobility
    tgt = the prescription in the movement's own unit — seconds for a hold, minutes for a walk, reps for anything counted — and what the log form starts on. */
 const DAYS={
- 1:{title:'Lower A',kind:'lift',tag:'Strength',when:'Morning · 50 min',mt:'Muay Thai',mtTime:'7:00 pm',
-   intro:'Heavy and short. Straight sets with full rest — no supersets, no jumping. Legs recover all day before class.',
+ 1:{title:'Full Body A',kind:'lift',tag:'Full body',when:'Your usual time · 20–40 min',mt:null,
+   intro:'Squat, row, press, trunk, glutes. Neutral grip on every dumbbell, wrists straight',
    ex:[
-    {n:'Banded lateral walk',t:'A',warm:1,sets:2,reps:'12 / side',tgt:12,rest:'0'},
-    {n:'Glute bridge',t:'A',warm:1,sets:2,reps:'12 · 3 s hold',tgt:12,rest:'0'},
-    {n:'Trap bar deadlift',alt:'high handles',t:'S',sets:4,reps:'5',rest:'2–3 min',note:'Add 10 lb when all sets are clean'},
-    {n:'Bulgarian split squat',alt:'dumbbells, to parallel',t:'H',sets:3,reps:'8 / leg',rest:'90 s'},
-    {n:'Romanian deadlift',alt:'barbell',t:'H',sets:3,reps:'8',rest:'90 s'},
-    {n:'Sliding leg curl',alt:'towel or sliders',t:'A',sets:3,reps:'10–12',tgt:10,rest:'60 s',note:'Wk 1–2 two-leg · Wk 3–4 single-leg · Wk 6+ hips never touch'},
-    {n:'Standing calf raise',t:'A',sets:3,reps:'12–15',rest:'45 s'}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Recumbent bike',t:'C',warm:1,sets:1,reps:'5 min easy',tgt:5,rest:''},
+    {n:'Box squat',t:'S',ss:'A',sets:3,reps:'10–12',range:'phase',rest:'0',note:'Sit to the flat bench, stand'},
+    {n:'Band row',t:'A',ss:'A',sets:3,reps:'12–15',lo:12,hi:15,rest:'90 s'},
+    {n:'Neutral-grip dumbbell bench press',t:'S',ss:'B',sets:3,reps:'10–12',range:'phase',rest:'0',note:'Bench flat or first incline notch'},
+    {n:'Band Pallof press',t:'A',ss:'B',sets:3,reps:'10–12 / side',lo:10,hi:12,rest:'90 s'},
+    {n:'Glute bridge',t:'A',sets:3,reps:'12–15, 2 s hold',lo:12,hi:15,rest:'45 s'},
+    {n:'Recumbent bike',t:'C',sets:1,reps:'5 min',tgt:5,rest:'',note:'Cool-down'}
    ]},
- 2:{title:'Upper A',kind:'lift',tag:'Strength + aesthetics',when:'Morning · 50 min',mt:'Muay Thai',mtTime:'7:00 pm',
-   intro:'Two heavy lifts with full rest, then three supersets — each pair lives on one station so you never cross the gym.',
+ 2:{title:'Steady cardio',kind:'cardio',tag:'Cardio',when:'Your usual time · 10–55 min',mt:null,
+   intro:'Recumbent bike or treadmill. An effort you can talk through',
    ex:[
-    {n:'Barbell bench press',t:'S',sets:4,reps:'5',rest:'2–3 min',note:'Straight sets. Add 5 lb when all 4×5 are clean'},
-    {n:'Pull-up',alt:'or heavy lat pulldown',t:'S',sets:4,reps:'5–6',rest:'2–3 min',note:'Straight sets'},
-    {n:'Incline dumbbell press',t:'H',ss:'A',where:'One incline bench, two pairs of dumbbells',sets:3,reps:'10–12',rest:'0'},
-    {n:'Dumbbell lateral raise',t:'H',ss:'A',sets:3,reps:'12–15',rest:'75 s'},
-    {n:'Seated cable row',alt:'neutral grip',t:'H',ss:'B',where:'One cable station — swap handle for rope',sets:3,reps:'10–12',rest:'0'},
-    {n:'Cable face pull',t:'H',ss:'B',sets:3,reps:'15',rest:'75 s',note:'Shoulder health — never skip'},
-    {n:'Cable bar curl',t:'A',ss:'C',where:'Same stack — low pulley, then high pulley with rope',sets:3,reps:'12',rest:'0'},
-    {n:'Rope tricep pushdown',t:'A',ss:'C',sets:3,reps:'12',rest:'60 s'}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Steady cardio',t:'C',sets:1,reps:'10 min',tgt:10,runAhead:1,rest:'',note:'Treadmill: incline before speed'}
    ]},
- 3:{title:'Core + Walk',kind:'core',tag:'Pelvis and abs',when:'Morning · 35 min',mt:'Muay Thai',mtTime:'7:00 pm',
-   intro:'Every movement here pulls the pelvis toward neutral. No hip-flexor-driven ab work. Then a conversational walk.',
+ 3:{title:'Hands + rest',kind:'mobility',tag:'Rest',when:'Any time · 8–10 min',mt:null,
+   intro:'The hand routine, then rest',
    ex:[
-    {n:'Reverse crunch',t:'A',sets:3,reps:'12–15',tgt:12,rest:'45 s'},
-    {n:'Dead bug',t:'A',sets:3,reps:'10 / side',tgt:10,rest:'45 s'},
-    {n:'Pallof press',t:'A',sets:3,reps:'12 / side',rest:'45 s'},
-    {n:'Side plank with leg raise',t:'A',sets:2,reps:'10 + 15 s hold / side',tgt:10,rest:'45 s'},
-    {n:'RKC plank',t:'A',sets:3,reps:'20–30 s',tgt:25,rest:'45 s'},
-    {n:'Incline walk',alt:'12% · 3.0 mph',t:'C',sets:1,reps:'20 min',tgt:20,rest:''}
+    {n:'Hand & wrist routine',t:'A',sets:1,reps:'8–10 min',tgt:8,rest:'',note:'Mobility, then strength, only if pain doesn\'t increase'}
    ]},
- 4:{title:'Hip Reset',kind:'mobility',tag:'Labrum, cam, pelvis',when:'Morning · 25 min',mt:'Sparring',mtTime:'7:00 pm',
-   intro:'Nothing here should fatigue you. You should walk into sparring with hips that feel oiled, not tired. Every rep is pain-free or it is too far.',
+ 4:{title:'Full Body B',kind:'lift',tag:'Full body',when:'Your usual time · 20–40 min',mt:null,
+   intro:'Hinge, pull down, press up, single leg, side plank. Neutral grip, wrists straight',
    ex:[
-    {n:'Hip CARs',t:'A',sets:2,reps:'5 / side · slow',tgt:5,rest:'0'},
-    {n:'Couch stretch',t:'A',sets:2,reps:'60 s each side',tgt:60,rest:'0'},
-    {n:'90/90 hip switch',t:'A',sets:2,reps:'8 switches',tgt:8,rest:'0'},
-    {n:'Glute bridge',t:'A',sets:2,reps:'12 · 3 s hold',tgt:12,rest:'0'},
-    {n:'Clamshell',t:'A',sets:2,reps:'15 / side',tgt:15,rest:'0'},
-    {n:'Bird dog',t:'A',sets:2,reps:'8 / side',tgt:8,rest:'0'},
-    {n:'Dead bug',t:'A',sets:2,reps:'8 / side',tgt:8,rest:'0'}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Recumbent bike',t:'C',warm:1,sets:1,reps:'5 min easy',tgt:5,rest:''},
+    {n:'Dumbbell Romanian deadlift',t:'S',ss:'A',sets:3,reps:'10–12',range:'phase',rest:'0',note:'Neutral grip, to mid-shin'},
+    {n:'Band lat pulldown',t:'A',ss:'A',sets:3,reps:'12–15',lo:12,hi:15,rest:'90 s'},
+    {n:'Seated neutral-grip dumbbell press',t:'S',ss:'B',sets:3,reps:'10–12',range:'phase',rest:'0'},
+    {n:'Band face pull',t:'A',ss:'B',sets:3,reps:'15',tgt:15,rest:'90 s'},
+    {n:'Split squat',t:'S',ss:'C',sets:3,reps:'8–12 / leg',lo:8,hi:12,rest:'0',note:'Hand on a wall; short range in Foundation'},
+    {n:'Side plank from knees',t:'A',ss:'C',sets:3,reps:'15–30 s / side',tgt:15,rest:'60 s',note:'On the forearm'},
+    {n:'Recumbent bike',t:'C',sets:1,reps:'5 min',tgt:5,rest:'',note:'Cool-down'}
    ]},
- 5:{title:'Lower B',kind:'lift',tag:'Glutes, hypertrophy, power',when:'Any time · 60 min',mt:null,
-   intro:'No class tonight — this is the day to push legs. Hip thrust is the priority lift. Every depth cue here protects the labrum.',
+ 5:{title:'Hands + rest',kind:'mobility',tag:'Rest',when:'Any time · 8–10 min',mt:null,
+   intro:'The hand routine, then rest',
    ex:[
-    {n:'Banded lateral walk',t:'A',warm:1,sets:2,reps:'12 / side',tgt:12,rest:'0'},
-    {n:'Glute bridge',t:'A',warm:1,sets:2,reps:'12 · 3 s hold',tgt:12,rest:'0'},
-    {n:'Box jump',alt:'12–18 in box',t:'H',sets:3,reps:'6',tgt:6,rest:'90 s'},
-    {n:'Barbell hip thrust',t:'S',sets:4,reps:'10',rest:'2 min',note:'Priority lift. Add 10–20 lb weekly'},
-    {n:'Leg press',alt:'feet high and wide, stop at 90°',t:'H',sets:3,reps:'12',rest:'90 s'},
-    {n:'Reverse lunge',alt:'dumbbells',t:'H',sets:3,reps:'10 / leg',rest:'90 s'},
-    {n:'Single-leg RDL',alt:'dumbbell',t:'H',ss:'A',where:'Same dumbbell, same spot — alternate with step-downs',sets:3,reps:'8 / leg',rest:'0'},
-    {n:'Lateral step-down',alt:'6–12 in box',t:'A',ss:'A',sets:3,reps:'8 / leg',tgt:8,rest:'75 s'},
-    {n:'Single-leg calf raise',t:'A',sets:3,reps:'15–20',tgt:15,rest:'45 s'},
-    {n:'Incline walk',alt:'or easy bike',t:'C',sets:1,reps:'20 min',tgt:20,rest:''}
+    {n:'Hand & wrist routine',t:'A',sets:1,reps:'8–10 min',tgt:8,rest:'',note:'Mobility, then strength, only if pain doesn\'t increase'}
    ]},
- 6:{title:'Upper B',kind:'lift',tag:'Hypertrophy + HIIT',when:'Any time · 60 min',mt:null,
-   intro:'Volume for shoulders, back and arms. Two same-station supersets, then 20 minutes of intervals.',
+ 6:{title:'Steady cardio',kind:'cardio',tag:'Cardio',when:'Your usual time · 10–55 min',mt:null,
+   intro:'Recumbent bike or treadmill. An effort you can talk through',
    ex:[
-    {n:'Seated dumbbell overhead press',t:'S',sets:4,reps:'8',rest:'2 min',note:'Straight sets. Add weight weekly'},
-    {n:'Chest-supported dumbbell row',t:'H',ss:'A',where:'One incline bench, two pairs of dumbbells',sets:4,reps:'10',rest:'0'},
-    {n:'Prone rear delt fly',t:'H',ss:'A',sets:4,reps:'15',rest:'75 s'},
-    {n:'Dips',alt:'add weight at 12 clean reps',t:'H',sets:3,reps:'8–12',rest:'90 s',note:'Straight sets'},
-    {n:'Straight-arm pulldown',t:'H',ss:'B',where:'One cable station — bar, then rope, high pulley',sets:3,reps:'12',rest:'0'},
-    {n:'Overhead rope tricep extension',t:'A',ss:'B',sets:3,reps:'12',rest:'75 s'},
-    {n:'Incline dumbbell curl',t:'A',sets:3,reps:'12',rest:'60 s'},
-    {n:'HIIT bike or rower',t:'C',sets:1,reps:'20 rounds · 30 s hard / 30 s easy',tgt:20,rest:''}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Steady cardio',t:'C',sets:1,reps:'10 min',tgt:10,runAhead:1,rest:'',note:'Treadmill: incline before speed'}
    ]},
- 0:{title:'Recovery',kind:'recovery',tag:'Check-in day',when:'Any time · 60 min',mt:null,
-   intro:'Long easy walk, the stretch routine, and your weekly measurements.',
+ 0:{title:'Hands + rest',kind:'mobility',tag:'Rest',when:'Any time · 8–10 min',mt:null,
+   intro:'The hand routine, then rest',
    ex:[
-    {n:'Incline walk',alt:'or outdoors',t:'C',sets:1,reps:'45 min',tgt:45,rest:''},
-    {n:'Couch stretch',t:'A',sets:1,reps:'60 s each side',tgt:60,rest:'0'},
-    {n:'Full-body stretch',t:'C',sets:1,reps:'10 min',tgt:10,rest:''}
+    {n:'Hand & wrist routine',t:'A',sets:1,reps:'8–10 min',tgt:8,rest:'',note:'Mobility, then strength, only if pain doesn\'t increase'}
    ]}
 };
-const ALT={1:'Missed class? 20 min heavy bag (3 min on / 1 min off × 5) or a 30 min incline walk tonight.',2:'Missed class? 20 min bike HIIT (30 s hard / 30 s easy) or a 30 min incline walk tonight.',3:'Missed class? 15 min of jump rope tonight, or a 30 min incline walk.',4:'Missed sparring? Light 30 min circuit — push-ups, rows, goblet squats to parallel, RKC plank × 3 rounds — then 15 min easy bike.'};
+const ALT={};
 const SESSIONS={
- 'lowerA':{id:'lowerA',title:'Lower A',kind:'lift',tag:'Strength',when:'Morning · 50 min',mt:'Muay Thai',mtTime:'7:00 pm',missed:'Missed class? 20 min heavy bag (3 min on / 1 min off × 5) or a 30 min incline walk tonight.',
-   intro:'Heavy and short. Straight sets with full rest — no supersets, no jumping. Legs recover all day before class.',
+ 'fullA':{id:'fullA',title:'Full Body A',kind:'lift',tag:'Full body',when:'Your usual time · 20–40 min',mt:null,
+   intro:'Squat, row, press, trunk, glutes. Neutral grip on every dumbbell, wrists straight',
    ex:[
-    {n:'Banded lateral walk',t:'A',warm:1,sets:2,reps:'12 / side',tgt:12,rest:'0'},
-    {n:'Glute bridge',t:'A',warm:1,sets:2,reps:'12 · 3 s hold',tgt:12,rest:'0'},
-    {n:'Trap bar deadlift',alt:'high handles',t:'S',sets:4,reps:'5',rest:'2–3 min',note:'Add 10 lb when all sets are clean'},
-    {n:'Bulgarian split squat',alt:'dumbbells, to parallel',t:'H',sets:3,reps:'8 / leg',rest:'90 s'},
-    {n:'Romanian deadlift',alt:'barbell',t:'H',sets:3,reps:'8',rest:'90 s'},
-    {n:'Sliding leg curl',alt:'towel or sliders',t:'A',sets:3,reps:'10–12',tgt:10,rest:'60 s',note:'Wk 1–2 two-leg · Wk 3–4 single-leg · Wk 6+ hips never touch'},
-    {n:'Standing calf raise',t:'A',sets:3,reps:'12–15',rest:'45 s'}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Recumbent bike',t:'C',warm:1,sets:1,reps:'5 min easy',tgt:5,rest:''},
+    {n:'Box squat',t:'S',ss:'A',sets:3,reps:'10–12',range:'phase',rest:'0',note:'Sit to the flat bench, stand'},
+    {n:'Band row',t:'A',ss:'A',sets:3,reps:'12–15',lo:12,hi:15,rest:'90 s'},
+    {n:'Neutral-grip dumbbell bench press',t:'S',ss:'B',sets:3,reps:'10–12',range:'phase',rest:'0',note:'Bench flat or first incline notch'},
+    {n:'Band Pallof press',t:'A',ss:'B',sets:3,reps:'10–12 / side',lo:10,hi:12,rest:'90 s'},
+    {n:'Glute bridge',t:'A',sets:3,reps:'12–15, 2 s hold',lo:12,hi:15,rest:'45 s'},
+    {n:'Recumbent bike',t:'C',sets:1,reps:'5 min',tgt:5,rest:'',note:'Cool-down'}
    ]},
- 'upperA':{id:'upperA',title:'Upper A',kind:'lift',tag:'Strength + aesthetics',when:'Morning · 50 min',mt:'Muay Thai',mtTime:'7:00 pm',missed:'Missed class? 20 min bike HIIT (30 s hard / 30 s easy) or a 30 min incline walk tonight.',
-   intro:'Two heavy lifts with full rest, then three supersets — each pair lives on one station so you never cross the gym.',
+ 'fullB':{id:'fullB',title:'Full Body B',kind:'lift',tag:'Full body',when:'Your usual time · 20–40 min',mt:null,
+   intro:'Hinge, pull down, press up, single leg, side plank. Neutral grip, wrists straight',
    ex:[
-    {n:'Barbell bench press',t:'S',sets:4,reps:'5',rest:'2–3 min',note:'Straight sets. Add 5 lb when all 4×5 are clean'},
-    {n:'Pull-up',alt:'or heavy lat pulldown',t:'S',sets:4,reps:'5–6',rest:'2–3 min',note:'Straight sets'},
-    {n:'Incline dumbbell press',t:'H',ss:'A',where:'One incline bench, two pairs of dumbbells',sets:3,reps:'10–12',rest:'0'},
-    {n:'Dumbbell lateral raise',t:'H',ss:'A',sets:3,reps:'12–15',rest:'75 s'},
-    {n:'Seated cable row',alt:'neutral grip',t:'H',ss:'B',where:'One cable station — swap handle for rope',sets:3,reps:'10–12',rest:'0'},
-    {n:'Cable face pull',t:'H',ss:'B',sets:3,reps:'15',rest:'75 s',note:'Shoulder health — never skip'},
-    {n:'Cable bar curl',t:'A',ss:'C',where:'Same stack — low pulley, then high pulley with rope',sets:3,reps:'12',rest:'0'},
-    {n:'Rope tricep pushdown',t:'A',ss:'C',sets:3,reps:'12',rest:'60 s'}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Recumbent bike',t:'C',warm:1,sets:1,reps:'5 min easy',tgt:5,rest:''},
+    {n:'Dumbbell Romanian deadlift',t:'S',ss:'A',sets:3,reps:'10–12',range:'phase',rest:'0',note:'Neutral grip, to mid-shin'},
+    {n:'Band lat pulldown',t:'A',ss:'A',sets:3,reps:'12–15',lo:12,hi:15,rest:'90 s'},
+    {n:'Seated neutral-grip dumbbell press',t:'S',ss:'B',sets:3,reps:'10–12',range:'phase',rest:'0'},
+    {n:'Band face pull',t:'A',ss:'B',sets:3,reps:'15',tgt:15,rest:'90 s'},
+    {n:'Split squat',t:'S',ss:'C',sets:3,reps:'8–12 / leg',lo:8,hi:12,rest:'0',note:'Hand on a wall; short range in Foundation'},
+    {n:'Side plank from knees',t:'A',ss:'C',sets:3,reps:'15–30 s / side',tgt:15,rest:'60 s',note:'On the forearm'},
+    {n:'Recumbent bike',t:'C',sets:1,reps:'5 min',tgt:5,rest:'',note:'Cool-down'}
    ]},
- 'core':{id:'core',title:'Core + Walk',kind:'core',tag:'Pelvis and abs',when:'Morning · 35 min',mt:'Muay Thai',mtTime:'7:00 pm',missed:'Missed class? 15 min of jump rope tonight, or a 30 min incline walk.',
-   intro:'Every movement here pulls the pelvis toward neutral. No hip-flexor-driven ab work. Then a conversational walk.',
+ 'fullA2':{id:'fullA2',title:'Full Body A2',kind:'lift',tag:'Full body',when:'Your usual time · 55–60 min',mt:null,
+   intro:'Squat and press on the flat bench, row and Pallof, then bridge and dead bug on the floor',
    ex:[
-    {n:'Reverse crunch',t:'A',sets:3,reps:'12–15',tgt:12,rest:'45 s'},
-    {n:'Dead bug',t:'A',sets:3,reps:'10 / side',tgt:10,rest:'45 s'},
-    {n:'Pallof press',t:'A',sets:3,reps:'12 / side',rest:'45 s'},
-    {n:'Side plank with leg raise',t:'A',sets:2,reps:'10 + 15 s hold / side',tgt:10,rest:'45 s'},
-    {n:'RKC plank',t:'A',sets:3,reps:'20–30 s',tgt:25,rest:'45 s'},
-    {n:'Incline walk',alt:'12% · 3.0 mph',t:'C',sets:1,reps:'20 min',tgt:20,rest:''}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Recumbent bike',t:'C',warm:1,sets:1,reps:'5 min easy',tgt:5,rest:''},
+    {n:'Box squat',t:'S',ss:'A',sets:3,reps:'8–12',range:'phase',rest:'0',note:'Bench flat'},
+    {n:'Neutral-grip dumbbell bench press',t:'S',ss:'A',sets:3,reps:'8–12',range:'phase',rest:'90 s',note:'Same flat bench'},
+    {n:'Band row',alt:'Pad uncomfortable? Bent-over dumbbell row, same sets',t:'S',ss:'B',sets:3,reps:'8–12',lo:8,hi:12,rest:'0',note:'Bench inclined, neutral grip'},
+    {n:'Band Pallof press',t:'A',ss:'B',sets:3,reps:'12 / side',tgt:12,rest:'90 s'},
+    {n:'Glute bridge',t:'A',ss:'C',sets:3,reps:'15, 2 s hold',lo:12,hi:15,rest:'0',note:'On the floor'},
+    {n:'Dead bug',t:'A',ss:'C',sets:3,reps:'8 / side',tgt:8,rest:'90 s',note:'Same spot on the floor'},
+    {n:'Dumbbell step-up',t:'S',sets:3,reps:'8–10 / leg',lo:8,hi:10,rest:'60 s',note:'6–8" step'},
+    {n:'Recumbent bike',t:'C',sets:1,reps:'15 min',tgt:15,rest:'',note:'RPE 12–13'}
    ]},
- 'hipReset':{id:'hipReset',title:'Hip Reset',kind:'mobility',tag:'Labrum, cam, pelvis',when:'Morning · 25 min',mt:'Sparring',mtTime:'7:00 pm',missed:'Missed sparring? Light 30 min circuit — push-ups, rows, goblet squats to parallel, RKC plank × 3 rounds — then 15 min easy bike.',
-   intro:'Nothing here should fatigue you. You should walk into sparring with hips that feel oiled, not tired. Every rep is pain-free or it is too far.',
+ 'fullB2':{id:'fullB2',title:'Full Body B2',kind:'lift',tag:'Full body',when:'Your usual time · 55–60 min',mt:null,
+   intro:'Hinge, pull down, press up, single leg, side plank, then a longer ride',
    ex:[
-    {n:'Hip CARs',t:'A',sets:2,reps:'5 / side · slow',tgt:5,rest:'0'},
-    {n:'Couch stretch',t:'A',sets:2,reps:'60 s each side',tgt:60,rest:'0'},
-    {n:'90/90 hip switch',t:'A',sets:2,reps:'8 switches',tgt:8,rest:'0'},
-    {n:'Glute bridge',t:'A',sets:2,reps:'12 · 3 s hold',tgt:12,rest:'0'},
-    {n:'Clamshell',t:'A',sets:2,reps:'15 / side',tgt:15,rest:'0'},
-    {n:'Bird dog',t:'A',sets:2,reps:'8 / side',tgt:8,rest:'0'},
-    {n:'Dead bug',t:'A',sets:2,reps:'8 / side',tgt:8,rest:'0'}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Recumbent bike',t:'C',warm:1,sets:1,reps:'5 min easy',tgt:5,rest:''},
+    {n:'Dumbbell Romanian deadlift',t:'S',ss:'A',sets:3,reps:'8–12',range:'phase',rest:'0'},
+    {n:'Band lat pulldown',t:'A',ss:'A',sets:3,reps:'12–15',lo:12,hi:15,rest:'90 s'},
+    {n:'Seated neutral-grip dumbbell press',t:'S',ss:'B',sets:3,reps:'8–12',range:'phase',rest:'0'},
+    {n:'Band face pull',t:'A',ss:'B',sets:3,reps:'15',tgt:15,rest:'90 s'},
+    {n:'Split squat',t:'S',ss:'C',sets:3,reps:'8–12 / leg',lo:8,hi:12,rest:'0'},
+    {n:'Side plank from knees',t:'A',ss:'C',sets:3,reps:'20–40 s / side',tgt:20,rest:'60 s'},
+    {n:'Recumbent bike',t:'C',sets:1,reps:'15 min',tgt:15,rest:''}
    ]},
- 'lowerB':{id:'lowerB',title:'Lower B',kind:'lift',tag:'Glutes, hypertrophy, power',when:'Any time · 60 min',mt:null,
-   intro:'No class tonight — this is the day to push legs. Hip thrust is the priority lift. Every depth cue here protects the labrum.',
+ 'cardio':{id:'cardio',title:'Steady cardio',kind:'cardio',tag:'Cardio',when:'Your usual time · 10–55 min',mt:null,
+   intro:'Recumbent bike or treadmill. An effort you can talk through',
    ex:[
-    {n:'Banded lateral walk',t:'A',warm:1,sets:2,reps:'12 / side',tgt:12,rest:'0'},
-    {n:'Glute bridge',t:'A',warm:1,sets:2,reps:'12 · 3 s hold',tgt:12,rest:'0'},
-    {n:'Box jump',alt:'12–18 in box',t:'H',sets:3,reps:'6',tgt:6,rest:'90 s'},
-    {n:'Barbell hip thrust',t:'S',sets:4,reps:'10',rest:'2 min',note:'Priority lift. Add 10–20 lb weekly'},
-    {n:'Leg press',alt:'feet high and wide, stop at 90°',t:'H',sets:3,reps:'12',rest:'90 s'},
-    {n:'Reverse lunge',alt:'dumbbells',t:'H',sets:3,reps:'10 / leg',rest:'90 s'},
-    {n:'Single-leg RDL',alt:'dumbbell',t:'H',ss:'A',where:'Same dumbbell, same spot — alternate with step-downs',sets:3,reps:'8 / leg',rest:'0'},
-    {n:'Lateral step-down',alt:'6–12 in box',t:'A',ss:'A',sets:3,reps:'8 / leg',tgt:8,rest:'75 s'},
-    {n:'Single-leg calf raise',t:'A',sets:3,reps:'15–20',tgt:15,rest:'45 s'},
-    {n:'Incline walk',alt:'or easy bike',t:'C',sets:1,reps:'20 min',tgt:20,rest:''}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Steady cardio',t:'C',sets:1,reps:'10 min',tgt:10,runAhead:1,rest:'',note:'Treadmill: incline before speed'}
    ]},
- 'upperB':{id:'upperB',title:'Upper B',kind:'lift',tag:'Hypertrophy + HIIT',when:'Any time · 60 min',mt:null,
-   intro:'Volume for shoulders, back and arms. Two same-station supersets, then 20 minutes of intervals.',
+ 'intervals':{id:'intervals',title:'Bike intervals',kind:'cardio',tag:'Cardio',when:'Your usual time · 30–35 min',mt:null,
+   intro:'Any joint sore or flaring? Do steady cardio for the same time instead',
    ex:[
-    {n:'Seated dumbbell overhead press',t:'S',sets:4,reps:'8',rest:'2 min',note:'Straight sets. Add weight weekly'},
-    {n:'Chest-supported dumbbell row',t:'H',ss:'A',where:'One incline bench, two pairs of dumbbells',sets:4,reps:'10',rest:'0'},
-    {n:'Prone rear delt fly',t:'H',ss:'A',sets:4,reps:'15',rest:'75 s'},
-    {n:'Dips',alt:'add weight at 12 clean reps',t:'H',sets:3,reps:'8–12',rest:'90 s',note:'Straight sets'},
-    {n:'Straight-arm pulldown',t:'H',ss:'B',where:'One cable station — bar, then rope, high pulley',sets:3,reps:'12',rest:'0'},
-    {n:'Overhead rope tricep extension',t:'A',ss:'B',sets:3,reps:'12',rest:'75 s'},
-    {n:'Incline dumbbell curl',t:'A',sets:3,reps:'12',rest:'60 s'},
-    {n:'HIIT bike or rower',t:'C',sets:1,reps:'20 rounds · 30 s hard / 30 s easy',tgt:20,rest:''}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Bike intervals',t:'C',sets:1,reps:'30 min',tgt:30,rest:'',note:'5 easy · 1 hard, 2 easy × 6 · 5 easy'}
    ]},
- 'recovery':{id:'recovery',title:'Recovery',kind:'recovery',tag:'Check-in day',when:'Any time · 60 min',mt:null,
-   intro:'Long easy walk, the stretch routine, and your weekly measurements.',
+ 'walk':{id:'walk',title:'Easy walk',kind:'recovery',tag:'Recovery',when:'Any time · 30–40 min',mt:null,
+   intro:'Relaxed pace, outdoors or a flat treadmill',
    ex:[
-    {n:'Incline walk',alt:'or outdoors',t:'C',sets:1,reps:'45 min',tgt:45,rest:''},
-    {n:'Couch stretch',t:'A',sets:1,reps:'60 s each side',tgt:60,rest:'0'},
-    {n:'Full-body stretch',t:'C',sets:1,reps:'10 min',tgt:10,rest:''}
+    {n:'Hand & wrist routine',t:'A',warm:1,sets:1,reps:'8 min',tgt:8,rest:'',note:'Any time of day'},
+    {n:'Easy walk',t:'C',sets:1,reps:'30 min',tgt:30,rest:'',note:'RPE 10–11'}
+   ]},
+ 'rest':{id:'rest',title:'Hands + rest',kind:'mobility',tag:'Rest',when:'Any time · 8–10 min',mt:null,
+   intro:'The hand routine, then rest',
+   ex:[
+    {n:'Hand & wrist routine',t:'A',sets:1,reps:'8–10 min',tgt:8,rest:'',note:'Mobility, then strength, only if pain doesn\'t increase'}
+   ]},
+ 'flare':{id:'flare',title:'Flare day',kind:'recovery',tag:'Gentle',when:'Any time · 20 min',mt:null,
+   intro:'Keep moving gently. Nothing loaded, nothing into pain',
+   ex:[
+    {n:'Hand & wrist routine',t:'A',sets:1,reps:'5 min',tgt:5,rest:'',note:'Mobility half only, 5 reps, no strength part'},
+    {n:'Recumbent bike',t:'A',sets:1,reps:'10–15 min easy',tgt:10,rest:'',note:'Only if hips, knees and ankles are fine'},
+    {n:'Gentle range of motion',t:'A',sets:1,reps:'5 min',tgt:5,rest:''}
    ]}
 };
 
@@ -1326,7 +1306,7 @@ const MIGRATION=(function(){
 const DB={
   logs:store.get('logs',{}), weight:store.get('weight',{}), waist:store.get('waist',{}), hip:store.get('hip',{}),
   macros:store.get('macros',{}), quick:store.get('quick',[]), app:store.get('app',{}),
-  settings:store.get('settings',{startWeight:205,goalWeight:180})
+  settings:store.get('settings',{startWeight:null,goalWeight:null})
 };
 /* The rest timer and its alerts are the same for everybody, so their defaults
  * live in core.js next to the migration that backfills them, not in each
@@ -1591,20 +1571,30 @@ if(MIGRATION.ok&&MIGRATION.notes&&MIGRATION.notes.length){DB.settings.dataNotes=
 /* tgt is the prescription in the exercise's own unit — seconds for a hold,
  * minutes for a walk, reps for everything counted — and is what the log form
  * starts on. reps stays the human sentence next to it. */
+const RX_MIN={
+  'Steady cardio':{'Foundation 1':10,'Foundation 2':15,'Foundation 3':20,'Build 1':25,'Build 2':30,'Build 3':35,'Build 4':40,'Build 5':45,'Progress':45,'Peak':55},
+  'Recumbent bike':{'Foundation 1':5,'Foundation 2':5,'Foundation 3':5,'Build 1':10,'Build 2':10,'Build 3':10,'Build 4':10,'Build 5':10,'Progress':15,'Peak':20},
+  'Bike intervals':{'Progress':30,'Peak':35},
+  'Easy walk':{'Progress':30,'Peak':40}
+};
 function rx(ex,phase){
   let sets=ex.sets,reps=ex.reps,note=ex.note||'',tgt=ex.tgt;
   if(ex.warm) return {sets,reps,note,tgt};
-  if(ex.t==='S'){
-    if(phase==='Deload'){sets=3;note='Deload — about 70% of last week. Leave 3 reps in the tank.';}
-    if(phase==='Peak'&&(reps==='5'||reps==='5–6')){sets=5;reps='3';note='Peak — heavy triples. Add weight, keep bar speed.';}
+  const base=String(phase).split(' ')[0];
+  if(ex.t==='C'){
+    const m=(RX_MIN[ex.n]||{})[phase];
+    if(m){tgt=m;reps=m+' min';}
+    if(ex.n==='Steady cardio')note=[base==='Foundation'?'RPE 11–12':'RPE 12–13',note].filter(Boolean).join(' · ');
+    if(ex.n==='Bike intervals'&&phase==='Peak')note='5 easy · 1 hard, 2 easy × 8 · 5 easy';
+    if(ex.n==='Recumbent bike'&&(base==='Progress'||base==='Peak'))note='RPE 12–13';
+    return {sets,reps,note,tgt};
   }
-  if(ex.t==='H'){ if(phase==='Deload')sets=Math.max(2,sets-1); if(phase==='Peak')sets=sets+1; }
-  if(ex.n.startsWith('HIIT')){
-    if(phase==='Deload')return{sets:1,reps:'20 min easy bike — no intervals this week',note:'',tgt:20};
-    if(phase==='Peak')return{sets:1,reps:'25 rounds · 30 s hard / 30 s easy',note:'Peak — 5 extra rounds',tgt:25};
-  }
-  if(ex.t==='C'&&ex.tgt===45&&phase==='Peak')return{sets:1,reps:'60 min',note:'Peak — longer walk',tgt:60};
-  return{sets,reps,note,tgt};
+  const p=PROFILE.phases.find(p=>p.name===phase);const scale=p?p.setScale:1;
+  if(scale!==1&&sets>0)sets=Math.max(1,Math.floor(sets*scale));
+  if(ex.range==='phase'&&p&&p.repRange)reps=p.repRange.lo+'–'+p.repRange.hi;
+  if(ex.t==='S'){const rir={Foundation:'Stop with 3 reps left',Build:'Stop with 2 reps left',Progress:'Stop with 1–2 reps left',Peak:'Stop with 1–2 reps left'}[base];
+    note=[note,rir].filter(Boolean).join(' · ');}
+  return {sets,reps,note,tgt};
 }
 /* The prescription line. A hold per side is rounds of seconds, not sets of
  * reps, and a single walk is just its length. */
@@ -1754,7 +1744,7 @@ function levelOf(w,std){ if(!std||typeof std.s!=='number'||!w)return null;
 /* A level only means anything where the standard is a load and the set carries
  * one. A bodyweight rung and a hold get their best shown, never a tier. */
 function stdHtml(e){const lib=LIB[e.n]||{};const st=lib.std;if(!st)return'';const best=bestFor(e.n);const num=typeof st.s==='number'&&libMetric(e.n)==='weight_reps';const lv=(best&&num)?levelOf(best.w,st):null;
-  return `<div class="std"><div class="std-h">Working-set loads at these reps for a 205 lb male${num?`, ${esc(st.u)}`:''}. Not 1RMs.</div>
+  return `<div class="std"><div class="std-h">Working-set loads for 10 reps, per dumbbell${num?`, ${esc(st.u)}`:''}. Not 1RMs.</div>
    <div class="std-g"><div><small>Starting</small><b>${esc(st.s)}</b></div><div><small>Novice</small><b>${esc(st.n)}</b></div><div><small>Intermediate</small><b>${esc(st.i)}</b></div><div><small>Advanced</small><b>${esc(st.a)}</b></div></div>
    ${best?`<div class="std-you"><span>Your best: <b>${esc(setPhrase(best))}</b></span>${lv?`<span class="lv lv${lv[1]}">${lv[0]}</span>`:''}</div>`:num?`<div class="meta" style="margin-top:6px">Log a set and your level appears here.</div>`:''}</div>`;}
 const yt=q=>`https://www.youtube.com/results?search_query=${encodeURIComponent(q+' ')}`;
@@ -2028,18 +2018,18 @@ function vToday(){
     /* A year does not fit as one mark a week. One bar per phase, as wide as
      * its weeks, filled to where this week sits. */
     const pw=inProg?progWeek(w):0;
-    h+=`<div class="track long" aria-label="${inProg?weekTitle(w):'Nine weeks'}">${PROFILE.phases.map(p=>{const len=p.endWeek-p.startWeek+1;const fill=pw>p.endWeek?100:pw<p.startWeek?0:Math.round((pw-p.startWeek+1)/len*100);
+    h+=`<div class="track long" aria-label="${inProg?weekTitle(w):'The year'}">${PROFILE.phases.map(p=>{const len=p.endWeek-p.startWeek+1;const fill=pw>p.endWeek?100:pw<p.startWeek?0:Math.round((pw-p.startWeek+1)/len*100);
       return `<i class="${pw>=p.startWeek&&pw<=p.endWeek?'now':''}" style="flex:${len}"><b style="width:${fill}%"></b></i>`;}).join('')}</div>`;
   }else{
   let track='';for(let k=1;k<=WEEKS;k++)track+=`<i class="${inProg&&k<w?'past':inProg&&k===w?'now':''}"></i>`;
   const labs=[];for(let k=1;k<=WEEKS;k++){const p=phaseOf(k);if(p&&labs[labs.length-1]!==p)labs.push(p);}
-  h+=`<div class="track" aria-label="${inProg?`Week ${w} of ${WEEKS}`:'Nine weeks'}">${track}</div><div class="track-lab">${labs.map(p=>`<span>${p}</span>`).join('')}</div>`;
+  h+=`<div class="track" aria-label="${inProg?`Week ${w} of ${WEEKS}`:'The year'}">${track}</div><div class="track-lab">${labs.map(p=>`<span>${p}</span>`).join('')}</div>`;
   }
   /* Before the start date nothing can be logged: the session list, the check-in
    * and every handler below this line are never rendered for that day. */
   if(!START){return h+`<div class="card"><h3>Choose a start date</h3><p class="note">Pick the Monday your program begins in Settings. Nothing can be logged until then.</p><button class="secondary" data-v="settings">Open Settings</button></div>`;}
   if(!inProg){const until=cur<START?Math.round((START-cur)/864e5):0;
-    return h+`<div class="card"><h3>${cur<START?`Program starts Monday, ${MON[START.getMonth()]} ${START.getDate()}`:'Program complete'}</h3><p class="note">${cur<START?`Starts in ${until} day${until===1?'':'s'}. `+'Week 1 begins with Lower A.':'Nine weeks done. Re-test the heavy lifts, take photos, and start the next block.'}</p></div>`;}
+    return h+`<div class="card"><h3>${cur<START?`Program starts Monday, ${MON[START.getMonth()]} ${START.getDate()}`:'Program complete'}</h3><p class="note">${cur<START?`Starts in ${until} day${until===1?'':'s'}. `+'Week 1 begins with Full Body A.':'52 weeks done. Your next plan comes next.'}</p></div>`;}
   if(PRIV&&isToday)h+=weighCard();
   h+=`<p class="intro">${esc(day.tag)}. ${day.intro}</p>`;
   /* The session: one surface, everything else a row. Activation and each
@@ -2082,8 +2072,8 @@ function vToday(){
         :`<button class="secondary" data-skipday="1">Skip this session</button>`;
     }
   }
-  if(day.kind==='mobility'||cur.getDay()===0){const hv=DB.hip[key(cur)];h+=`<div class="card"><h3>Hip today</h3><div class="meta">0 = silent, 10 = can't kick. Log it before you move.</div><div class="scale">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="${hv===n?'on':''}" data-hip="${n}">${n}</button>`).join('')}</div>${hv>=5?`<p class="note"><b>5 or above:</b> skip box jumps and leg press this week, keep everything else shallow, and get eyes on it — a hip PT who knows FAI, not a general one.</p>`:''}</div>`;}
-  if(day.mt){h+=`<div class="card"><div class="mt"><div><h3>${day.mt}</h3><div class="time">${day.mtTime}</div></div><div class="seg"><button class="${l.mt==='went'?'on':''}" data-mt="went">Went</button><button class="${l.mt==='missed'?'on':''}" data-mt="missed">Missed</button></div></div>${l.mt==='missed'?`<div class="altbox"><b>Replacement:</b> ${ALT[cur.getDay()]}</div>`:''}${day.kind==='mobility'&&l.mt!=='missed'?`<div class="altbox">Legs should feel fresh walking in. If they don't, Monday was too heavy — pull 10% off next Lower A.</div>`:''}</div>`;}
+
+
   if(SCORE)h+=scoreCard(cur);
   if(!PRIV&&cur.getDay()===0){const lw=DB.weight[key(cur)];const ws=DB.waist[key(cur)];h+=`<div class="card"><h3>Weekly check-in</h3><div class="inline"><input type="number" inputmode="decimal" id="ci-w" placeholder="Weight (lb)" value="${lw??''}"><input type="number" inputmode="decimal" id="ci-waist" placeholder="Waist (in)" value="${ws??''}"><button data-checkin="1">Save</button></div><p class="note">Same scale, same time, before food. Photos: front and side, same spot, same light.</p></div>`;}
   return h;
@@ -2092,18 +2082,17 @@ function vToday(){
 function vWeek(){
   const mon=addDays(weekView,-((weekView.getDay()+6)%7));const w=weekOf(mon),ph=phaseOf(w);
   let h=`<div class="wk"><button data-wk="-1">‹</button><div style="text-align:center"><h3>${!START?'No start date':inProgram(w)?weekTitle(w):'Off program'}</h3><div class="meta">${MON[mon.getMonth()]} ${mon.getDate()} – ${MON[addDays(mon,6).getMonth()]} ${addDays(mon,6).getDate()}${ph?` <span class="pill">${ph}</span>`:''}</div></div><button data-wk="1">›</button></div>`;
-  for(let i=0;i<7;i++){const d=addDays(mon,i);const day=dayOf(d);const l=DB.logs[key(d)];const done=l&&l.done;const sk=l&&l.skipped;const mtTxt=day.mt?`${day.mt} 7 pm`:'No class';
+  for(let i=0;i<7;i++){const d=addDays(mon,i);const day=dayOf(d);const l=DB.logs[key(d)];const done=l&&l.done;const sk=l&&l.skipped;const mtTxt='';
     const fl=FLARE&&l&&l.flare;const status=sk?'Skipped':fl?'Flare day':done?'Done':(d<cur?'Missed':'');
     h+=`<button class="dayrow ${sameDay(d,new Date())?'isToday':''} ${sk?'isSkipped':''}" data-open="${key(d)}"><div class="d">${DOW[d.getDay()].slice(0,3)}<small>${MON[d.getMonth()]} ${d.getDate()}</small></div><div class="t">${day.title}<small>${day.tag}${mtTxt?' · '+mtTxt:''}</small></div><div class="s ${done||fl?'ok':''} ${sk?'skip':''}${fl?' flare':''}">${status}${sk?`<small>${esc(skipLabel(sk.reason))}${skipNote(sk)?' · note':''}</small>`:''}</div></button>`;}
-  h+=`<h2>The weekly shape</h2><div class="rows"><div class="row"><b>Mon – Wed</b><div class="meta">Lift or core in the morning, class at 7 pm</div></div><div class="row"><b>Thursday</b><div class="meta">Hip reset only — mobility, glute activation, zero fatigue. Then sparring.</div></div><div class="row"><b>Fri – Sat</b><div class="meta">No class — the two hardest sessions of the week plus HIIT</div></div><div class="row"><b>Sunday</b><div class="meta">Long walk, stretch, weigh-in, waist, photos, hip score</div></div></div>`;
-  h+=`<h2>Supersets</h2><p class="note" style="margin-top:0">Only exercises boxed together are supersets, and every pair shares one station — a bench with two pairs of dumbbells, or one cable stack with an attachment swap. Everything else is straight sets with the rest shown. Heavy lifts are never superset.</p>`;
-  h+=`<h2>If you only make two classes</h2><p class="note" style="margin-top:0">Keep every lift. Add 15 min jump rope after Wednesday core, and run the replacement on any missed evening (shown when you tap Missed).</p>`;
+  h+=`<h2>The weekly shape</h2><div class="rows"><div class="row"><b>Every day</b><div class="meta">The hand and wrist routine, any time of day.</div></div><div class="row"><b>Weigh-ins</b><div class="meta">From week 3, every other Monday morning, before that day's session.</div></div><div class="row"><b>Flare day</b><div class="meta">Swap today for the gentle flare session. It counts as done.</div></div></div>`;
+  h+=`<h2>Supersets</h2><p class="note" style="margin-top:0">Exercises boxed together alternate, then you rest. Each pair sits at one spot or two nearby ones, so nothing needs resetting mid-pair.</p>`;
   return h;
 }
 
 /* Kinds are told apart by four neutral steps, not by colours that would compete
  * with the three that mean something. */
-const KIND_COLOR={lift:'var(--bone)',core:'var(--dim)',mobility:'var(--ghost)',recovery:'var(--edge)'};
+const KIND_COLOR={lift:'var(--bone)',cardio:'var(--dim)',mobility:'var(--ghost)',recovery:'var(--edge)'};
 function vMonth(){
   const m=monthView;const first=new Date(m.getFullYear(),m.getMonth(),1);const days=new Date(m.getFullYear(),m.getMonth()+1,0).getDate();const lead=(first.getDay()+6)%7;
   let h=`<div class="wk"><button data-mo="-1">‹</button><h3>${first.toLocaleString('en-US',{month:'long'})} ${first.getFullYear()}</h3><button data-mo="1">›</button></div>`;
@@ -2111,10 +2100,9 @@ function vMonth(){
   for(let i=0;i<lead;i++)h+=`<div class="cell out"></div>`;
   for(let d=1;d<=days;d++){const dt=new Date(m.getFullYear(),m.getMonth(),d);const w=weekOf(dt);const inP=inProgram(w);const day=dayOf(dt);const l=DB.logs[key(dt)];const done=l&&l.done;const sk=l&&l.skipped;const fl=FLARE&&l&&l.flare;
     h+=`<button class="cell ${sameDay(dt,new Date())?'isToday':''} ${sk?'skipped':fl?'flare':done?'done':''} ${inP?'':'pre'}" data-open="${key(dt)}" title="${sk?'Skipped — '+esc(skipLabel(sk.reason))+(skipNote(sk)?': '+esc(skipNote(sk)):''):''}"><span>${d}</span>${inP&&!sk?`<span class="bar" style="--c:${KIND_COLOR[day.kind]}"></span>`:''}</button>`;}
-  h+=`</div></div><div class="legend"><span style="--c:${KIND_COLOR.lift}">Lift</span><span style="--c:${KIND_COLOR.core}">Core + walk</span><span style="--c:${KIND_COLOR.mobility}">Hip reset</span><span style="--c:${KIND_COLOR.recovery}">Recovery</span><span class="skip">Skipped</span>${FLARE?'<span class="flare">Flare day</span>':''}</div>`;
+  h+=`</div></div><div class="legend"><span style="--c:${KIND_COLOR.lift}">Lift</span><span style="--c:${KIND_COLOR.cardio}">Cardio</span><span style="--c:${KIND_COLOR.mobility}">Hands + rest</span><span style="--c:${KIND_COLOR.recovery}">Walk</span><span class="skip">Skipped</span>${FLARE?'<span class="flare">Flare day</span>':''}</div>`;
   const nowPh=phaseOf(weekOf(new Date()));const pill=p=>`<span class="pill ${nowPh===p?'now':''}">${p}</span>`;
-  h+=`<h2>The nine weeks</h2><div class="rows"><div class="row">${pill('Build')} <b>Weeks 1–5</b>, Aug 31 – Oct 4<div class="meta">Heavy 5s, learn the movements, add weight every week. Protein locked in.</div></div><div class="row">${pill('Deload')} <b>Week 6</b>, Oct 5 – Oct 11<div class="meta">Fewer sets, 70% loads, no HIIT. Joints recover, strength rebounds.</div></div><div class="row">${pill('Peak')} <b>Weeks 7–9</b>, Oct 12 – Nov 1<div class="meta">Heavy triples, an extra hypertrophy set, longer HIIT and walks. This is where the look arrives.</div></div></div>`;
-  h+=`<h2>Checkpoints</h2><div class="rows"><div class="row"><b>Oct 1, day 30</b><div class="meta">Roughly 6–9 lb down, waist 1.5–2 in smaller, 10–15% more on the heavy lifts. Face and shoulders visibly leaner.</div></div><div class="row"><b>Nov 1, day 60</b><div class="meta">12–18 lb down, shoulder and arm definition, upper abs showing, noticeably better gas in rounds.</div></div></div>`;
+  h+=`<h2>The year</h2><div class="rows"><div class="row"><b>Foundation · weeks 1–6</b><div class="meta">4 days a week. 1 set, then 2, then 3. Cardio 10 → 20 min. Building the habit comes first.</div></div><div class="row"><b>Build · weeks 7–16</b><div class="meta">5 days a week, 3 sets. Cardio steps up every 2 weeks, 25 → 45 min.</div></div><div class="row"><b>Progress · weeks 17–34</b><div class="meta">New sessions add step-ups and dead bugs. An easy walk and one interval ride a week.</div></div><div class="row"><b>Peak · weeks 35–52</b><div class="meta">Longer cardio and a second easy walk.</div></div></div>`;
   return h;
 }
 
@@ -2132,8 +2120,7 @@ function exportText(){
   out.push('');out.push('WEIGHT');out.push(wk.length?wk.map(k=>k+'  '+DB.weight[k]).join('\n'):'none logged');
   const ws=Object.keys(DB.waist).sort();
   out.push('');out.push('WAIST');out.push(ws.length?ws.map(k=>k+'  '+DB.waist[k]+'in').join('\n'):'none logged');}
-  const hp=Object.keys(DB.hip).sort();
-  out.push('');out.push('HIP SCORE (0-10)');out.push(hp.length?hp.map(k=>k+'  '+DB.hip[k]).join('\n'):'none logged');
+
   if(SCORE){const sk=Object.keys(DB.hip).sort();out.push('');out.push(PROFILE.scoreLabel.toUpperCase());out.push(sk.length?sk.map(k=>k+'  '+DB.hip[k]).join('\n'):'none logged');}
   if(LOADS){out.push('');out.push('LOAD STEPS  '+stepsNow().join(', ')+(DB.app.loadSteps?'  (entered on this device)':''));
     const wk=DB.app.work||{};if(Object.keys(wk).length){out.push('WORKING WEIGHTS');for(const [n,x] of Object.entries(wk))out.push(n+'  '+x.w+' lb since '+x.at);}
@@ -2239,19 +2226,18 @@ function vExport(){
 }
 function vTrack(){
   const s=DB.settings;const lw=latestWeight();const w0=weeklyAvg(0),w1=weeklyAvg(1);const delta=lw?(lw.v-s.startWeight):null;const rate=(w0&&w1)?(w0-w1):null;const ad=adherence();
-  let h=`<div class="meta">Progress</div><h1>Track</h1><div class="sub">Weight, waist, hip, strength. The scale is one signal of four.</div>`;
-  const boardNames=  ['Trap bar deadlift','Barbell bench press','Pull-up','Lat pulldown','Barbell hip thrust','Seated dumbbell overhead press','Romanian deadlift']
+  let h=`<div class="meta">Progress</div><h1>Track</h1><div class="sub">What you've done, and what it's adding up to.</div>`;
+  const boardNames=  ['Box squat','Rear-foot-elevated split squat','Dumbbell Romanian deadlift','B-stance RDL','Single-leg RDL','Neutral-grip dumbbell bench press','Seated neutral-grip dumbbell press','Chest-supported dumbbell row','Split squat','Dumbbell step-up','Glute bridge','Single-leg glute bridge']
     .filter(n=>ON_BOARD(libMetric(n)));
   if(PRIV)h+=lostCard()+recalCard()+winsCard(boardNames);
   else{
   h+=`<div class="card"><div class="big">${lw?lw.v.toFixed(1):'—'}<small>lb${lw?`, ${lw.k===key(new Date())?'today':lw.k.slice(5).replace('-','/')}`:''}</small></div><div class="inline"><input type="number" inputmode="decimal" id="tw" placeholder="Today's weight" step="0.1"><button data-addw="1">Save</button></div>${svgChart()}</div>`;
   h+=`<div class="grid2" style="margin-top:12px"><div class="stat"><div class="l">Since start (${s.startWeight})</div><div class="v">${delta!=null?(delta>0?'+':'')+delta.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">This week vs last</div><div class="v ${rate!=null&&rate<-2.5?'over':''}">${rate!=null?(rate>0?'+':'')+rate.toFixed(1)+' lb':'—'}</div></div><div class="stat"><div class="l">Session streak</div><div class="v">${streak()}</div></div>${GOAL?`<div class="stat"><div class="l">Goal</div><div class="v">${GOAL.low}–${GOAL.high} lb</div><div class="l">to lose over the year</div></div>`:`<div class="stat"><div class="l">To goal (${s.goalWeight})</div><div class="v">${lw?Math.max(0,lw.v-s.goalWeight).toFixed(1)+' lb':'—'}</div></div>`}<div class="stat"><div class="l">Adherence</div><div class="v">${ad.pct==null?'—':ad.pct+'%'}<span style="font-size:13px;color:var(--dim);font-weight:400"> ${ad.scheduled?ad.done+'/'+ad.scheduled:''}</span></div></div><div class="stat"><div class="l">Skipped days</div><div class="v">${ad.skipped}<span style="font-size:13px;color:var(--dim);font-weight:400"> not counted</span></div></div></div>`;
-  if(rate!=null&&rate<-2.5)h+=`<p class="note"><b>Losing faster than 2.5 lb a week.</b> That's past the muscle-safe zone. Add ~200 kcal a day (carbs around training) and hold protein.</p>`;
+
   const wk=Object.keys(DB.waist).sort();
   h+=`<div class="card"><h3>Waist</h3><div class="inline"><input type="number" inputmode="decimal" id="tws" placeholder="Inches at navel" step="0.25"><button data-addwaist="1">Save</button></div>${wk.length?`<div class="note">${wk.slice(-4).map(k=>`${k.slice(5).replace('-','/')}: <b>${DB.waist[k]}"</b>`).join(' &nbsp; ')}</div>`:'<div class="note">Measure Sundays at the navel, relaxed.</div>'}</div>`;
   }
-  const hk=Object.keys(DB.hip).sort();
-  h+=`<div class="card"><h3>Hip score</h3>${hk.length?`<div class="note" style="margin-top:6px">${hk.slice(-6).map(k=>`${k.slice(5).replace('-','/')}: <b>${DB.hip[k]}</b>`).join(' &nbsp; ')}</div><div class="meta" style="margin-top:8px">Logged Thursdays and Sundays. Trend down = the program is working on the hip too. Trend up = pull depth and load on leg days, not the mobility work.</div>`:`<div class="note">Logged from the Thursday and Sunday pages. Trend matters, not the number.</div>`}</div>`;
+
   if(SCORE){const hk=Object.keys(DB.hip).sort();const m=scoreMedian(addDays(new Date(),1));
     h+=`<div class="card"><h3>${esc(PROFILE.scoreLabel)}</h3>${hk.length?`<div class="note" style="margin-top:6px">${hk.slice(-7).map(k=>`${k.slice(5).replace('-','/')}: <b>${DB.hip[k]}</b>`).join(' &nbsp; ')}</div>${m!=null?`<div class="meta" style="margin-top:8px">Your usual (7-day median): <b>${m}</b></div>`:''}`:`<div class="note">Log it from Today, once a day.</div>`}</div>`;}
   /* Loads and rungs only. A hold, a rep count and a walk are not loads, so they
@@ -2305,13 +2291,13 @@ function svgChart(){
   const path=pts.map((p,i)=>`${i?'L':'M'}${sx(p.x).toFixed(1)},${sy(p.y).toFixed(1)}`).join(' ');const g=DB.settings.goalWeight;
   let h=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend">`;
   /* SVG attributes take the tokens as hex: bone, dim, edge. */
-  h+=`<rect x="${sx(28)}" y="${P/2}" width="${sx(35)-sx(28)}" height="${H-P-P/2}" fill="#1D423B" opacity=".6"/>`;
+
   if(GOAL){/* The goal range as a band, where it falls inside the chart. */
     const top=Math.min(maxY,DB.settings.startWeight-GOAL.low),bot=Math.max(minY,DB.settings.startWeight-GOAL.high);
     if(top>bot)h+=`<rect x="${P}" y="${sy(top)}" width="${W-2*P}" height="${sy(bot)-sy(top)}" fill="#63CDAA" opacity=".12"/><text x="${W-P}" y="${sy(top)+12}" fill="#95ABA4" font-size="10" text-anchor="end">goal range</text>`;}
   else h+=`<line x1="${P}" y1="${sy(g)}" x2="${W-P}" y2="${sy(g)}" stroke="#88A199" stroke-dasharray="4 4" stroke-width="1"/><text x="${W-P}" y="${sy(g)-4}" fill="#88A199" font-size="10" text-anchor="end">goal ${g}</text>`;
   h+=`<path d="${path}" fill="none" stroke="#ECE5D5" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>`;pts.forEach(p=>{h+=`<circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="3" fill="#ECE5D5"/>`;});
-  h+=`<text x="${P}" y="${H-6}" fill="#88A199" font-size="10">Aug 31</text><text x="${sx(31)}" y="${H-6}" fill="#88A199" font-size="10" text-anchor="middle">Oct 1</text><text x="${W-P}" y="${H-6}" fill="#88A199" font-size="10" text-anchor="end">Nov 1</text><text x="4" y="${sy(maxY)+4}" fill="#88A199" font-size="10">${maxY}</text><text x="4" y="${sy(minY)}" fill="#88A199" font-size="10">${minY}</text>`;
+  h+=`<text x="4" y="${sy(maxY)+4}" fill="#88A199" font-size="10">${maxY}</text><text x="4" y="${sy(minY)}" fill="#88A199" font-size="10">${minY}</text>`;
   return h+`</svg>`;
 }
 
@@ -2323,7 +2309,7 @@ function vFuel(){
    * weekday decides it. Protein, carbs and fat are the same every day. */
   const rest=isRestDay(cur),tgt=kcalFor(cur);
   let h=`<div class="today-nav"><button data-nav="-1">‹ Prev</button>${isToday?`<span class="meta">Today</span>`:`<button class="jump" data-jump="1">Back to today</button>`}<button data-nav="1">Next ›</button></div>`;
-  h+=`<div class="meta">${fmt(cur)}</div><h1>Fuel</h1><div class="sub">Protein first. Calories are a floor, not a ceiling, on tirzepatide.</div>`;
+  h+=`<div class="meta">${fmt(cur)}</div><h1>Fuel</h1><div class="sub">Calories and protein. Log right after you eat.</div>`;
   const bar=(l,v,t)=>`<div class="macro"><div class="lab"><span>${l}</span><span><b>${Math.round(v)}</b> / ${t}${l==='Calories'?'':' g'}</span></div><div class="bar-bg"><div class="bar-fg ${v>t*1.15?'over':v>=t?'met':''}" style="width:${Math.min(100,v/t*100)}%"></div></div></div>`;
   h+=`<div class="card"><div class="meta" style="margin-bottom:12px">${dayOf(cur).title} · <b style="color:var(--bone)">${rest?'rest day':'training day'}</b> — ${tgt} kcal, never below ${NUT.floorKcal}</div>${bar('Protein',tot.p,NUT.protein)}${bar('Calories',kcal,tgt)}${bar('Carbs',tot.c,NUT.carbs)}${bar('Fat',tot.f,NUT.fat)}${tot.p<NUT.protein*0.6&&new Date().getHours()>=18&&isToday?`<p class="note"><b>Protein is behind.</b> A shake and a cup of Greek yogurt tonight closes 50 g of the gap.</p>`:''}</div>`;
   if(PRIV)h+=recalCard();
@@ -2333,7 +2319,7 @@ function vFuel(){
   h+=`<div class="card"><h3>New meal</h3><div class="form4"><div style="grid-column:span 4"><label>Name</label><input id="m-n" placeholder="e.g. Post-lift shake + banana"></div><div><label>Protein g</label><input type="number" inputmode="numeric" id="m-p"></div><div><label>Carbs g</label><input type="number" inputmode="numeric" id="m-c"></div><div><label>Fat g</label><input type="number" inputmode="numeric" id="m-f"></div><div><label>kcal</label><input id="m-k" disabled placeholder="auto"></div></div>
     <button class="primary" style="margin-top:12px;padding:12px" data-addm="1">Add to ${isToday?'today':MON[cur.getMonth()]+' '+cur.getDate()}</button><button class="secondary" data-saveq="1">Save as a My meal</button></div>`;
   if(list.length){h+=`<div class="card"><h3>Logged</h3>${list.map((e,i)=>`<div class="meal"><div>${esc(e.n)}<div class="m">${e.p}p · ${e.c}c · ${e.f}f · ${e.p*4+e.c*4+e.f*9} kcal</div></div><button data-delm="${i}">Remove</button></div>`).join('')}</div>`;}
-  h+=`<h2>Your targets and why</h2><div class="card rows"><div class="row"><b>Protein ${NUT.protein} g</b><div class="meta">About 2 g per kg of your 180 lb goal weight — the top of the range recommended on a GLP-1. Four hits of ~40 g. The single most important number in the app.</div></div><div class="row"><b>Calories ${NUT.trainingKcal} training, ${NUT.restKcal} rest</b><div class="meta">A moderate deficit for a 205 lb man training 8–10 times a week. Sunday is the only day with no lift and no class, so it is the only rest day. Never below ${NUT.floorKcal}, on any day. If the weekly average drops more than 2.5 lb a week two weeks running, add 200.</div></div><div class="row"><b>Carbs ${NUT.carbs} g, fat ${NUT.fat} g</b><div class="meta">Carbs around training — before the morning lift, before class. Fat fills the rest. Protein and total calories are the two that need to be exact.</div></div><div class="row"><b>Also daily</b><div class="meta">Creatine monohydrate 5 g (clear it with your prescriber). Water ~1 gallon. Fiber 30 g+. Electrolytes after class.</div></div><div class="row"><b>Eating with no appetite</b><div class="meta">Liquid and dense: shakes, Greek yogurt, cottage cheese, eggs, deli meat. Eat by the clock — 8 am, 12 pm, 4 pm, 9 pm.</div></div></div>`;
+  h+=`<h2>Your targets and why</h2><div class="card rows"><div class="row"><b>${NUT.kcal} kcal a day</b><div class="meta">The same every day, to keep it simple. Never below ${NUT.floorKcal}: going under that needs a doctor's say-so.</div></div><div class="row"><b>Protein ${NUT.protein} g</b><div class="meta">About 30–35 g at each of 3 meals plus a small snack. With the lifting, it's what keeps your muscle while you lose.</div></div><div class="row"><b>Eat regularly</b><div class="meta">3 meals and a snack. Don't cut fat to near zero or go long stretches without eating.</div></div><div class="row"><b>Make it one tap</b><div class="meta">Save the meals you repeat. A shake or bar of about 200 kcal with 20 g protein is a fine stand-in for a meal.</div></div></div>`;
   const edited=!!DB.app.nutrition;
   h+=`<button class="secondary" data-edittargets="1">Edit targets</button><div id="targets" class="hidden card">
     <div class="meta">These come from your program. Anything you change here is yours and overrides it until you put it back.</div>
@@ -2348,7 +2334,7 @@ function vFuelSimple(){
   const k=key(cur);const list=DB.macros[k]||[];const kcal=list.reduce((a,e)=>a+mealKcal(e),0);const prot=list.reduce((a,e)=>a+(e.p||0),0);
   const isToday=sameDay(cur,new Date());const today=new Date();today.setHours(0,0,0,0);const past=cur<today;
   let h=`<div class="today-nav"><button data-nav="-1">‹ Prev</button>${isToday?`<span class="meta">Today</span>`:`<button class="jump" data-jump="1">Back to today</button>`}<button data-nav="1">Next ›</button></div>`;
-  h+=`<div class="meta">${fmt(cur)}</div><h1>Fuel</h1><div class="sub">Protein first. Calories are a floor, not a ceiling, on tirzepatide.</div>`;
+  h+=`<div class="meta">${fmt(cur)}</div><h1>Fuel</h1><div class="sub">Calories and protein. Log right after you eat.</div>`;
   const bar=(l,v,t,u)=>`<div class="macro"><div class="lab"><span>${l}</span><span><b>${Math.round(v)}</b> / ${t}${u}</span></div><div class="bar-bg"><div class="bar-fg ${v>t*1.15?'over':v>=t?'met':''}" style="width:${Math.min(100,v/t*100)}%"></div></div></div>`;
   h+=`<div class="card"><div class="meta" style="margin-bottom:12px">${NUT.kcal} kcal a day, never below ${NUT.floorKcal}</div>${bar('Calories',kcal,NUT.kcal,'')}${bar('Protein',prot,NUT.protein,' g')}`;
   if(list.length&&kcal<NUT.floorKcal)h+=past?`<p class="note floorwarn"><b>Under your ${NUT.floorKcal} kcal floor.</b> Going below it needs a doctor's say-so. Eat a little more on the next day like this.</p>`
@@ -2361,7 +2347,7 @@ function vFuelSimple(){
   h+=`<div class="card"><h3>New meal</h3><div class="form2"><div style="grid-column:span 2"><label>Name</label><input id="m-n" placeholder="e.g. Chicken wrap"></div><div><label>Calories</label><input type="number" inputmode="numeric" id="m-k"></div><div><label>Protein g</label><input type="number" inputmode="numeric" id="m-p"></div></div>
     <button class="primary" style="margin-top:12px;padding:12px" data-addm="1">Add to ${isToday?'today':MON[cur.getMonth()]+' '+cur.getDate()}</button><button class="secondary" data-saveq="1">Save as a My meal</button></div>`;
   if(list.length){h+=`<div class="card"><h3>Logged</h3>${list.map((e,i)=>`<div class="meal"><div>${esc(e.n)}<div class="m">${mealKcal(e)} kcal · ${e.p||0} g protein</div></div><button data-delm="${i}">Remove</button></div>`).join('')}</div>`;}
-  h+=`<h2>Your targets and why</h2><div class="card rows"><div class="row"><b>Protein ${NUT.protein} g</b><div class="meta">About 2 g per kg of your 180 lb goal weight — the top of the range recommended on a GLP-1. Four hits of ~40 g. The single most important number in the app.</div></div><div class="row"><b>Calories ${NUT.trainingKcal} training, ${NUT.restKcal} rest</b><div class="meta">A moderate deficit for a 205 lb man training 8–10 times a week. Sunday is the only day with no lift and no class, so it is the only rest day. Never below ${NUT.floorKcal}, on any day. If the weekly average drops more than 2.5 lb a week two weeks running, add 200.</div></div><div class="row"><b>Carbs ${NUT.carbs} g, fat ${NUT.fat} g</b><div class="meta">Carbs around training — before the morning lift, before class. Fat fills the rest. Protein and total calories are the two that need to be exact.</div></div><div class="row"><b>Also daily</b><div class="meta">Creatine monohydrate 5 g (clear it with your prescriber). Water ~1 gallon. Fiber 30 g+. Electrolytes after class.</div></div><div class="row"><b>Eating with no appetite</b><div class="meta">Liquid and dense: shakes, Greek yogurt, cottage cheese, eggs, deli meat. Eat by the clock — 8 am, 12 pm, 4 pm, 9 pm.</div></div></div>`;
+  h+=`<h2>Your targets and why</h2><div class="card rows"><div class="row"><b>${NUT.kcal} kcal a day</b><div class="meta">The same every day, to keep it simple. Never below ${NUT.floorKcal}: going under that needs a doctor's say-so.</div></div><div class="row"><b>Protein ${NUT.protein} g</b><div class="meta">About 30–35 g at each of 3 meals plus a small snack. With the lifting, it's what keeps your muscle while you lose.</div></div><div class="row"><b>Eat regularly</b><div class="meta">3 meals and a snack. Don't cut fat to near zero or go long stretches without eating.</div></div><div class="row"><b>Make it one tap</b><div class="meta">Save the meals you repeat. A shake or bar of about 200 kcal with 20 g protein is a fine stand-in for a meal.</div></div></div>`;
   const edited=!!DB.app.nutrition;
   h+=`<button class="secondary" data-edittargets="1">Edit targets</button><div id="targets" class="hidden card">
     <div class="meta">These come from your program. Anything you change here is yours and overrides it until you put it back.</div>
@@ -2502,12 +2488,11 @@ document.addEventListener('click',e=>{
   if(d.skipnoteedit){skipNoteEdit=true;render();setTimeout(()=>{const t=$('#skipnote');t&&t.focus();},0);return;}
   if(d.skipnotecancel){skipNoteEdit=false;render();return;}
   if(d.skipnotesave){const l=logFor(cur);if(l.skipped){const note=readSkipNote();const sk={...l.skipped};if(note)sk.note=note;else delete sk.note;l.skipped=sk;}skipNoteEdit=false;save();render();toast('Note saved');return;}
-  if(d.mt){const l=logFor(cur);l.mt=l.mt===d.mt?null:d.mt;save();render();return;}
-  if(d.hip){DB.hip[key(cur)]=+d.hip;save();render();return;}
+
   if(d.checkin){const w=parseFloat($('#ci-w').value),ws=parseFloat($('#ci-waist').value);if(!isNaN(w))DB.weight[key(cur)]=w;if(!isNaN(ws))DB.waist[key(cur)]=ws;save();render();toast('Check-in saved');return;}
   if(d.addw){const w=parseFloat($('#tw').value);if(isNaN(w)){toast('Enter a weight');return;}DB.weight[key(new Date())]=w;save();render();toast('Weight saved');return;}
   if(d.addwaist){const w=parseFloat($('#tws').value);if(isNaN(w)){toast('Enter inches');return;}DB.waist[key(new Date())]=w;save();render();toast('Waist saved');return;}
-  if(d.savesettings){DB.settings.startWeight=parseFloat($('#s-start').value)||205;DB.settings.goalWeight=parseFloat($('#s-goal').value)||180;save();render();toast('Saved');return;}
+  if(d.savesettings){DB.settings.startWeight=parseFloat($('#s-start').value)||null;DB.settings.goalWeight=parseFloat($('#s-goal').value)||null;save();render();toast('Saved');return;}
   if(d.settog){DB.settings[d.settog]=!DB.settings[d.settog];save();render();toast(DB.settings[d.settog]?'On':'Off');return;}
   /* The start date. Must be a Monday: anything else moves back to the Monday
    * before it, and the confirmation says so rather than doing it quietly. The
