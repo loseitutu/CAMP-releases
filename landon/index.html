@@ -825,7 +825,7 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:CampC
 
 /* ---------------- program ---------------- */
 const PROFILE={"id":"landon","displayName":"Landon","schemaVersion":2,"startDate":"2026-08-31","startDateEditable":false,"programWeeks":9,"phases":[{"name":"Build","startWeek":1,"endWeek":5,"setScale":1},{"name":"Deload","startWeek":6,"endWeek":6,"setScale":0.6},{"name":"Peak","startWeek":7,"endWeek":9,"setScale":1}],"schedule":{"type":"fixed","days":{"mon":"lowerA","tue":"upperA","wed":"core","thu":"hipReset","fri":"lowerB","sat":"upperB","sun":"recovery"}},"nutrition":{"mode":"macros","trainingKcal":2500,"restKcal":2300,"floorKcal":2200,"protein":165,"carbs":280,"fat":80},"bodyweight":{"start":205,"goal":180},"features":{"flareTracking":false,"cardioLog":false,"hipScore":true,"notifications":true},"notifications":{"enabled":false}};
-const BUILD={"version":"2.2","channel":"release","build":43,"commit":"36f6b11","built":"2026-10-02"};
+const BUILD={"version":"2.2.1","channel":"release","build":45,"commit":"0e2c1e4","built":"2026-10-02"};
 /* "1.10 · build 57 · a1b2c3d" — what this copy of the app is. */
 const BUILD_LABEL=[BUILD.channel==='local'?'Local build':BUILD.channel==='dev'?'Test build '+BUILD.version:'Version '+BUILD.version,BUILD.build!=null?'build '+BUILD.build:'',BUILD.commit||''].filter(Boolean).join(' · ');
 const WEEKS=PROFILE.programWeeks;
